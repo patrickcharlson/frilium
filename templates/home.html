@@ -1,12 +1,14 @@
 {% extends '_base.html' %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item active">Boards</li>
+    <li class="breadcrumb-item active">
+        <a class="text-dark" href=""><i class="fas fa-home fa-fw" style="color: black"></i> Board Index</a>
+    </li>
 {% endblock %}
 
 {% block content %}
-    <table class="table">
-        <thead class="thead-dark">
+    <table class="table table-sm">
+        <thead class="blue darken-3 text-white">
         <tr>
             <th>Board</th>
             <th>Topics</th>
@@ -15,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for board in boards %}
+        {% for board in board_list %}
             <tr>
                 <td>
                     <a href="">{{ board.name }}</a>

@@ -6,4 +6,4 @@ from boards.models import Board
 class BoardListView(ListView):
     model = Board
     context_object_name = 'board_list'
-    template_name = 'boards/board_list.html'
+    template_name = 'home.html'
