@@ -1,0 +1,36 @@
+{% extends '_base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block title %}Edit post{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'boards:home' %}">Boards</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'boards:board_topics' post.topic.board.slug %}">{{ post.topic.board.name }}</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'boards:topic_post' post.topic.board.slug %}">{{ post.topic.title }}</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-dark">Edit post</li>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <form method="post" class="" novalidate>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-success btn-sm">Save changes</button>
+                <a href="{% url 'boards:topic_post' post.topic.board.slug %}" class="btn btn-outline-secondary btn-sm"
+                   role="button">Cancel</a>
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}

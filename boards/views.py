@@ -1,6 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView
+from django.utils import timezone
+from django.views.generic import ListView, UpdateView
 
 from .forms import NewTopicForm, PostForm
 from .models import Board, Post, Topic
@@ -12,9 +15,20 @@ class BoardsListView(ListView):
     template_name = 'home.html'
 
 
-def board_topics(request, slug):
-    board = get_object_or_404(Board, slug=slug)
-    return render(request, 'boards/topics.html', {'board': board})
+class TopicsListView(LoginRequiredMixin, ListView):
+    model = Topic
+    context_object_name = 'topics'
+    template_name = 'boards/topics.html'
+    paginate_by = 3
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        kwargs['board'] = self.board
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.board = get_object_or_404(Board, slug=self.kwargs.get('slug'))
+        queryset = self.board.topics.order_by('-last_updated').annotate(replies=Count('posts') - 1)
+        return queryset
 
 
 @login_required
@@ -37,11 +51,25 @@ def new_topic(request, slug):
     return render(request, 'boards/new_topic.html', {'board': board, 'form': form})
 
 
-def topic_posts(request, slug):
-    topic = get_object_or_404(Topic, slug=slug)
-    return render(request, 'boards/topic_posts.html', {'topic': topic})
+class PostListView(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'boards/topic_posts.html'
+    paginate_by = 2
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        self.topic.views += 1
+        self.topic.save()
+        kwargs['topic'] = self.topic
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
+        queryset = self.topic.posts.order_by('created_at')
+        return queryset
 
 
+@login_required
 def reply_topic(request, slug):
     topic = get_object_or_404(Topic, slug=slug)
     if request.method == 'POST':
@@ -55,3 +83,22 @@ def reply_topic(request, slug):
     else:
         form = PostForm()
     return render(request, 'boards/reply_topic.html', {'topic': topic, 'form': form})
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ('message',)
+    template_name = 'boards/edit_post.html'
+    slug_url_kwarg = 'slug'
+    context_object_name = 'post'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_at = timezone.now()
+        post.updated_by = self.request.user
+        post.save()
+        return redirect('boards:topic_post', slug=post.slug)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
