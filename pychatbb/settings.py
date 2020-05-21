@@ -93,7 +93,7 @@ AUTH_USER_MODEL = 'users.User'
 
 # django-allauth config
 # ------------------------------------------------------------------------------
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'boards:home'
 ACCOUNT_LOGOUT_REDIRECT = 'home'
 ACCOUNT_USERNAME_REQUIRED = False
 SITE_ID = 1

@@ -73,3 +73,16 @@ select:-webkit-autofill:focus {
 .dropdown-divider {
     margin: 0;
 }
+
+.navbar .breadcrumb-item + .breadcrumb-item::before {
+    color: #bdbdbd;
+    content: none;
+}
+
+.breadcrumb-item + .breadcrumb-item {
+    padding-left: 0;
+}
+
+.btn {
+    margin: 0;
+}

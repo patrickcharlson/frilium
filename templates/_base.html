@@ -27,19 +27,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-bars fa-fw"></i> Quick links</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Disabled</a>
-                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -51,10 +38,14 @@
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light my-4 py-0">
-        <ol class="breadcrumb py-2">
-            {% block breadcrumb %}
-            {% endblock %}
-        </ol>
+        <div class="mr-auto">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb clearfix d-none d-md-inline-flex py-2">
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </ol>
+            </nav>
+        </div>
 
         <ul class="navbar-nav ml-auto mx-2">
             {% if user.is_authenticated %}
@@ -91,9 +82,7 @@
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/mdb.min.js' %}"></script>
 <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+
 </script>
 </body>
 </html>

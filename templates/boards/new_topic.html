@@ -5,9 +5,11 @@
 {% block title %}Start a New Topic{% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="{% url 'boards:home' %}">Boards</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a></li>
-    <li class="breadcrumb-item active">New topic</li>
+    <li class="breadcrumb-item"><a href="{% url 'boards:home' %}">Boards</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i></li>
+    <li class="breadcrumb-item"><a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i></li>
+    <li class="breadcrumb-item active text-dark">New topic</li>
 {% endblock %}
 
 {% block content %}
