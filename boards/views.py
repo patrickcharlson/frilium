@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
-from .forms import NewTopicForm
+from .forms import NewTopicForm, PostForm
 from .models import Board, Post, Topic
 
 
@@ -40,3 +40,18 @@ def new_topic(request, slug):
 def topic_posts(request, slug):
     topic = get_object_or_404(Topic, slug=slug)
     return render(request, 'boards/topic_posts.html', {'topic': topic})
+
+
+def reply_topic(request, slug):
+    topic = get_object_or_404(Topic, slug=slug)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid:
+            post = form.save(commit=False)
+            post.topic = topic
+            post.created_by = request.user
+            post.save()
+            return redirect('boards:topic_post', slug=slug)
+    else:
+        form = PostForm()
+    return render(request, 'boards/reply_topic.html', {'topic': topic, 'form': form})

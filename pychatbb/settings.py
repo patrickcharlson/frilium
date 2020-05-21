@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'crispy_forms',
+    'debug_toolbar',
 
     # Local apps
     'users.apps.UsersConfig',
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'pychatbb.urls'
@@ -168,3 +170,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Email
 # ------------------------------------------------------------------------------
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# django-debug-toolbar
+# ------------------------------------------------------------------------------
+INTERNAL_IPS = '127.0.0.1'
