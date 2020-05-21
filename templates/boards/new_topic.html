@@ -1,0 +1,26 @@
+{% extends '_base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block title %}Start a New Topic{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'boards:home' %}">Boards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a></li>
+    <li class="breadcrumb-item active">New topic</li>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h5 class="card-header blue darken-3 text-white py-1">
+            New Topic
+        </h5>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="blue darken-3 btn btn-md text-white" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -95,7 +95,7 @@ AUTH_USER_MODEL = 'users.User'
 # ------------------------------------------------------------------------------
 LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_LOGOUT_REDIRECT = 'home'
-
+ACCOUNT_USERNAME_REQUIRED = False
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = (
@@ -107,6 +107,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
 # Database
 # ------------------------------------------------------------------------------
@@ -148,7 +149,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 

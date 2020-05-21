@@ -17,10 +17,10 @@
         </tr>
         </thead>
         <tbody>
-        {% for board in board_list %}
+        {% for board in boards %}
             <tr>
                 <td>
-                    <a href="">{{ board.name }}</a>
+                    <a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
                     <small class="text-muted d-block">{{ board.description }}</small>
                 </td>
                 <td class="align-middle">0</td>

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}Pychatbb{% endblock %}</title>
-    <script src="https://kit.fontawesome.com/2e2354b191.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'fonts/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -22,7 +22,7 @@
         <nav class=" card-footer navbar navbar-expand-sm navbar-light bg-light py-1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-clipboard fa-fw"></i> Boards</a>
+                    <a class="nav-link" href="{% url 'boards:home' %}"><i class="fas fa-clipboard fa-fw"></i> Boards</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-bars fa-fw"></i> Quick links</a>

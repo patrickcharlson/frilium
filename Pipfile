@@ -10,6 +10,7 @@ django = "*"
 django-allauth = "*"
 psycopg2-binary = "*"
 django-crispy-forms = "*"
+django-autoslug = "*"
 
 [requires]
 python_version = "3.8"
