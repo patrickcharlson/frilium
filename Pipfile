@@ -12,6 +12,7 @@ psycopg2-binary = "*"
 django-crispy-forms = "*"
 django-autoslug = "*"
 django-debug-toolbar = "*"
+markdown = "*"
 
 [requires]
 python_version = "3.8"

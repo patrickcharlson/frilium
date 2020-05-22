@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="{% static 'fonts/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}">
+    {% block stylesheet %}{% endblock %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
 </head>
 <body>
 
@@ -81,8 +83,6 @@
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/mdb.min.js' %}"></script>
-<script>
-
-</script>
+{% block javascript %}{% endblock %}
 </body>
 </html>
