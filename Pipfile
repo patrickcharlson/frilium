@@ -13,6 +13,7 @@ django-crispy-forms = "*"
 django-autoslug = "*"
 django-debug-toolbar = "*"
 markdown = "*"
+django-environ = "*"
 
 [requires]
 python_version = "3.8"

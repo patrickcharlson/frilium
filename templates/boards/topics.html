@@ -1,14 +1,16 @@
 {% extends '_base.html' %}
 
+{% load humanize %}
+
 {% block title %}
     {{ board.name }} - {{ block.super }}
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="{% url 'boards:home' %}">Boards</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i>
+    <li class="breadcrumb-item"><a class="white-text" href="{% url 'boards:home' %}">Boards</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
-    <li class="breadcrumb-item active text-dark">{{ board.name }}</li>
+    <li class="breadcrumb-item active text-white-50">{{ board.name }}</li>
 {% endblock %}
 
 {% block content %}
@@ -27,28 +29,36 @@
         </div>
     </div>
 
-    <table class="table table-sm">
-        <thead class="blue darken-3 text-white">
-        <tr>
-            <th>Topics</th>
-            <th>Posts</th>
-            <th>Views</th>
-            <th>Last Post</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for topic in topics %}
-            <tr>
-                <td>
-                    <a href="{% url 'boards:topic_post' topic.slug %}">{{ topic.title }}</a>
-                </td>
-                <td>{{ topic.replies }}</td>
-                <td>{{ topic.views }}</td>
-                <td>{{ topic.last_updated }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
+    <div class="card topic-card">
+        <div class="card-header board-header blue darken-3 text-white">
+            <div class=" row board-meta text-white">
+                <div class="col-md-5 board-name">Boards</div>
+                <div class="col-md-2 board-stats">Topics</div>
+                <div class="col-md-2 board-stats">Posts</div>
+                <div class="col-md-3 board-last-post">Last Post</div>
+            </div>
+        </div>
+        <div class="card-body topic-body">
+            {% for topic in topics %}
+                <div class="row topic-row">
+                    <div class="col-md-5">
+                        <div class="topic-title">
+                            <a href="{% url 'boards:topic_post' topic.slug %}">{{ topic.title }}</a>
+                        </div>
+                    </div>
+                    <div class="col-md-2 topic-posts">
+                        {{ topic.replies }}
+                    </div>
+                    <div class="col-md-2 topic-views">
+                        {{ topic.views }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ topic.last_updated|naturaltime }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}

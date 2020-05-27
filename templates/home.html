@@ -2,50 +2,54 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item active">
-        <a class="text-dark" href="{% url 'boards:home' %}">Boards</a>
+        <a class="text-white-50" href="{% url 'boards:home' %}">Boards</a>
     </li>
 {% endblock %}
 
 {% block content %}
-    <table class="table table-sm">
-        <thead class="blue darken-3 text-white">
-        <tr>
-            <th>Board</th>
-            <th>Topics</th>
-            <th>Posts</th>
-            <th>Last Post</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for board in boards %}
-            <tr>
-                <td>
-                    <a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
-                    <small class="text-muted d-block">{{ board.description }}</small>
-                </td>
-                <td class="align-middle">
-                    {{ board.topics.count }}
-                </td>
-                <td class="align-middle">
-                    {{ board.get_post_count }}
-                </td>
-                <td class="align-middle">
-                    {% with post=board.get_last_post %}
-                        {% if post %}
-                            <small>
-                                <a href="{% url 'boards:topic_post' board.slug %}">
-                                    By {{ post.created_by.username }} at {{ post.created_at }}
-                                </a>
-                            </small>
-                        {% else %}
-                            <small>
-                                <em>No posts yet.</em>
-                            </small>
-                        {% endif %}
-                    {% endwith %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="card board-card">
+        <div class="card-header board-header blue darken-3 text-white">
+            <div class=" row board-meta text-white">
+                <div class="col-md-5 board-name">Boards</div>
+                <div class="col-md-2 board-stats">Topics</div>
+                <div class="col-md-2 board-stats">Posts</div>
+                <div class="col-md-3 board-last-post">Last Post</div>
+            </div>
+        </div>
+        <div class="card-body board-body">
+            {% for board in boards %}
+                <div class="row board-row">
+                    <div class="col-md-5">
+                        <div class="board-name">
+                            <a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
+                        </div>
+                        <div class="board-description">
+                            {{ board.description }}
+                        </div>
+                    </div>
+                    <div class="col-md-2 board-topics">
+                        {{ board.topics.count }}
+                    </div>
+                    <div class="col-md-2 board-posts">
+                        {{ board.get_post_count }}
+                    </div>
+                    <div class="col-md-3 board-last-post">
+                        {% with post=board.get_last_post %}
+                            {% if post %}
+                                <small>
+                                    <a href="{% url 'boards:topic_post' board.slug %}">
+                                        By {{ post.created_by.username }} at {{ post.created_at }}
+                                    </a>
+                                </small>
+                            {% else %}
+                                <small>
+                                    <em>No posts.</em>
+                                </small>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

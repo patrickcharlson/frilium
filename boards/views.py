@@ -3,8 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, UpdateView, TemplateView
 
+from users.models import User
 from .forms import NewTopicForm, PostForm
 from .models import Board, Post, Topic
 
@@ -58,8 +59,11 @@ class PostListView(ListView):
     paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        self.topic.views += 1
-        self.topic.save()
+        session_key = f'viewed_topic_{self.topic.slug}'
+        if not self.request.session.get(session_key, False):
+            self.topic.views += 1
+            self.topic.save()
+            self.request.session[session_key] = True
         kwargs['topic'] = self.topic
         return super().get_context_data(**kwargs)
 
@@ -79,6 +83,9 @@ def reply_topic(request, slug):
             post.topic = topic
             post.created_by = request.user
             post.save()
+
+            topic.last_updated = timezone.now()
+            topic.save()
             return redirect('boards:topic_post', slug=slug)
     else:
         form = PostForm()
@@ -87,10 +94,10 @@ def reply_topic(request, slug):
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
-    fields = ('message',)
     template_name = 'boards/edit_post.html'
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
+    form_class = PostForm
 
     def form_valid(self, form):
         post = form.save(commit=False)

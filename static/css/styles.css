@@ -86,3 +86,30 @@ select:-webkit-autofill:focus {
 .btn {
     margin: 0;
 }
+
+.asteriskField {
+    display: none;
+}
+
+.CodeMirror, .CodeMirror-scroll {
+    min-height: 150px;
+}
+
+
+.board-body > .row, .topic-body > .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.board-body, .topic-body {
+    padding: 0;
+}
+
+.board-name, .topic-title {
+    font-weight: bold;
+}
+
+.board-row, .topic-row {
+    padding: 10px 5px;
+    border-bottom: 1px solid #cad7e1;
+}

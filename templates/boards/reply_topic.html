@@ -14,23 +14,24 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item">
-        <a href="{% url 'boards:home' %}">Boards</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i>
+        <a class="white-text" href="{% url 'boards:home' %}">Boards</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item">
-        <a href="{% url 'boards:board_topics' topic.board.slug %}">
+        <a class="white-text" href="{% url 'boards:board_topics' topic.board.slug %}">
             {{ topic.board.name }}</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i>
+            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item">
-        <a href="{% url 'boards:topic_post'  topic.slug %}">{{ topic.title }}</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i>
+        <a class="white-text" href="{% url 'boards:topic_post'  topic.slug %}">{{ topic.title }}</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
-    <li class="breadcrumb-item active text-dark">Post a reply</li>
+    <li class="breadcrumb-item active text-white-50">Post a reply</li>
 {% endblock %}
 
 {% block content %}
     <div class="card mb-4">
+        <h6 class="card-header blue darken-3 text-white">New Post</h6>
         <div class="card-body">
             <form method="post" class="">
                 {% csrf_token %}
@@ -44,6 +45,16 @@
 {% block javascript %}
     <script src="{% static 'js/simplemde.min.js' %}"></script>
     <script>
-        var simplemde = new SimpleMDE();
+        var simplemde = new SimpleMDE({
+            forceSync: true,
+            placeholder: "Post here...",
+            showIcons: ['code', 'table'],
+            shortcuts: {
+                drawTable: "Cmd-Alt-T"
+            },
+            spellChecker: false,
+            tabSize: 4,
+            autofocus: true
+        });
     </script>
 {% endblock %}

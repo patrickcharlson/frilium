@@ -22,7 +22,7 @@ class Board(models.Model):
         return Post.objects.filter(topic__board=self).order_by('-created_at').first()
 
     def get_absolute_url(self):
-        return reverse('board_topics', kwargs={'slug': self.slug})
+        return reverse('board:board_topics', kwargs={'slug': self.slug})
 
 
 class Topic(models.Model):

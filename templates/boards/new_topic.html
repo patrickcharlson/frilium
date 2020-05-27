@@ -10,26 +10,19 @@
     <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
 {% endblock %}
 
-{% block javascript %}
-    <script src="{% static 'js/simplemde.min.js' %}"></script>
-    <script>
-        var simplemde = new SimpleMDE();
-    </script>
-{% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="{% url 'boards:home' %}">Boards</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i></li>
-    <li class="breadcrumb-item"><a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-dark" aria-hidden="true"></i></li>
-    <li class="breadcrumb-item active text-dark">New topic</li>
+    <li class="breadcrumb-item"><a class="white-text" href="{% url 'boards:home' %}">Boards</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i></li>
+    <li class="breadcrumb-item"><a class="white-text"
+                                   href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a><i
+            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i></li>
+    <li class="breadcrumb-item active text-white-50">New topic</li>
 {% endblock %}
 
 {% block content %}
     <div class="card">
-        <h5 class="card-header blue darken-3 text-white py-1">
-            New Topic
-        </h5>
+        <h6 class="card-header blue darken-3 text-white"> New Topic </h6>
         <div class="card-body">
             <form method="post">
                 {% csrf_token %}
@@ -38,4 +31,21 @@
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/simplemde.min.js' %}"></script>
+    <script>
+        var simplemde = new SimpleMDE({
+            forceSync: true,
+            placeholder: "Type here...",
+            showIcons: ['code', 'table'],
+            shortcuts: {
+                drawTable: "Cmd-Alt-T"
+            },
+            spellChecker: false,
+            tabSize: 4,
+            autofocus: true
+        });
+    </script>
 {% endblock %}

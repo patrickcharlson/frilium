@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
 
     # third-party apps
     'allauth',
@@ -92,11 +93,12 @@ WSGI_APPLICATION = 'pychatbb.wsgi.application'
 # Authentication
 # ------------------------------------------------------------------------------
 AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = 'boards:home'
+ACCOUNT_LOGOUT_REDIRECT = 'home'
+LOGIN_URL = 'account_login'
 
 # django-allauth config
 # ------------------------------------------------------------------------------
-LOGIN_REDIRECT_URL = 'boards:home'
-ACCOUNT_LOGOUT_REDIRECT = 'home'
 ACCOUNT_USERNAME_REQUIRED = False
 SITE_ID = 1
 
