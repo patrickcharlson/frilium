@@ -30,7 +30,7 @@ class Topic(models.Model):
     slug = AutoSlugField(unique=True, always_update=False, populate_from='title')
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    board = models.ForeignKey(Board, related_name='topics', on_delete=models.CASCADE)
+    board = models.ForeignKey(Board, related_name='topics', verbose_name='Board', on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
 
     def __str__(self):

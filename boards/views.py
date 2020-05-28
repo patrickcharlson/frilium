@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from django.views.generic import ListView, UpdateView, TemplateView
+from django.views.generic import ListView, UpdateView
 
 from users.models import User
 from .forms import NewTopicForm, PostForm
@@ -109,3 +109,9 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(created_by=self.request.user)
+
+
+def users_list(request):
+    users = User.objects.all()
+    posts = Post.objects.all()
+    return render(request, 'boards/members.html', {'users': users, 'posts': posts})

@@ -14,17 +14,18 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'boards:home' %}">Boards</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+        <a class="white-text" href="{% url 'boards:home' %}">Boards</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item">
         <a class="white-text" href="{% url 'boards:board_topics' topic.board.slug %}">
-            {{ topic.board.name }}</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+            {{ topic.board.name }}
+        </a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'boards:topic_post'  topic.slug %}">{{ topic.title }}</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+        <a class="white-text" href="{% url 'boards:topic_post'  topic.slug %}">{{ topic.title }}</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item active text-white-50">Post a reply</li>
 {% endblock %}

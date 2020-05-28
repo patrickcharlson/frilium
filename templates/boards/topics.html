@@ -7,8 +7,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a class="white-text" href="{% url 'boards:home' %}">Boards</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    <li class="breadcrumb-item">
+        <a class="white-text" href="{% url 'boards:home' %}">Boards</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item active text-white-50">{{ board.name }}</li>
 {% endblock %}
@@ -33,9 +34,9 @@
     <div class="card topic-card">
         <div class="card-header board-header blue darken-3 text-white">
             <div class=" row board-meta text-white">
-                <div class="col-md-5 board-name">Boards</div>
-                <div class="col-md-2 board-stats">Topics</div>
+                <div class="col-md-5 board-name">Topics</div>
                 <div class="col-md-2 board-stats">Posts</div>
+                <div class="col-md-2 board-stats">Views</div>
                 <div class="col-md-3 board-last-post">Last Post</div>
             </div>
         </div>

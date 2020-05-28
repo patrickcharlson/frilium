@@ -12,11 +12,14 @@
 
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a class="white-text" href="{% url 'boards:home' %}">Boards</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i></li>
-    <li class="breadcrumb-item"><a class="white-text"
-                                   href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a><i
-            class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i></li>
+    <li class="breadcrumb-item">
+        <a class="white-text" href="{% url 'boards:home' %}"> Boards</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item">
+        <a class="white-text" href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
     <li class="breadcrumb-item active text-white-50">New topic</li>
 {% endblock %}
 

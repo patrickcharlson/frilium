@@ -14,6 +14,7 @@ django-autoslug = "*"
 django-debug-toolbar = "*"
 markdown = "*"
 django-environ = "*"
+django-extensions = "*"
 
 [requires]
 python_version = "3.8"

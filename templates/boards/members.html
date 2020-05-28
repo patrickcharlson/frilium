@@ -1,0 +1,44 @@
+{% extends '_base.html' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        <a class="text-white" href="{% url 'boards:home' %}">Boards</a>
+    </li>
+    <li class="breadcrumb-item active text-white-50">
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+        Members
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="card board-card">
+        <div class="card-header board-header blue darken-3 text-white">
+            <div class=" row board-meta text-white">
+                <div class="col-md-5 board-name">Username</div>
+                <div class="col-md-2 board-stats">Joined</div>
+                <div class="col-md-2 board-stats">Last Visit</div>
+                <div class="col-md-3 board-last-post">Posts</div>
+            </div>
+        </div>
+        <div class="card-body board-body">
+            {% for user in users %}
+                <div class="row board-row">
+                    <div class="col-md-5">
+                        <div class="board-name">
+                            <a href="">{{ user.username }}</a>
+                        </div>
+                    </div>
+                    <div class="col-md-2 board-topics">
+                        {{ user.date_joined|date:"d-m-Y" }}
+                    </div>
+                    <div class="col-md-2 board-posts">
+                        {{ user.last_login }}
+                    </div>
+                    <div class="col-md-3 board-last-post">
+                        {{ user.posts.count }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
