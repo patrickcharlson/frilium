@@ -1,0 +1,51 @@
+{% extends '_base.html' %}
+
+{% load static %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        <a class="text-white" href="{% url 'boards:home' %}">Boards</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">
+        <a class="text-white" href="{% url 'boards:users' %}">Members</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">{{ user.username }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="card mb-2">
+        <div class="card-header text-white blue darken-3 py-2 px-3">
+            <img src="{% static 'img/avatar-1.png' %}" alt="{{ user.username }}" class="w-20">
+            {{ user.username }}
+        </div>
+        <div class="card-body p-3">
+            <div class="row">
+                <div class="col-md-2 offset-2">
+                    <div class="float-right">
+                        <img src="{% static 'img/avatar.svg' %}" alt="{{ user.username }}" class="w-100">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <table class="table table-bordered table-sm ui-table">
+                        <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>{{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email address</td>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <td>Rank</td>
+                            <td>{{ user.groups.name }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -113,3 +113,16 @@ select:-webkit-autofill:focus {
     padding: 10px 5px;
     border-bottom: 1px solid #cad7e1;
 }
+
+.text-center > .card-header {
+    padding-bottom: 0;
+}
+
+.ui-table tr td:first-child {
+    background-color: rgba(0, 0, 0, .03);
+    font-weight: 700;
+}
+
+.ui-table td {
+    padding: .5em .7em;
+}

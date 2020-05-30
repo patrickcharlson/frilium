@@ -1,10 +1,11 @@
 from autoslug import AutoSlugField
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import Truncator
 from markdown import markdown
+
+User = get_user_model()
 
 
 class Board(models.Model):
@@ -20,9 +21,6 @@ class Board(models.Model):
 
     def get_last_post(self):
         return Post.objects.filter(topic__board=self).order_by('-created_at').first()
-
-    def get_absolute_url(self):
-        return reverse('board:board_topics', kwargs={'slug': self.slug})
 
 
 class Topic(models.Model):
@@ -43,8 +41,8 @@ class Post(models.Model):
     slug = AutoSlugField(unique=True, always_update=False, populate_from='topic')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE)
-    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='+', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(User, null=True, related_name='+', on_delete=models.CASCADE)
 
     def get_message_as_markdown(self):
         return mark_safe(markdown(self.message, safe_mode='escape'))

@@ -1,19 +1,22 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.views import View
 from django.views.generic import ListView, UpdateView
 
-from users.models import User
 from .forms import NewTopicForm, PostForm
 from .models import Board, Post, Topic
+
+User = get_user_model()
 
 
 class BoardsListView(ListView):
     model = Board
     context_object_name = 'boards'
     template_name = 'home.html'
+    paginate_by = 7
 
 
 class TopicsListView(LoginRequiredMixin, ListView):
@@ -21,6 +24,7 @@ class TopicsListView(LoginRequiredMixin, ListView):
     context_object_name = 'topics'
     template_name = 'boards/topics.html'
     paginate_by = 3
+    login_url = 'account_login'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         kwargs['board'] = self.board
@@ -32,31 +36,39 @@ class TopicsListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-@login_required
-def new_topic(request, slug):
-    board = get_object_or_404(Board, slug=slug)
-    if request.method == 'POST':
-        form = NewTopicForm(request.POST)
-        if form.is_valid():
-            topic = form.save(commit=False)
+class NewTopicView(LoginRequiredMixin, View):
+    login_url = 'account_login'
+
+    def render(self, request, slug):
+        board = get_object_or_404(Board, slug=slug)
+        return render(request, 'boards/new_topic.html', {'board': board, 'form': self.form})
+
+    def post(self, request, slug):
+        board = get_object_or_404(Board, slug=slug)
+        self.form = NewTopicForm(request.POST)
+        if self.form.is_valid():
+            topic = self.form.save(commit=False)
             topic.board = board
             topic.save()
             Post.objects.create(
-                message=form.cleaned_data.get('message'),
+                message=self.form.cleaned_data.get('message'),
                 topic=topic,
                 created_by=request.user
             )
             return redirect('boards:topic_post', slug=topic.slug)
-    else:
-        form = NewTopicForm()
-    return render(request, 'boards/new_topic.html', {'board': board, 'form': form})
+        return self.render(request, slug)
+
+    def get(self, request, slug):
+        self.form = NewTopicForm()
+        return self.render(request, slug)
 
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin, ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'boards/topic_posts.html'
     paginate_by = 2
+    login_url = 'account_login'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         session_key = f'viewed_topic_{self.topic.slug}'
@@ -64,8 +76,9 @@ class PostListView(ListView):
             self.topic.views += 1
             self.topic.save()
             self.request.session[session_key] = True
-        kwargs['topic'] = self.topic
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['topic'] = self.topic
+        return context
 
     def get_queryset(self):
         self.topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
@@ -73,13 +86,18 @@ class PostListView(ListView):
         return queryset
 
 
-@login_required
-def reply_topic(request, slug):
-    topic = get_object_or_404(Topic, slug=slug)
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid:
-            post = form.save(commit=False)
+class NewPostView(LoginRequiredMixin, View):
+    login_url = 'account_login'
+
+    def render(self, request, slug):
+        topic = get_object_or_404(Topic, slug=slug)
+        return render(request, 'boards/reply_topic.html', {'topic': topic, 'form': self.form})
+
+    def post(self, request, slug):
+        topic = get_object_or_404(Topic, slug=slug)
+        self.form = PostForm(request.POST)
+        if self.form.is_valid():
+            post = self.form.save(commit=False)
             post.topic = topic
             post.created_by = request.user
             post.save()
@@ -87,9 +105,11 @@ def reply_topic(request, slug):
             topic.last_updated = timezone.now()
             topic.save()
             return redirect('boards:topic_post', slug=slug)
-    else:
-        form = PostForm()
-    return render(request, 'boards/reply_topic.html', {'topic': topic, 'form': form})
+        return self.render(request, slug)
+
+    def get(self, request, slug):
+        self.form = PostForm()
+        return self.render(request, slug)
 
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
@@ -98,6 +118,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
     form_class = PostForm
+    login_url = 'account_login'
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -111,7 +132,9 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         return queryset.filter(created_by=self.request.user)
 
 
-def users_list(request):
-    users = User.objects.all()
-    posts = Post.objects.all()
-    return render(request, 'boards/members.html', {'users': users, 'posts': posts})
+class UsersListView(LoginRequiredMixin, ListView):
+    model = User
+    context_object_name = 'users'
+    template_name = 'boards/members.html'
+    paginate_by = 5
+    login_url = 'account_login'

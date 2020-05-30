@@ -24,13 +24,21 @@
         <nav class=" card-footer navbar navbar-expand-sm navbar-light bg-light py-1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'boards:home' %}"><i class="fas fa-clipboard fa-fw"></i> Boards</a>
+                    <a class="nav-link" href="{% url 'boards:home' %}">
+                        <i class="fas fa-clipboard fa-fw"></i> Boards
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-bars fa-fw"></i> Quick Access</a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-bars fa-fw"></i> Quick Access
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'boards:users' %}"><i class="fas fa-user-friends"></i> Members</a>
+                    <a class="nav-link" href="{% url 'boards:users' %}">
+                        <i class="fas fa-user-friends"></i> Members
+                    </a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -56,25 +64,28 @@
             {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">{{ user.username }}
+                       aria-haspopup="true" aria-expanded="false">{{ request.user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-primary arrow_box" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#"><i class="fas fa-user fa-fw"></i> Profile</a>
+                        <a class="dropdown-item" href="{% url 'users:user_profile' user.username %}">
+                            <i class="fas fa-user fa-fw"></i> Profile
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'account_logout' %}"><i
-                                class="fas fa-power-off fa-fw"></i> Logout</a>
+                        <a class="dropdown-item" href="{% url 'account_logout' %}">
+                            <i class="fas fa-power-off fa-fw"></i> Logout
+                        </a>
                     </div>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'account_signup' %}"><i
-                            class="fas fa-pen-square fa-fw"></i>
-                        Signup</a>
+                    <a class="nav-link text-white" href="{% url 'account_signup' %}">
+                        <i class="fas fa-pen-square fa-fw"></i> Signup
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'account_login' %}"><i
-                            class="fas fa-power-off fa-fw"></i>
-                        Login</a>
+                    <a class="nav-link text-white" href="{% url 'account_login' %}">
+                        <i class="fas fa-power-off fa-fw"></i> Login
+                    </a>
                 </li>
             {% endif %}
         </ul>
