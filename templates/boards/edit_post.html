@@ -25,7 +25,7 @@
     </li>
 
     <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'boards:topic_post' post.topic.board.slug %}">
+        <a class="white-text" href="{% url 'boards:topic_post' post.topic.slug %}">
             {{ post.topic.title }}
         </a>
         <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>

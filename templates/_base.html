@@ -67,7 +67,7 @@
                        aria-haspopup="true" aria-expanded="false">{{ request.user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-primary arrow_box" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{% url 'users:user_profile' user.username %}">
+                        <a class="dropdown-item" href="{{ user.get_absolute_url }}">
                             <i class="fas fa-user fa-fw"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>

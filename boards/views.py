@@ -2,9 +2,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, UpdateView, DeleteView
 
 from .forms import NewTopicForm, PostForm
 from .models import Board, Post, Topic
@@ -49,6 +50,7 @@ class NewTopicView(LoginRequiredMixin, View):
         if self.form.is_valid():
             topic = self.form.save(commit=False)
             topic.board = board
+            topic.user = request.user
             topic.save()
             Post.objects.create(
                 message=self.form.cleaned_data.get('message'),
@@ -104,7 +106,7 @@ class NewPostView(LoginRequiredMixin, View):
 
             topic.last_updated = timezone.now()
             topic.save()
-            return redirect('boards:topic_post', slug=slug)
+            return redirect('boards:topic_post', slug=topic.slug)
         return self.render(request, slug)
 
     def get(self, request, slug):
@@ -125,7 +127,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         post.updated_at = timezone.now()
         post.updated_by = self.request.user
         post.save()
-        return redirect('boards:topic_post', slug=post.slug)
+        return redirect('boards:topic_post', slug=post.topic.slug)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -138,3 +140,14 @@ class UsersListView(LoginRequiredMixin, ListView):
     template_name = 'boards/members.html'
     paginate_by = 5
     login_url = 'account_login'
+
+
+def delete_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    post.delete()
+    return redirect('boards:topic_post', slug=post.topic.slug)
+
+
+class DeletePost(DeleteView):
+    model = Post
+    success_url = reverse_lazy('boards:topic_post')

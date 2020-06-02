@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import BoardsListView, PostUpdateView, TopicsListView, PostListView, UsersListView, \
-    NewPostView, NewTopicView
+    NewPostView, NewTopicView, delete_post
 
 app_name = 'boards'
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('<slug:slug>/topic/new/', NewTopicView.as_view(), name='new_topic'),
     path('topic/<slug:slug>/', PostListView.as_view(), name='topic_post'),
     path('topic/<slug:slug>/post/new/', NewPostView.as_view(), name='reply_topic'),
-    path('post/<slug:slug>/edit/', PostUpdateView.as_view(), name='edit_post')
+    path('post/<slug:slug>/edit/', PostUpdateView.as_view(), name='edit_post'),
+    path('post/<slug:slug>/delete/', delete_post, name='delete_post')
 ]

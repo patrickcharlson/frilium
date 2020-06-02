@@ -14,9 +14,9 @@
             {% for page_num in paginator.page_range %}
                 {% if page_obj.number == page_num %}
                     <li class="page-item active">
-                                        <span class="page-link">{{ page_num }}
-                                            <span class="sr-only">(current)</span>
-                                        </span>
+                        <span class="page-link">{{ page_num }}
+                            <span class="sr-only">(current)</span>
+                        </span>
                     </li>
                 {% else %}
                     <li class="page-item">
