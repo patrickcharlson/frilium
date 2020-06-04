@@ -1,13 +1,13 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
-from django.views.generic import ListView, UpdateView, DeleteView
+from django.views.generic import ListView, UpdateView
 
-from .forms import NewTopicForm, PostForm
+from .forms import NewTopicForm, PostForm, EditTopicForm, EditPostForm
 from .models import Board, Post, Topic
 
 User = get_user_model()
@@ -145,9 +145,27 @@ class UsersListView(LoginRequiredMixin, ListView):
 def delete_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     post.delete()
+    messages.info(request, 'Post Deleted!')
     return redirect('boards:topic_post', slug=post.topic.slug)
 
 
-class DeletePost(DeleteView):
-    model = Post
-    success_url = reverse_lazy('boards:topic_post')
+def edit_topic(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    topic = post.topic
+    if request.method == 'POST':
+        topic_form = EditTopicForm(request.POST, instance=topic)
+        post_form = EditPostForm(request.POST, instance=post)
+
+        if topic_form.is_valid() and post_form.is_valid():
+            topic = topic_form.save(commit=False)
+            topic.save()
+            post_form.save()
+            return redirect('boards:topic_post', slug=topic.slug)
+    else:
+        topic_form = EditTopicForm(instance=topic)
+        post_form = EditPostForm(instance=post)
+
+    messages.info(request, 'Topic Updated!')
+    context = {'title_form': topic_form, 'post_form': post_form, 'post': post}
+
+    return render(request, 'boards/edit_topic.html', context)

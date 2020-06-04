@@ -1,0 +1,55 @@
+{% extends '_base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_filters %}
+
+{% block title %}Start a New Topic{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
+{% endblock %}
+
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a class="white-text" href="{% url 'boards:home' %}"> Boards</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item">
+        <a class="white-text" href="{% url 'boards:board_topics' post.topic.board.slug %}">{{ post.topic.board.name }}</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">Edit topic</li>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h6 class="card-header blue darken-3 text-white"> Edit Topic </h6>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ title_form|crispy }}
+                {{ post_form|crispy }}
+                <button class="blue darken-3 btn btn-md text-white" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/simplemde.min.js' %}"></script>
+    <script>
+        var simplemde = new SimpleMDE({
+            forceSync: true,
+            placeholder: "Type here...",
+            showIcons: ['code', 'table'],
+            shortcuts: {
+                drawTable: "Cmd-Alt-T"
+            },
+            spellChecker: false,
+            tabSize: 4,
+            autofocus: true
+        });
+    </script>
+{% endblock %}

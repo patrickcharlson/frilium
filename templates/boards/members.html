@@ -35,10 +35,10 @@
                         </div>
                     </div>
                     <div class="col-md-2 board-topics">
-                        {{ user.date_joined|date:"d-m-Y" }}
+                        {{ user.date_joined|date:"Y-m-d, P" }}
                     </div>
                     <div class="col-md-2 board-posts">
-                        {{ user.last_login }}
+                        {{ user.last_login|date:'Y-m-d, P' }}
                     </div>
                     <div class="col-md-3 board-last-post">
                         {{ user.posts.count }}

@@ -17,3 +17,15 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['message', ]
+
+
+class EditTopicForm(forms.ModelForm):
+    title = forms.CharField(label='Title', max_length=255)
+
+    class Meta:
+        model = Topic
+        fields = ['title', ]
+
+
+class EditPostForm(PostForm):
+    pass

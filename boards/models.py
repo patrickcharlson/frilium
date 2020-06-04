@@ -42,9 +42,6 @@ class Topic(models.Model):
     def get_absolute_url(self):
         reverse('boards:topic_post', kwargs={'slug': self.slug})
 
-    def first_post(self):
-        return self.posts.first()
-
 
 class Post(models.Model):
     message = models.TextField(max_length=4000)
