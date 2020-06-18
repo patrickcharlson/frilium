@@ -29,7 +29,7 @@ class Board(models.Model):
 
 class Topic(models.Model):
     title = models.CharField(max_length=255)
-    slug = AutoSlugField(unique=True, always_update=False, populate_from='title')
+    slug = AutoSlugField(unique=True, always_update=True, populate_from='title')
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     board = models.ForeignKey(Board, related_name='topics', verbose_name='Board', on_delete=models.CASCADE)
@@ -44,9 +44,9 @@ class Topic(models.Model):
 
 
 class Post(models.Model):
-    message = models.TextField(max_length=4000)
+    message = models.TextField()
     topic = models.ForeignKey(Topic, related_name='posts', on_delete=models.CASCADE)
-    slug = AutoSlugField(unique=True, always_update=False, populate_from='message')
+    slug = AutoSlugField(unique=True, always_update=True, populate_from='message')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)
     created_by = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)

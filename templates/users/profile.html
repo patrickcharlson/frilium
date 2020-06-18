@@ -1,38 +1,80 @@
 {% extends '_base.html' %}
 
+{% load crispy_forms_filters %}
+
 {% block breadcrumb %}
     <li class="breadcrumb-item active">
-        <a class="text-white-50" href="{% url 'boards:home' %}">Boards</a>
+        <a class="text-white" href="{% url 'boards:home' %}"><i class="fas fa-home fa-fw"></i> Boards</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
+    <li class="breadcrumb-item active text-white-50">
+        <a class="text-white" href="{% url 'users:user_options' %}">User Control Panel</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">
+        <a class="text-white" href="{% url 'users:user_options' %}">Home</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">Overview</li>
 {% endblock %}
 
 {% block content %}
-    <div class="card text-center mb-4">
-
-        <ul class="card-header blue darken-3 nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active text-dark" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                   aria-controls="home" aria-selected="true">Overview</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                   aria-controls="profile" aria-selected="false">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                   aria-controls="contact" aria-selected="false">Contact</a>
-            </li>
-        </ul>
-
-
-        <div class="card-body">
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    Help
+    {% include 'includes/tab-list.html' %}
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="inner">
+                <div style="width: 100%">
+                    <div id="cp-menu" class="cp-menu">
+                        <div id="navigation" class="navigation" role="navigation">
+                            <ul>
+                                <li class="waves-effect waves-light">
+                                    <a class="link activenav" href="{% url 'users:user_options' %}">
+                                        <i class="fas fa-binoculars fa-fw"></i> Overview</a>
+                                </li>
+                                <li class="waves-effect waves-light">
+                                    <a class="link" href="">
+                                        <i class="fas fa-user-edit fa-fw"></i> Edit details</a>
+                                </li>
+                                <li class="waves-effect waves-light">
+                                    <a class="link" href="">
+                                        <i class="fas fa-id-card-alt fa-fw"></i> Change username</a>
+                                </li>
+                                <li class="waves-effect waves-light">
+                                    <a class="link" href="">
+                                        <i class="fas fa-envelope fa-fw"></i> Change email</a>
+                                </li>
+                                <li class="menu">
+                                    <a class="link" href="{% url 'account_change_password' %}">
+                                        <i class="fas fa-key fa-fw"></i> Change password</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="cp-main-overview" class="cp-main ucp-main panel-container">
+                        <div class="panel">
+                            <div class="inner">
+                                <p>
+                                    Welcome to the User Control Panel. From here you can monitor, view and update your
+                                    profile, preferences, subscribed forums and topics. You can also send messages to
+                                    other users (if permitted). Please ensure you read any announcements before
+                                    continuing.
+                                </p>
+                                <h3>Your Activity</h3>
+                                <dl class="details">
+                                    <dt>Joined:</dt>
+                                    <dd>{{ user.date_joined }}</dd>
+                                    <dt>Last active:</dt>
+                                    <dd></dd>
+                                    <dt>Total posts:</dt>
+                                    <dd>{{ user.posts.count }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
             </div>
         </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
     </div>
 {% endblock %}

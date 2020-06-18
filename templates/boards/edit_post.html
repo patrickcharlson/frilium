@@ -10,10 +10,27 @@
     <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
 {% endblock %}
 
+{% block javascript %}
+    <script src="{% static 'js/simplemde.min.js' %}"></script>
+    <script>
+        let simplemde = new SimpleMDE({
+            forceSync: true,
+            placeholder: "Edit here...",
+            showIcons: ['code', 'table'],
+            shortcuts: {
+                drawTable: "Cmd-Alt-T"
+            },
+            spellChecker: false,
+            tabSize: 4,
+            autofocus: true
+        });
+    </script>
+{% endblock %}
 
 {% block breadcrumb %}
     <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'boards:home' %}">Boards</a>
+        <a class="white-text" href="{% url 'boards:home' %}">
+            <i class="fas fa-home fa-fw"></i> Boards</a>
         <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
 
@@ -36,7 +53,7 @@
 
 {% block content %}
     <div class="card">
-        <h6 class="card-header blue darken-3 text-white">Edit Post</h6>
+        <div class="card-header blue darken-3 text-white py-2 px-3">Edit Post</div>
         <div class="card-body">
             <form method="post" class="">
                 {% csrf_token %}
@@ -49,19 +66,3 @@
     </div>
 {% endblock %}
 
-{% block javascript %}
-    <script src="{% static 'js/simplemde.min.js' %}"></script>
-    <script>
-        let simplemde = new SimpleMDE({
-            forceSync: true,
-            placeholder: "Edit here...",
-            showIcons: ['code', 'table'],
-            shortcuts: {
-                drawTable: "Cmd-Alt-T"
-            },
-            spellChecker: false,
-            tabSize: 4,
-            autofocus: true
-        });
-    </script>
-{% endblock %}

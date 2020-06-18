@@ -69,7 +69,7 @@ class PostListView(LoginRequiredMixin, ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'boards/topic_posts.html'
-    paginate_by = 2
+    paginate_by = 10
     login_url = 'account_login'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -150,8 +150,8 @@ def delete_post(request, slug):
 
 
 def edit_topic(request, slug):
-    post = get_object_or_404(Post, slug=slug)
-    topic = post.topic
+    topic = get_object_or_404(Topic, slug=slug)
+    post = topic.posts.first()
     if request.method == 'POST':
         topic_form = EditTopicForm(request.POST, instance=topic)
         post_form = EditPostForm(request.POST, instance=post)
@@ -165,7 +165,5 @@ def edit_topic(request, slug):
         topic_form = EditTopicForm(instance=topic)
         post_form = EditPostForm(instance=post)
 
-    messages.info(request, 'Topic Updated!')
     context = {'title_form': topic_form, 'post_form': post_form, 'post': post}
-
     return render(request, 'boards/edit_topic.html', context)

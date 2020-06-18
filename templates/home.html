@@ -1,8 +1,8 @@
 {% extends '_base.html' %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item active">
-        <a class="text-white-50" href="{% url 'boards:home' %}">Boards</a>
+    <li class="breadcrumb-item active text-white-50">
+        <span><i class="fas fa-home fa-fw"></i> Boards</span>
     </li>
 {% endblock %}
 
@@ -27,11 +27,20 @@
             {% for board in boards %}
                 <div class="row board-row">
                     <div class="col-md-5">
-                        <div class="board-name">
-                            <a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
-                        </div>
-                        <div class="board-description">
-                            {{ board.description }}
+                        <div class="row">
+                            <div class="col-md-1 board-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="col-md-11" id="board-name">
+                                <div class="board-name">
+                                    <a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
+                                </div>
+
+                                {#board description#}
+                                <div class="board-description">
+                                    {{ board.description }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-2 board-topics">
@@ -44,10 +53,10 @@
                         {% with post=board.get_last_post %}
                             {% if post %}
                                 By
-                                <a href="{{ user.get_absolute_url }}">
+                                <a href="{% url 'users:user_profile' post.created_by.username %}">
                                     {{ post.created_by.username }}
                                 </a>
-                                <a href="{% url 'boards:topic_post' post.topic.slug %}"
+                                <a href="{% url 'boards:topic_post' post.topic.slug %}#pid{{ post.id }}"
                                    data-post-id="{{ post.id }}" data-toggle="tooltip" data-placement="right"
                                    title="Go to last post">
                                     <i style="color: grey" class="fa-fw fas fa-external-link-alt"></i>

@@ -8,7 +8,8 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'boards:home' %}">Boards</a>
+        <a class="white-text" href="{% url 'boards:home' %}">
+            <i class="fas fa-home fa-fw"></i> Boards</a>
         <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item active text-white-50">{{ board.name }}</li>
@@ -18,7 +19,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="float-left">
-                <a href="{% url 'boards:new_topic' board.slug %}" class="mb-4 btn blue darken-3 btn-md text-white"> New
+                <a href="{% url 'boards:new_topic' board.slug %}" class="mb-4 btn btn-topic blue darken-3 btn-md text-white"> New
                     Topic <i class="fa-fw fas fa-pen-fancy"></i>
                 </a>
 
@@ -36,7 +37,7 @@
         <div class="card-header board-header blue darken-3 text-white">
             <div class=" row board-meta text-white">
                 <div class="col-md-5 board-name">Topics</div>
-                <div class="col-md-2 board-stats">Posts</div>
+                <div class="col-md-2 board-stats">Replies</div>
                 <div class="col-md-2 board-stats">Views</div>
                 <div class="col-md-3 board-last-post">Last Post</div>
             </div>

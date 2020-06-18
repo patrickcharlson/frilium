@@ -30,27 +30,25 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-bars fa-fw"></i> Quick Access
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'boards:users' %}">
                         <i class="fas fa-user-friends"></i> Members
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:user_options' %}">
+                        <i class="fas fa-user-cog"></i> UCP
+                    </a>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search">
             </form>
         </nav>
     </div>
 </div>
 
-
 <div class="container">
-    <nav class="navbar navbar-expand-lg blue darken-3 text-white my-4 py-0">
+    <nav class="navbar navbar-expand-lg rgba-black-strong text-white my-4 py-0">
         <div class="mr-auto">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb clearfix d-none d-md-inline-flex py-2">
@@ -67,8 +65,12 @@
                        aria-haspopup="true" aria-expanded="false">{{ request.user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-primary arrow_box" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{{ user.get_absolute_url }}">
-                            <i class="fas fa-user fa-fw"></i> Profile
+                        <a class="dropdown-item" href="{% url 'users:user_options' %}">
+                            <i class="fas fa-user-cog fa-fw"></i> User Control Panel
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'users:user_profile' request.user.username %}">
+                            <i class="fas fa-user fa-fw"></i> My profile
                         </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'account_logout' %}">
@@ -99,6 +101,7 @@
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/mdb.min.js' %}"></script>
-{% block javascript %}{% endblock %}
+{% block javascript %}
+{% endblock %}
 </body>
 </html>
