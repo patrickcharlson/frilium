@@ -19,7 +19,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="float-left">
-                <a href="{% url 'boards:new_topic' board.slug %}" class="mb-4 btn btn-topic blue darken-3 btn-md text-white"> New
+                <a href="{% url 'boards:new_topic' board.slug %}"
+                   class="mb-4 btn btn-topic blue darken-3 btn-md text-white"> New
                     Topic <i class="fa-fw fas fa-pen-fancy"></i>
                 </a>
 
@@ -59,11 +60,26 @@
                         {{ topic.views }}
                     </div>
                     <div class="col-md-3">
-                        {{ topic.last_updated|naturaltime }}
+                        {% with post=board.get_last_post %}
+                            <a href="{% url 'boards:topic_post' post.topic.slug %}#pid{{ post.id }}"
+                               data-post-id="{{ post.id }}" data-toggle="tooltip" data-placement="top"
+                               title="Go to last post">
+                                {{ topic.last_updated|naturaltime }}
+                            </a>
+                            by {{ post.created_by }}
+                        {% endwith %}
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
+
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 
 {% endblock %}

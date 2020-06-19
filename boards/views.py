@@ -106,7 +106,7 @@ class NewPostView(LoginRequiredMixin, View):
 
             topic.last_updated = timezone.now()
             topic.save()
-            return redirect('boards:topic_post', slug=topic.slug)
+            return redirect(f'/t/{topic.slug}/#pid{post.id}')
         return self.render(request, slug)
 
     def get(self, request, slug):
@@ -127,7 +127,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         post.updated_at = timezone.now()
         post.updated_by = self.request.user
         post.save()
-        return redirect('boards:topic_post', slug=post.topic.slug)
+        return redirect(f'/t/{post.topic.slug}/#pid{post.id}')
 
     def get_queryset(self):
         queryset = super().get_queryset()
