@@ -56,7 +56,7 @@
                                 <a href="{% url 'users:user_profile' post.created_by.username %}">
                                     {{ post.created_by.username }}
                                 </a>
-                                <a href="{% url 'boards:topic_post' post.topic.slug %}#pid{{ post.id }}"
+                                <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
                                    data-post-id="{{ post.id }}" data-toggle="tooltip" data-placement="right"
                                    title="Go to last post">
                                     <i style="color: grey" class="fa-fw fas fa-external-link-alt"></i>

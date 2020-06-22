@@ -31,18 +31,35 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'boards:users' %}">
-                        <i class="fas fa-user-friends"></i> Members
+                        <i class="fas fa-users"></i> Members
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:user_options' %}">
+                    <a title="User Control Panel" class="nav-link" href="{% url 'users:user_options' %}">
                         <i class="fas fa-user-cog"></i> UCP
                     </a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search">
-            </form>
+
+
+            <div id="search-box" class="search-box search-header" role="search">
+                <form class="form-inline my-2 my-lg-0">
+                    <fieldset>
+                        <input class="form-control inputbox search tiny" type="search" placeholder="Search..."
+                               aria-label="Search">
+                        <button class="button button-search" type="submit" title="Search">
+                            <i class="icon fas fa-search fa-fw" aria-hidden="true"></i>
+                            <span class="sr-only">Search</span>
+                        </button>
+                        <a href="#" class="button button-search-end" title="Advanced Search">
+                            <i class="icon fas fa-cog"></i>
+                            <span class="sr-only">Advanced Search</span>
+                        </a>
+                    </fieldset>
+                </form>
+            </div>
+
+
         </nav>
     </div>
 </div>

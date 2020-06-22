@@ -32,7 +32,7 @@
                 <div class="row board-row">
                     <div class="col-md-5">
                         <div class="board-name">
-                            <a href="{% url 'users:user_profile' user.username %}">{{ user.username }}</a>
+                            <a href="{% url 'users:user_posts' user.username user.pk %}">{{ user.username }}</a>
                         </div>
                     </div>
                     <div class="col-md-2 board-topics">

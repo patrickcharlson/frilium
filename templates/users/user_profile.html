@@ -24,36 +24,39 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3 profile-sidebar">
-                    <div class="d-flex justify-content-center">
-                        <img src="{% static 'img/avatar.svg' %}" alt="{{ user.username }}" class="w-50">
+                    <div class="avatar-wrap d-flex justify-content-center">
+                        <a href="">
+                            <img src="{% static 'img/avatar.svg' %}" alt="{{ post.created_by.username }}"
+                                 class="circular w-100"> </a>
+                        <span class="avatar-online"></span>
                     </div>
+                    <h4 class="profile-meta">
+                        <small class="profile-user-title">Team member</small>
+                    </h4>
+                    <ul class="profile-stats">
+                        <li class="profile-stat">
+                            <h5 class="profile-stat-wrap">
+                                <i class="fas fa-comment"></i>
+                                <a href="{% url 'users:user_posts' user.username user.pk %}">
+                                    <span class="profile-stat-title">Posts</span>
+                                </a>
+                                <small class="profile-stat-value">{{ post.created_by.posts.count }}</small>
+                            </h5>
+                        </li>
+                        <li class="profile-stat">
+                            <h5 class="profile-stat-wrap">
+                                <i class="fas fa-comment-alt"></i>
+                                <span class="profile-stat-title">Topics</span>
+                            </h5>
+                        </li>
+                    </ul>
 
                 </div>
                 <div class="col-md-9 profile-content">
-                    <table class="table table-bordered table-sm ui-table">
-                        <thead>
-                        <tr>
-                            <th style="background: rgba(0,0,0,0.7)" class="text-white px-2"
-                                colspan="2">{{ user.username|capfirst }}'s
-                                info
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Username</td>
-                            <td>{{ user.username }}</td>
-                        </tr>
-                        <tr>
-                            <td>Email address</td>
-                            <td>{{ user.email }}</td>
-                        </tr>
-                        <tr>
-                            <td>Rank</td>
-                            <td>{{ user.groups.name }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+
+                    {% block profile-content %}
+                    {% endblock %}
+
                 </div>
             </div>
         </div>

@@ -1,0 +1,14 @@
+{% extends 'users/user_profile.html' %}
+
+{% block profile-content %}
+    {% if posts %}
+        <div class="profile-feed">
+            <nav class="toolbar">
+                <h3 class="toolbar-left">
+                    You have posted {{ posts.count }} message{{ posts|pluralize }}
+                </h3>
+            </nav>
+            {% include 'users/post-feed.html' %}
+        </div>
+    {% endif %}
+{% endblock %}
