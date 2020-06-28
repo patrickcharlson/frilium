@@ -14,11 +14,23 @@ from .models import Board, Post, Topic
 User = get_user_model()
 
 
-class BoardsListView(ListView):
-    model = Board
-    context_object_name = 'boards'
-    template_name = 'home.html'
-    paginate_by = 7
+# class BoardsListView(ListView):
+#     model = Board
+#     context_object_name = 'boards'
+#     template_name = 'home.html'
+#     paginate_by = 700
+
+
+def index(request):
+    boards = Board.objects.all().select_related()
+
+    context = {'boards': boards,
+               'post_count': Post.objects.count(),
+               'topic_count': Topic.objects.count(),
+               'user_count': User.objects.count(),
+               'latest_user': User.objects.latest('date_joined'),
+               }
+    return render(request, 'home.html', context)
 
 
 class TopicsListView(LoginRequiredMixin, ListView):
@@ -51,14 +63,14 @@ class NewTopicView(LoginRequiredMixin, View):
         if self.form.is_valid():
             topic = self.form.save(commit=False)
             topic.board = board
-            topic.user = request.user
+            topic.created_by = request.user
             topic.save()
             Post.objects.create(
                 message=self.form.cleaned_data.get('message'),
                 topic=topic,
                 created_by=request.user
             )
-            return redirect('boards:topic_post', slug=topic.slug)
+            return redirect('boards:topic_post', slug=topic.slug, pk=topic.pk)
         return self.render(request, slug)
 
     def get(self, request, slug):
@@ -107,7 +119,8 @@ class NewPostView(LoginRequiredMixin, View):
 
             topic.last_updated = timezone.now()
             topic.save()
-            return redirect(f'/t/{topic.slug}/#p-{post.id}')
+            url = f'/t/{topic.slug}/{topic.pk}/#p-{post.id}'
+            return redirect(url)
         return self.render(request, slug)
 
     def get(self, request, slug):
@@ -128,7 +141,8 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         post.updated_at = timezone.now()
         post.updated_by = self.request.user
         post.save()
-        return redirect(f'/t/{post.topic.slug}/#p-{post.id}')
+        url = f'/t/{post.topic.slug}/{post.topic.pk}/#p-{post.id}'
+        return redirect(url)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -147,7 +161,7 @@ def delete_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     post.delete()
     messages.info(request, 'Post Deleted!')
-    return redirect('boards:topic_post', slug=post.topic.slug)
+    return redirect('boards:topic_post', slug=post.topic.slug, pk=post.topic.pk)
 
 
 def edit_topic(request, slug):
@@ -161,7 +175,8 @@ def edit_topic(request, slug):
             topic = topic_form.save(commit=False)
             topic.save()
             post_form.save()
-            return redirect('boards:topic_post', slug=topic.slug)
+            url = f'/t/{post.topic.slug}/{post.topic.pk}/#p-{post.id}'
+            return redirect(url)
     else:
         topic_form = EditTopicForm(instance=topic)
         post_form = EditPostForm(instance=post)
@@ -170,7 +185,13 @@ def edit_topic(request, slug):
     return render(request, 'boards/edit_topic.html', context)
 
 
-def view_post(request, slug):
+def show_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     url = '{}'.format(reverse('boards:topic_post', args=[post.topic.slug, post.topic.pk]))
+    return redirect(url)
+
+
+def show_topic(request, slug, pk):
+    topic = get_object_or_404(Topic, slug=slug, pk=pk)
+    url = '{}'.format(reverse('boards:topic_post', args=[topic.slug, topic.pk]))
     return redirect(url)

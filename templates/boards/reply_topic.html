@@ -40,7 +40,7 @@
         <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'boards:topic_post'  topic.slug %}">{{ topic.title }}</a>
+        <a class="white-text" href="{% url 'boards:topic_post'  topic.slug topic.pk %}">{{ topic.title }}</a>
         <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
     <li class="breadcrumb-item active text-white-50">Post a reply</li>
@@ -53,8 +53,8 @@
             <form method="post" class="">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn blue darken-3 btn-sm text-white">Post a reply <i
-                        class="fab fa-telegram-plane fa-fw"></i></button>
+                <button type="submit" class="btn blue darken-3 btn-sm text-white">Post a reply
+                    <i class="fab fa-telegram-plane fa-fw"></i></button>
             </form>
         </div>
     </div>

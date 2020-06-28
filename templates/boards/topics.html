@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load static %}
 
 {% load humanize %}
 
@@ -33,45 +34,75 @@
         </div>
     </div>
 
-
-    <div class="card topic-card">
-        <div class="card-header board-header blue darken-3 text-white">
-            <div class=" row board-meta text-white">
-                <div class="col-md-5 board-name">Topics</div>
-                <div class="col-md-2 board-stats">Replies</div>
-                <div class="col-md-2 board-stats">Views</div>
-                <div class="col-md-3 board-last-post">Last Post</div>
-            </div>
+    <div class="c-topic-container mb-4">
+        <div class="c-topic-header">
+            <ul class="c-topic-header-left">
+                <li class="c-topic-header-item">
+                    <h2 class="c-topic-header-title">Topics</h2>
+                </li>
+            </ul>
+            <ul class="c-topic-header-right"></ul>
         </div>
-        <div class="card-body topic-body">
+        <ul class="c-topic">
             {% for topic in topics %}
-                <div class="row topic-row">
-                    <div class="col-md-5">
-                        <div class="topic-title">
-                            <a href="{% url 'boards:topic_post' topic.slug %}">{{ topic.title }}</a>
-                            by {{ topic.created_by }}
-                        </div>
-
-                    </div>
-                    <div class="col-md-2 topic-posts">
-                        {{ topic.replies }}
-                    </div>
-                    <div class="col-md-2 topic-views">
-                        {{ topic.views }}
-                    </div>
-                    <div class="col-md-3">
-                        {% with post=topic.last_post %}
-                            <a href="{% url 'boards:topic_post' post.topic.slug %}#p-{{ post.id }}"
-                               data-post-id="{{ post.id }}" data-toggle="tooltip" data-placement="top"
-                               title="Go to last post">
-                                {{ topic.last_updated|naturaltime }}
+                <li class="c-topic-item">
+                <span class="o-list-media">
+                    <i class="far fa-file o-list-media-icon"></i>
+                </span>
+                    <span class="o-list-primary">
+                    <h4 class="c-topic-title">
+                        <a class="c-topic-title-text"
+                           href="{% url 'boards:topic_post' topic.slug topic.pk %}">{{ topic.title }}</a>
+                    </h4>
+                    <span class="o-list-secondary">
+                        <span class="o-list-secondary-item c-topic-user">
+                            <i class="far fa-user-circle o-list-secondary-item-icon"></i>
+                            <a style="color: #009900" class="o-list-secondary-item-link"
+                               href="">{{ topic.created_by.username }}</a>
+                        </span>
+                        <span class="o-list-secondary-item c-topic-time">
+                            <i class="far fa-clock o-list-secondary-item-icon"></i>
+                            <time>{{ topic.date_created|naturaltime }}</time>
+                        </span>
+                        <span class="o-list-secondary-item c-topic-views">
+                            <i class="far fa-eye o-list-secondary-item-icon"></i>
+                            {{ topic.views }}
+                        </span>
+                        <span class="o-list-secondary-item c-topic-replies">
+                            <i class="fab fa-stack-exchange o-list-secondary-item-icon"></i>
+                            {{ topic.replies }}
+                        </span>
+                        <span class="c-topic-last-post">
+                            {% with post=topic.last_post %}
+                                <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
+                                   data-toggle="tooltip" data-post-id="{{ post.id }}" data-placement="top"
+                                   title="Go to last post">
+                                <i class="fas fa-hand-point-right"></i>
                             </a>
-                            by {{ post.created_by }}
-                        {% endwith %}
-                    </div>
-                </div>
+                            {% endwith %}
+                        </span>
+                    </span>
+                </span>
+                    <span class="o-list-meta c-topic-meta">
+                    <span class="c-topic-meta-primary">
+                        <a href="{% url 'users:user_posts' topic.created_by.username topic.created_by.pk %}"
+                           style="color: #009900" class="c-topic-link">{{ topic.created_by.username }}</a>
+                        <span class="o-list-meta-secondary">
+                            <a href="" class="o-list-meta-link">
+                                <time>{{ topic.created_by.date_joined|naturalday }}</time>
+                            </a>
+                        </span>
+                    </span>
+                    <a href="" class="o-list-meta-media">
+                        <span class="o-avatar-wrap o-list-avatar">
+                            <img class="o-avatar" src="{% static 'img/avatar.svg' %}" alt="">
+                            <span class="o-avatar-online"></span>
+                        </span>
+                    </a>
+                </span>
+                </li>
             {% endfor %}
-        </div>
+        </ul>
     </div>
 
 {% endblock %}

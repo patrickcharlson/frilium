@@ -1,19 +1,17 @@
 {% extends 'users/user_profile.html' %}
 
 {% block profile-content %}
-    {% if posts %}
+    {% if topics %}
         <div class="profile-feed">
             <nav class="toolbar">
                 <div class="include-paginate float-right">
                     {% include 'includes/pagination.html' %}
                 </div>
                 <h3 class="toolbar-left">
-                    You have posted {{ user.post_count }} message{{ user.post_count|pluralize }}
+                    You have initiated {{ user.all_topics.count }} topic{{ topics.count|pluralize }}
                 </h3>
             </nav>
-            {% include 'users/post-feed.html' %}
+            {% include 'users/topic-feed.html' %}
         </div>
-    {% else %}
-        You have posted no messages
     {% endif %}
 {% endblock %}

@@ -15,6 +15,7 @@ django-debug-toolbar = "*"
 markdown = "*"
 django-environ = "*"
 django-extensions = "*"
+python-memcached = "*"
 
 [requires]
 python_version = "3.8"

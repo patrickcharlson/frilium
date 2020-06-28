@@ -11,6 +11,7 @@ class Board(models.Model):
     name = models.CharField(max_length=30, unique=True)
     slug = AutoSlugField(unique=True, always_update=False, populate_from='name')
     description = models.CharField(max_length=100, blank=True)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Board'
@@ -22,7 +23,8 @@ class Board(models.Model):
     def get_absolute_url(self):
         return reverse('boards:board_topics', kwargs={'slug': self.slug})
 
-    def get_post_count(self):
+    @property
+    def post_count(self):
         return Post.objects.filter(topic__board=self).count()
 
     def get_last_post(self):
@@ -43,10 +45,16 @@ class Topic(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        reverse('boards:topic_post', kwargs={'slug': self.slug})
+        reverse('boards:topic', args=[self.slug, self.pk])
 
     def last_post(self):
         return Post.objects.filter(topic_id=self).latest()
+
+    def url(self):
+        return reverse('boards:topic', args=[self.slug, self.pk])
+
+    def first_post_id(self):
+        return self.posts.order_by('created_at')[0].id
 
 
 class Post(models.Model):
@@ -68,7 +76,7 @@ class Post(models.Model):
         return truncated_message.chars(30)
 
     def get_absolute_url(self):
-        return reverse('boards:edit_post', kwargs={'slug': self.slug})
+        return reverse('boards:post', args=[self.slug])
 
     def get_message_as_markdown(self):
         return mark_safe(markdown(self.message, safe_mode='escape'))
