@@ -8,60 +8,31 @@
             <i class="fas fa-home fa-fw"></i> Boards</a>
         <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
-    <li class="breadcrumb-item active text-white-50">
-        <a class="text-white" href="{% url 'boards:users' %}">Members</a>
-        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
-    </li>
     <li class="breadcrumb-item active text-white-50">{{ user.username }}</li>
 {% endblock %}
 
 {% block content %}
-    <div class="card mb-2">
-        <div class="card-header text-white blue darken-3 py-2 px-3">
-            <img src="{% static 'img/avatar-1.png' %}" alt="{{ user.username }}" class="w-20">
-            {{ user.username }}
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-3 profile-sidebar">
-                    <div class="avatar-wrap d-flex justify-content-center">
-                        <a href="">
-                            <img src="{% static 'img/avatar.svg' %}" alt="{{ post.created_by.username }}"
-                                 class="circular w-100"> </a>
-                        <span class="avatar-online"></span>
-                    </div>
-                    <h4 class="profile-meta">
-                        <small class="profile-user-title">Team member</small>
-                    </h4>
-                    <div class="list-group nav-side">
-                        <a class="list-group-item active"
-                           href="{% url 'users:user_posts' user.username user.pk %}">
-                            <i class="fab fa-stack-exchange fa-fw"></i> Posts</a>
-                        <a class="list-group-item "
-                           href="{% url 'users:user_topics' user.username user.pk %}">
-                            <i class="fab fa-forumbee fa-fw"></i> Topics</a>
-                    </div>
+        <div class="row">
+            <div class="col-md-3 profile-sidebar">
+                {% include 'users/nav.html' %}
+            </div>
+            <div class="col-md-9 profile-content">
 
-                </div>
-                <div class="col-md-9 profile-content">
+                {% block section %}
+                {% endblock %}
 
-                    {% block profile-content %}
-                    {% endblock %}
-
-                </div>
             </div>
         </div>
-    </div>
 {% endblock %}
 
 {% block javascript %}
-    <script>
+    {% comment %}<script>
         $(document).ready(function () {
             $("a").click(function () {
                 $(".nav-side a").removeClass("active");
                 $(this).addClass("active");
             });
         });
-    </script>
+    </script>{% endcomment %}
 
 {% endblock %}

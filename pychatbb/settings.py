@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     # third-party apps
-    'allauth',
-    'allauth.account',
     'crispy_forms',
     'debug_toolbar',
     'django_extensions',
@@ -51,6 +49,8 @@ INSTALLED_APPS = [
     # Local apps
     'users.apps.UsersConfig',
     'boards.apps.BoardsConfig',
+    'accounts.apps.AccountsConfig',
+
 ]
 
 # django-crispy-forms
@@ -96,25 +96,15 @@ WSGI_APPLICATION = 'pychatbb.wsgi.application'
 # Authentication
 # ------------------------------------------------------------------------------
 AUTH_USER_MODEL = 'users.User'
+LOGOUT_REDIRECT_URL = 'boards:home'
 LOGIN_REDIRECT_URL = 'boards:home'
-ACCOUNT_LOGOUT_REDIRECT = 'home'
-LOGIN_URL = 'account_login'
-
-# django-allauth config
-# ------------------------------------------------------------------------------
-ACCOUNT_USERNAME_REQUIRED = False
+LOGIN_URL = 'accounts:login'
 SITE_ID = 1
 
-AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-)
-ACCOUNT_LOGOUT_ON_GET = True
-
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.EmailAuthBackend',
+]
 
 # Database
 # ------------------------------------------------------------------------------
@@ -188,4 +178,12 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert-success',
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
+}
+# Cache
+# ------------------------------------------------------------------------------
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
 }

@@ -1,9 +1,10 @@
 from django import forms
+from django.forms import ModelForm
 
 from .models import Topic, Post
 
 
-class NewTopicForm(forms.ModelForm):
+class NewTopicForm(ModelForm):
     message = forms.CharField(label='', widget=forms.Textarea())
 
     class Meta:
@@ -11,7 +12,7 @@ class NewTopicForm(forms.ModelForm):
         fields = ['title', 'message']
 
 
-class PostForm(forms.ModelForm):
+class PostForm(ModelForm):
     message = forms.CharField(label='', widget=forms.Textarea())
 
     class Meta:
@@ -19,7 +20,7 @@ class PostForm(forms.ModelForm):
         fields = ['message', ]
 
 
-class EditTopicForm(forms.ModelForm):
+class EditTopicForm(ModelForm):
     title = forms.CharField(label='Title', max_length=255)
 
     class Meta:

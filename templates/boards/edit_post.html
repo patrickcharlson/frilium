@@ -52,17 +52,13 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header blue darken-3 text-white py-2 px-3">Edit Post</div>
-        <div class="card-body">
-            <form method="post" class="">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="btn blue darken-3 btn-sm text-white">Save changes</button>
-                <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}" class="btn btn-danger btn-sm"
-                   role="button">Cancel</a>
-            </form>
-        </div>
-    </div>
+
+    <form method="post" class="">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn blue darken-3 btn-sm text-white">Save changes</button>
+        <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}" class="btn btn-danger btn-sm"
+           role="button">Cancel</a>
+    </form>
 {% endblock %}
 

@@ -1,4 +1,6 @@
 {% extends '_base.html' %}
+
+{% load users_extras %}
 {% load static %}
 {% load humanize %}
 
@@ -9,110 +11,84 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-6 offset-md-6">
-            <div class="float-right">
-                {% include 'includes/pagination.html' %}
-            </div>
-        </div>
-    </div>
 
-    <div class="c-topic-container mb-4">
-        <ul class="c-topic">
+    <div class="forums-mount mb-4">
+        <div class="forums-list">
             {% for board in boards %}
-                <li class="c-topic-item">
-                <span class="o-list-media">
-                    <i class="fas fa-clipboard-list o-list-media-icon"></i>
-                </span>
-                    <span class="o-list-primary">
-                        <h4 class="c-topic-title">
-                            <a class="c-topic-title-text"
-                               href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
-                        </h4>
-                        <span class="c-board-description">
-                            {{ board.description }}
-                        </span>
-                        <span class="o-list-secondary">
-                            <span class="o-list-secondary-item c-topic-count">
-                                <i class="far fa-file o-list-secondary-item-icon"></i>
-                                {{ board.topics.count }}
-                            </span>
-                            <span class="o-list-secondary-item c-topic-replies">
-                                <i class="fab fa-stack-exchange o-list-secondary-item-icon"></i>
-                                {{ board.post_count }}
-                            </span>
-                            <span class="c-topic-last-post">
-                                {% with post=board.get_last_post %}
-                                    {% if post %}
-                                        <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
-                                           data-toggle="tooltip" data-post-id="{{ post.id }}" data-placement="top"
-                                           title="Go to last post">
-                                            <i class="fas fa-hand-point-right"></i>
-                                        </a>
-                                    {% endif %}
-                                {% endwith %}
-                            </span>
-                        </span>
-                    </span>
-                    <span class="o-list-meta c-topic-meta">
-                        <i class="far fa-flag"></i>
-                    </span>
-                </li>
+                <ul class="list-group list-group-forum mb-1">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6 forum-main">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <div class="read-status">
+                                            <span class="forum-icon fas fa-comment-alt"></span>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
+                                        </h4>
+                                        <div class="forum-description">
+                                            <p>{{ board.description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <ul class="list-unstyled forum-stats">
+                                    <li class="forum-topics-stats">
+                                        <span class="far fa-file fa-fw"></span> {{ board.topics.count }} topics
+                                    </li>
+                                    <li class="forum-posts-stats">
+                                        <span class="fab fa-stack-exchange fa-fw"></span> {{ board.post_count }} posts
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4 forum-last-topic">
+                                <div class="media">
+                                    <div class="media-left">
+                                        {% with post=board.get_last_post %}
+                                            {% if post %}
+                                                <a href="{% url 'users:user_posts' post.created_by.username post.created_by.pk %}"
+                                                   class="last-poster-avatar">
+                                                    <img src="{% static 'img/avatar.svg' %}" alt="" class="media-class"
+                                                         width="40" height="40">
+                                                </a>
+                                            {% endif %}
+                                            </div>
+                                            <div class="media-body">
+                                            <div class="media-heading">
+                                                {% if post %}
+                                                    <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
+                                                       class="item-title topic-title">{{ post.topic.title }}</a>
+                                                {% endif %}
+                                            </div>
+                                            <ul class="list-inline">
+                                            <li class="forum-last-topic-poster">
+                                                {% if post %}
+                                                    <a href="{% url 'users:user_posts' post.created_by.username post.created_by.pk %}"
+                                                       class="item-title">{{ post.created_by.username }}</a>
+                                                {% endif %}
+                                            </li>
+                                            <li class="divider">&mdash;</li>
+                                            <li class="forum-last-topic-date">
+                                                {% if post %}
+                                                    <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}">
+                                                        {{ post.topic.last_updated|naturaltime }}</a>
+                                                {% endif %}
+                                            </li>
+                                        {% endwith %}
+                                        </ul>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             {% endfor %}
-        </ul>
-    </div>
-
-    <footer class="mb-4">
-        <div class="c-tab-card">
-            <nav>
-                <div class="nav nav-tabs c-tab-nav" id="nav-tab" role="tablist">
-                    <a class="c-tab active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-                       aria-controls="nav-home" aria-selected="true">
-                        <i class="fas fa-chart-line c-tab-icon"></i>
-                        <span class="c-tab-text">Statistics</span></a>
-                    <a class="c-tab" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-                       aria-controls="nav-profile" aria-selected="false">
-                        <i class="fas fa-satellite-dish c-tab-icon"></i>
-                        <span class="c-tab-text">Online</span></a>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <div class="c-tab-pane-row t-tab-pane-row">
-                        <ul class="c-stat-list c-tab-pane-stats t-tab-list t-tab-pane-list">
-                            <li class="c-stat-item t-stat-item">Total Posts
-                                <span class="o-tag c-stat-badge t-stat-badge">{{ post_count }}</span>
-                            </li>
-                            <li class="c-stat-item t-stat-item">Total Topics
-                                <span class="o-tag c-stat-badge t-stat-badge">{{ topic_count }}</span>
-                            </li>
-                            <li class="c-stat-item t-stat-item">Total Members
-                                <span class="o-tag c-stat-badge t-stat-badge">{{ user_count }}</span>
-                            </li>
-                            <li class="c-stat-item t-stat-item">Newest member
-                                <span class="o-tag c-stat-badge t-stat-badge">{{ latest_user }}</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <div class="c-tab-pane-row t-tab-pane-row">
-                        <ul class="c-stat-list c-tab-pane-stats t-tab-list t-tab-pane-list">
-                            <li class="c-stat-item t-stat-item">Total online
-                                <span class="o-tag c-stat-badge t-stat-badge"></span>
-                            </li>
-                            <li class="c-stat-item t-stat-item">Registered
-                                <span class="o-tag c-stat-badge t-stat-badge"></span>
-                            </li>
-                            <li class="c-stat-item t-stat-item">Guests
-                                <span class="o-tag c-stat-badge t-stat-badge"></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
-    </footer>
+    </div>
 {% endblock %}
 
 {% block javascript %}

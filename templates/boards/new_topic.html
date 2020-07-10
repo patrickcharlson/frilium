@@ -13,7 +13,7 @@
 {% block javascript %}
     <script src="{% static 'js/simplemde.min.js' %}"></script>
     <script>
-        var simplemde = new SimpleMDE({
+        const simplemde = new SimpleMDE({
             forceSync: true,
             placeholder: "Type here...",
             showIcons: ['code', 'table'],
@@ -42,14 +42,10 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <h6 class="card-header blue darken-3 text-white"> New Topic </h6>
-        <div class="card-body">
-            <form method="post">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button class="blue darken-3 btn btn-md text-white" type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-primary btn-new-topic btn-sm text-white" type="submit">Submit</button>
+    </form>
+
 {% endblock %}

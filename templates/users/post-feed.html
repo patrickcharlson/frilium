@@ -9,12 +9,10 @@
                     <div class="post-side post-side-registered">
                         <a class="btn btn-post btn-default btn-sm float-right"
                            href="{{ post.url }}#p-{{ post.id }}">See
-                            Post <i class="fa-fw fas fa-hand-point-right"></i></a>
+                            Post <i class=" fa-fw fas fa-hand-point-right"></i></a>
                         <div class="media">
                             <div class="media-left">
-                                <a href="">
-                                    <img class="poster-avatar" src="{% static 'img/avatar-3.png' %}" alt="">
-                                </a>
+                                <img class="poster-avatar" src="{% static 'img/avatar-3.png' %}" alt="">
                             </div>
                             <div class="media-body">
                                 <div class="media-heading">
@@ -27,7 +25,7 @@
                     <div class="post-heading">
                         <a class="btn btn-link item-title" href="{{ post.url }}">{{ post.topic.title }}</a>
                         <a class="btn btn-link posted-on"
-                           href="{{ post.url }}#p-{{ post.id }}">{{ post.created_at|naturaltime }}</a>
+                           href="{{ post.url }}#p-{{ post.id }}">{{ post.created_at|naturaltime|lower }}</a>
                     </div>
                     <div class="post-body">
                         <article class="post-content">{{ post.get_message_as_markdown }}</article>

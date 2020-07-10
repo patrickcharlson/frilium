@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
@@ -18,7 +19,7 @@ User = get_user_model()
 #     model = Board
 #     context_object_name = 'boards'
 #     template_name = 'home.html'
-#     paginate_by = 700
+#     paginate_by = 7
 
 
 def index(request):
@@ -37,8 +38,7 @@ class TopicsListView(LoginRequiredMixin, ListView):
     model = Topic
     context_object_name = 'topics'
     template_name = 'boards/topics.html'
-    paginate_by = 3
-    login_url = 'account_login'
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         kwargs['board'] = self.board
@@ -51,7 +51,6 @@ class TopicsListView(LoginRequiredMixin, ListView):
 
 
 class NewTopicView(LoginRequiredMixin, View):
-    login_url = 'account_login'
 
     def render(self, request, slug):
         board = get_object_or_404(Board, slug=slug)
@@ -83,7 +82,6 @@ class PostListView(LoginRequiredMixin, ListView):
     context_object_name = 'posts'
     template_name = 'boards/topic_posts.html'
     paginate_by = 10
-    login_url = 'account_login'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         session_key = f'viewed_topic_{self.topic.slug}'
@@ -102,7 +100,6 @@ class PostListView(LoginRequiredMixin, ListView):
 
 
 class NewPostView(LoginRequiredMixin, View):
-    login_url = 'account_login'
 
     def render(self, request, slug):
         topic = get_object_or_404(Topic, slug=slug)
@@ -134,7 +131,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
     form_class = PostForm
-    login_url = 'account_login'
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -154,7 +150,6 @@ class UsersListView(LoginRequiredMixin, ListView):
     context_object_name = 'users'
     template_name = 'boards/members.html'
     paginate_by = 5
-    login_url = 'account_login'
 
 
 def delete_post(request, slug):
@@ -164,6 +159,7 @@ def delete_post(request, slug):
     return redirect('boards:topic_post', slug=post.topic.slug, pk=post.topic.pk)
 
 
+@login_required
 def edit_topic(request, slug):
     topic = get_object_or_404(Topic, slug=slug)
     post = topic.posts.first()
@@ -185,12 +181,14 @@ def edit_topic(request, slug):
     return render(request, 'boards/edit_topic.html', context)
 
 
+@login_required
 def show_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     url = '{}'.format(reverse('boards:topic_post', args=[post.topic.slug, post.topic.pk]))
     return redirect(url)
 
 
+@login_required
 def show_topic(request, slug, pk):
     topic = get_object_or_404(Topic, slug=slug, pk=pk)
     url = '{}'.format(reverse('boards:topic_post', args=[topic.slug, topic.pk]))

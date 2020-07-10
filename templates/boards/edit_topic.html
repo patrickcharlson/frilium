@@ -42,16 +42,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header blue darken-3 text-white py-2 px-3"> Edit Topic</div>
-        <div class="card-body">
-            <form method="post">
-                {% csrf_token %}
-                {{ title_form|crispy }}
-                {{ post_form|crispy }}
-                <button class="blue darken-3 btn btn-md text-white" type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ title_form|crispy }}
+        {{ post_form|crispy }}
+        <button class="btn btn-primary btn-edit-topic btn-sm text-white" type="submit">Submit</button>
+    </form>
 {% endblock %}
 
