@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
-from django.forms import ModelForm, Form
+from django.forms import Form
 
 User = get_user_model()
 
@@ -39,25 +39,3 @@ class EmailChangeForm(Form):
         if commit:
             self.user.save()
         return self.user
-
-
-class UsernameChangeForm(ModelForm):
-    username = forms.CharField(label='New username', max_length=254)
-
-    class Meta:
-        model = User
-        fields = ['username', ]
-
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        is_available = User.objects.filter(username=username).exists()
-        if is_available:
-            raise forms.ValidationError('The provided username is not available!')
-        return username
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.username = self.cleaned_data['username']
-        if commit:
-            user.save()
-        return user

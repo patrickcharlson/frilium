@@ -23,7 +23,7 @@ urlpatterns = [
 
     # User management
     path('', include('users.urls')),
-    path('account/', include('accounts.urls')),
+    path('accounts/', include('accounts.urls')),
 
     # Local Apps
     path('', include('boards.urls'))

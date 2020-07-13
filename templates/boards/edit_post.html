@@ -56,9 +56,9 @@
     <form method="post" class="">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn blue darken-3 btn-sm text-white">Save changes</button>
-        <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}" class="btn btn-danger btn-sm"
-           role="button">Cancel</a>
+        <button type="submit" class="btn btn-save-post mr-3 btn-sm text-white">Save changes</button>
+        <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}"
+           class="btn btn-edit-post btn-danger btn-sm" role="button">Cancel</a>
     </form>
 {% endblock %}
 

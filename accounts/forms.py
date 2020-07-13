@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from django.forms import ModelForm
 
 User = get_user_model()
@@ -61,3 +61,9 @@ class LoginForm(AuthenticationForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label='Username or Email', widget=forms.TextInput(attrs={'autofocus': True}))
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['new_password1'].help_text = None

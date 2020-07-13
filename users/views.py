@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.generic import DetailView, ListView
 
 from boards.models import Post, Topic
-from users.forms import CustomPasswordChangeForm, EmailChangeForm, UsernameChangeForm
+from users.forms import CustomPasswordChangeForm, EmailChangeForm
 
 User = get_user_model()
 
@@ -30,7 +30,7 @@ class UserPosts(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        queryset = Post.objects.filter(created_by=user).order_by('-created_at')
+        queryset = Post.objects.select_related().filter(created_by=user).order_by('-created_at')
         return queryset
 
 
@@ -43,7 +43,7 @@ class UserTopics(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        queryset = Topic.objects.filter(created_by=user).order_by('-date_created')
+        queryset = Topic.objects.select_related().filter(created_by=user).order_by('-date_created')
         return queryset
 
 
@@ -74,17 +74,3 @@ def email_change(request):
         form = EmailChangeForm(request.user)
     context = {'form': form}
     return render(request, 'users/profile_email_change.html', context)
-
-
-@login_required
-def username_change(request):
-    if request.method == 'POST':
-        form = UsernameChangeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.info(request, 'Your username has been changed!')
-            return redirect(reverse('users:username-change'))
-    else:
-        form = UsernameChangeForm()
-    context = {'form': form}
-    return render(request, 'users/profile_username_change.html', context)

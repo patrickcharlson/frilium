@@ -55,20 +55,18 @@
                                             <span class="topic-details-views">
                                                 {% if topic.views < 1 %}
                                                     <i class="fas fa-eye"></i> no views
-                                                {% elif topic.views == 1 %}
-                                                    <i class="fas fa-eye"></i> {{ topic.views }} view
                                                 {% else %}
-                                                    <i class="fas fa-eye"></i> {{ topic.views }} views
+                                                    <i class="fas fa-eye"></i>
+                                                    {{ topic.views }} view{{ topic.views|pluralize }}
                                                 {% endif %}
 
                                             </span>
                                             <span class="topic-detail-replies">
                                                 {% if topic.replies < 1 %}
                                                     <i class="fab fa-stack-exchange"></i> no reply
-                                                {% elif topic.replies == 1 %}
-                                                    <i class="fab fa-stack-exchange"></i> {{ topic.replies }} reply
                                                 {% else %}
-                                                    <i class="fab fa-stack-exchange"></i> {{ topic.replies }} replies
+                                                    <i class="fab fa-stack-exchange"></i>
+                                                    {{ topic.replies }} repl{{ topic.replies|pluralize:"y,ies" }}
                                                 {% endif %}
                                             </span>
                                         </div>
@@ -82,8 +80,8 @@
                                     {% with post=topic.last_post %}
                                         <a href="{% url 'users:user_posts' post.created_by post.created_by.pk %}"
                                            class="topic-last-poster-avatar">
-                                            <img width="40" height="40" src="{% static 'img/avatar.svg' %}" alt=""
-                                                 class="media-object">
+                                            <img width="40" height="40" src="{% static 'img/avatar.svg' %}"
+                                                 alt="" class="media-object">
                                         </a>
                                         </div>
                                         <div class="media-body">

@@ -17,7 +17,7 @@ class SignUpTests(TestCase):
         self.assertEquals(self.response.status_code, 200)
 
     def test_signup_url_resolves_signup_view(self):
-        view = resolve('/account/signup/')
+        view = resolve('/accounts/signup/')
         self.assertEquals(view.func, signup)
 
     def test_csrf(self):

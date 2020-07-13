@@ -114,7 +114,7 @@ select:-webkit-autofill:focus {
 
 .btn-login, .btn-topic, .btn-new-topic,
 .btn-reply, .btn-post-reply, .btn-edit-topic, .btn-password,
-.btn-email, .btn-username, .btn-register {
+.btn-email, .btn-username, .btn-register, .btn-save-post, .btn-edit-post {
     border-radius: 4px;
     box-shadow: none;
     font-weight: 400;
@@ -123,6 +123,9 @@ select:-webkit-autofill:focus {
     font-size: 13px !important;
 }
 
+.btn-edit-post {
+    background-color: #aa1111 !important;
+}
 
 .asteriskField {
     display: none;
@@ -133,6 +136,16 @@ select:-webkit-autofill:focus {
     min-height: 150px;
 }
 
+.CodeMirror {
+    border-color: #bfc2cf;
+}
+
+div.CodeMirror {
+    overflow-y: auto;
+    resize: none;
+    display: block;
+    height: 172px;
+}
 
 .board-body > .row,
 .topic-body > .row {
@@ -236,6 +249,18 @@ h4.card-title {
 
 .editor-toolbar {
     opacity: inherit;
+}
+
+.editor-toolbar:hover {
+    opacity: inherit;
+}
+
+.editor-toolbar a:hover, .editor-toolbar a.active {
+    border-color: white;
+}
+
+.editor-toolbar a:focus {
+
 }
 
 #div_id_message.form-group {
@@ -437,6 +462,15 @@ h5 small {
     text-transform: none;
 }
 
+.posted-on {
+    color: #7a869a;
+}
+
+.posted-on:hover {
+    color: #172b4d;
+    text-decoration: underline;
+}
+
 .media {
     overflow: hidden;
     zoom: 1;
@@ -560,6 +594,20 @@ a.btn-link {
     color: #5e6c84;
 }
 
+.sign-in > h3, .sign-up > h3 {
+    color: #4b2354;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.reset-title {
+    padding-bottom: 10px;
+}
+
+.reset-footer {
+    border-top: none !important;
+}
+
 .panel-footer {
     padding: 14px 15px;
     border-top: 1px solid #cad7e1;
@@ -591,7 +639,7 @@ a.btn-link {
 }
 
 .forum-main .media-left .read-status {
-    background-color: #0052cc;
+    background-color: #6554c0;
     padding: 5px 8px;
     border-radius: 4px;
 }
@@ -734,4 +782,8 @@ a.item-title:visited {
 .topics-list .topic-last-action .topic-last-reply:visited {
     color: #5e6c84;
     font-size: 12px;
+}
+
+p.post-edit {
+    padding-top: 15px;
 }

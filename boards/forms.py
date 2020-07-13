@@ -4,12 +4,17 @@ from django.forms import ModelForm
 from .models import Topic, Post
 
 
-class NewTopicForm(ModelForm):
+class TopicForm(ModelForm):
+    title = forms.CharField(label='', max_length=254, widget=forms.TextInput(attrs={'placeholder': 'Topic title'}))
     message = forms.CharField(label='', widget=forms.Textarea())
 
     class Meta:
         model = Topic
         fields = ['title', 'message']
+
+
+class NewTopicForm(TopicForm):
+    pass
 
 
 class PostForm(ModelForm):
@@ -21,7 +26,7 @@ class PostForm(ModelForm):
 
 
 class EditTopicForm(ModelForm):
-    title = forms.CharField(label='Title', max_length=255)
+    title = forms.CharField(label='', max_length=255)
 
     class Meta:
         model = Topic

@@ -25,10 +25,14 @@ class Board(models.Model):
 
     @property
     def post_count(self):
-        return Post.objects.filter(topic__board=self).count()
+        return Post.objects.select_related().filter(topic__board=self).count()
 
     def get_last_post(self):
-        return Post.objects.filter(topic__board=self).order_by('-created_at').first()
+        return Post.objects.select_related().filter(topic__board=self).order_by('-created_at').first()
+
+    @property
+    def topic_count(self):
+        return self.topics.count()
 
 
 class Topic(models.Model):
@@ -39,6 +43,7 @@ class Topic(models.Model):
     board = models.ForeignKey(Board, related_name='topics', verbose_name='Board', on_delete=models.CASCADE)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='topics', verbose_name='User',
                                    on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='+', on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
 
     def __str__(self):
@@ -48,13 +53,14 @@ class Topic(models.Model):
         reverse('boards:topic', args=[self.slug, self.pk])
 
     def last_post(self):
-        return Post.objects.filter(topic_id=self).latest()
+        return Post.objects.select_related().filter(topic_id=self).latest()
 
     def url(self):
         return reverse('boards:topic', args=[self.slug, self.pk])
 
-    def first_post_id(self):
-        return self.posts.order_by('created_at')[0].id
+    @property
+    def first_post(self):
+        return self.posts.select_related().order_by('created_at').first()
 
 
 class Post(models.Model):

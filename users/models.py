@@ -13,11 +13,11 @@ class User(AbstractUser):
 
     @property
     def post_count(self):
-        return Post.objects.filter(created_by=self).count()
+        return Post.objects.select_related().filter(created_by=self).count()
 
     @property
     def topic_count(self):
-        return Topic.objects.filter(created_by=self).count()
+        return Topic.objects.select_related().filter(created_by=self).count()
 
     def posts_link(self):
         return reverse('users:user_posts', args=[self.username, self.pk])

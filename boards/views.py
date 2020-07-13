@@ -15,23 +15,13 @@ from .models import Board, Post, Topic
 User = get_user_model()
 
 
-# class BoardsListView(ListView):
-#     model = Board
-#     context_object_name = 'boards'
-#     template_name = 'home.html'
-#     paginate_by = 7
+class BoardsListView(ListView):
+    model = Board
+    context_object_name = 'boards'
+    template_name = 'home.html'
 
 
-def index(request):
-    boards = Board.objects.all().select_related()
-
-    context = {'boards': boards,
-               'post_count': Post.objects.count(),
-               'topic_count': Topic.objects.count(),
-               'user_count': User.objects.count(),
-               'latest_user': User.objects.latest('date_joined'),
-               }
-    return render(request, 'home.html', context)
+index = BoardsListView.as_view()
 
 
 class TopicsListView(LoginRequiredMixin, ListView):
@@ -41,12 +31,14 @@ class TopicsListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        kwargs['board'] = self.board
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['board'] = self.board
+        return context
 
     def get_queryset(self):
         self.board = get_object_or_404(Board, slug=self.kwargs.get('slug'))
-        queryset = self.board.topics.order_by('-last_updated').annotate(replies=Count('posts') - 1)
+        queryset = self.board.topics.select_related() \
+            .order_by('-date_created').annotate(replies=Count('posts') - 1)
         return queryset
 
 
@@ -95,7 +87,7 @@ class PostListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         self.topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'), pk=self.kwargs.get('pk'))
-        queryset = self.topic.posts.order_by('created_at')
+        queryset = self.topic.posts.select_related('created_by', 'topic', 'updated_by').order_by('created_at')
         return queryset
 
 
@@ -169,8 +161,13 @@ def edit_topic(request, slug):
 
         if topic_form.is_valid() and post_form.is_valid():
             topic = topic_form.save(commit=False)
+            post = post_form.save(commit=False)
+            topic.last_updated = timezone.now()
+            topic.updated_by = request.user
             topic.save()
-            post_form.save()
+            post.updated_by = request.user
+            post.updated_at = timezone.now()
+            post.save()
             url = f'/t/{post.topic.slug}/{post.topic.pk}/#p-{post.id}'
             return redirect(url)
     else:
@@ -184,12 +181,12 @@ def edit_topic(request, slug):
 @login_required
 def show_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    url = '{}'.format(reverse('boards:topic_post', args=[post.topic.slug, post.topic.pk]))
+    url = f'{reverse("boards:topic_post", args=[post.topic.slug, post.topic.pk])}'
     return redirect(url)
 
 
 @login_required
 def show_topic(request, slug, pk):
     topic = get_object_or_404(Topic, slug=slug, pk=pk)
-    url = '{}'.format(reverse('boards:topic_post', args=[topic.slug, topic.pk]))
+    url = f'{reverse("boards:topic_post", args=[topic.slug, topic.pk])}'
     return redirect(url)

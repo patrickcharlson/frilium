@@ -4,32 +4,42 @@
 
 {% block title %}Login{% endblock title %}
 
-{% block breadcrumb %}
-    <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'boards:home' %}">
-            <i class="fas fa-home fa-fw"></i> Boards</a>
-        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
-    </li>
-    <li class="breadcrumb-item active text-white-50">Login</li>
+{% block header %}
 {% endblock %}
+
 
 {% block content %}
 
-    <form method="post">
-        <div class="panel panel-default panel-form">
-            <div class="panel-heading">
-                <h3 class="panel-title">Login</h3>
-            </div>
-            <div class="panel-body">
-                {% csrf_token %}
-                {{ form|crispy }}
-            </div>
-            <div class="panel-footer">
-                <button class="btn btn-login btn-sm indigo text-white" type="submit">
-                    Login
-                </button>
-            </div>
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong><i class="fas fa-info-circle fa-fw"></i> {{ message }}</strong>
         </div>
-    </form>
+    {% endfor %}
+
+    <div class="form d-flex justify-content-center">
+        <form class="col-md-7" method="post">
+            <div class="panel panel-default panel-form">
+                <div class="panel-heading sign-in text-center">
+                    <h3 class="panel-title">Sign In</h3>
+                </div>
+                <div class="panel-body">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="forgot-password">
+                        <a class="" href="{% url 'accounts:password-reset' %}">Forgot password?</a>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button class="btn btn-login btn-block indigo text-white" type="submit">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
 
 {% endblock content %}

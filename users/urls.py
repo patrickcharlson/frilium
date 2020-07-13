@@ -1,11 +1,10 @@
 from django.urls import path
 
-from .views import UserProfileDetailView, UserPosts, UserTopics, password_change, email_change, username_change
+from .views import UserProfileDetailView, UserPosts, UserTopics, password_change, email_change
 
 app_name = 'users'
 urlpatterns = [
     path('options/email-change/', email_change, name='email-change'),
-    path('options/username-change/', username_change, name='username-change'),
     path('options/password-change/', password_change, name='password-change'),
     path('u/<str:username>/', UserProfileDetailView.as_view(), name='user_profile'),
     path('u/<str:username>/<int:pk>/posts/', UserPosts.as_view(), name='user_posts'),

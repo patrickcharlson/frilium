@@ -38,10 +38,22 @@
                             <div class="col-md-2">
                                 <ul class="list-unstyled forum-stats">
                                     <li class="forum-topics-stats">
-                                        <span class="far fa-file fa-fw"></span> {{ board.topics.count }} topics
+                                        {% if board.topic_count < 1 %}
+                                            <span class="far fa-file fa-fw"></span> no topics
+                                        {% else %}
+                                            <span class="far fa-file fa-fw"></span>
+                                            {{ board.topic_count }} topic{{ board.topic_count|pluralize }}
+                                        {% endif %}
+
                                     </li>
                                     <li class="forum-posts-stats">
-                                        <span class="fab fa-stack-exchange fa-fw"></span> {{ board.post_count }} posts
+                                        {% if board.post_count < 1 %}
+                                            <span class="fab fa-stack-exchange fa-fw"></span> no posts
+                                        {% else %}
+                                            <span class="fab fa-stack-exchange fa-fw"></span>
+                                            {{ board.post_count }} post{{ board.post_count|pluralize }}
+                                        {% endif %}
+
                                     </li>
                                 </ul>
                             </div>
@@ -50,7 +62,7 @@
                                     <div class="media-left">
                                         {% with post=board.get_last_post %}
                                             {% if post %}
-                                                <a href="{% url 'users:user_posts' post.created_by.username post.created_by.pk %}"
+                                                <a href="{% url 'users:user_posts' post.created_by post.created_by.pk %}"
                                                    class="last-poster-avatar">
                                                     <img src="{% static 'img/avatar.svg' %}" alt="" class="media-class"
                                                          width="40" height="40">
@@ -67,7 +79,7 @@
                                             <ul class="list-inline">
                                             <li class="forum-last-topic-poster">
                                                 {% if post %}
-                                                    <a href="{% url 'users:user_posts' post.created_by.username post.created_by.pk %}"
+                                                    <a href="{% url 'users:user_posts' post.created_by post.created_by.pk %}"
                                                        class="item-title">{{ post.created_by.username }}</a>
                                                 {% endif %}
                                             </li>
