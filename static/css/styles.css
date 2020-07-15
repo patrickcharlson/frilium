@@ -54,7 +54,7 @@ select:-webkit-autofill:focus {
     margin-left: -9px;
 }
 
-.dropdown-menu {
+.user-dropdown .dropdown-menu {
     min-width: 111px !important;
     min-height: 60px !important;
     border-radius: 5px !important;
@@ -62,6 +62,49 @@ select:-webkit-autofill:focus {
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
     left: -50px !important;
     padding: 5px;
+}
+
+.category-dropdown .dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .04),
+    0 1px 10px 0 rgba(0, 0, 0, .12),
+    0 2px 4px -1px rgba(0, 0, 0, .06);
+    font-size: 14px;
+    padding: 5px 0;
+    border-radius: 4px;
+    width: 300px;
+    margin: 2px 0 0;
+
+
+}
+
+.category-dropdown .dropdown-menu > li > .btn-link,
+.category-dropdown .dropdown-menu > li > a {
+    padding: 6px 20px;
+    text-decoration: none;
+    text-transform: none;
+    border: none;
+    display: block;
+    clear: both;
+    width: 100%;
+    text-align: left;
+    line-height: 1.4283;
+    font-weight: 400;
+    font-size: 13px;
+    color: #172b4d;
+}
+
+.dropdown-menu.stick-to-bottom {
+    max-height: 300px;
+    clear: both;
+    overflow-y: auto;
+    transform: none !important;
+    top: 42px !important;
+}
+
+.category-dropdown .dropdown-menu > li > .btn-link:hover,
+.category-dropdown .dropdown-menu > li > a:hover {
+    background-color: #ebecf0;
 }
 
 .dropdown-item {
@@ -114,13 +157,22 @@ select:-webkit-autofill:focus {
 
 .btn-login, .btn-topic, .btn-new-topic,
 .btn-reply, .btn-post-reply, .btn-edit-topic, .btn-password,
-.btn-email, .btn-username, .btn-register, .btn-save-post, .btn-edit-post {
+.btn-email, .btn-username, .btn-register, .btn-save-post, .btn-edit-post,
+.btn-category {
     border-radius: 4px;
     box-shadow: none;
     font-weight: 400;
     background-color: #6554c0 !important;
     text-transform: none;
     font-size: 13px !important;
+}
+
+.btn-category {
+    background-color: #aa66cc !important;
+}
+
+.btn-category:hover, .btn-category:focus {
+    box-shadow: none;
 }
 
 .btn-edit-post {
@@ -712,6 +764,10 @@ a.item-title:visited {
     font-size: 14px;
 }
 
+a.item-title:hover {
+    text-decoration: underline;
+}
+
 .forum-last-topic .list-inline {
     color: #7a869a;
     font-size: 12px;
@@ -784,6 +840,14 @@ a.item-title:visited {
     font-size: 12px;
 }
 
+.post-message {
+    padding-bottom: 30px;
+}
+
 p.post-edit {
-    padding-top: 15px;
+    padding-top: 7px;
+    padding-bottom: 6px;
+    font-size: 12px;
+    color: #7a869a;
+    margin-bottom: 0;
 }

@@ -6,14 +6,13 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "*"
-psycopg2-binary = "*"
-django-crispy-forms = "*"
-django-autoslug = "*"
-django-debug-toolbar = "*"
 markdown = "*"
+django = "*"
+django-autoslug = "*"
+django-crispy-forms = "*"
+django-debug-toolbar = "*"
 django-extensions = "*"
-python-memcached = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.8"

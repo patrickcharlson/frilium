@@ -5,20 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.generic import DetailView, ListView
+from django.views.generic import ListView
 
 from boards.models import Post, Topic
 from users.forms import CustomPasswordChangeForm, EmailChangeForm
 
 User = get_user_model()
-
-
-class UserProfileDetailView(LoginRequiredMixin, DetailView):
-    model = User
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
-    template_name = 'users/user_profile.html'
-    login_url = settings.LOGIN_URL
 
 
 class UserPosts(LoginRequiredMixin, ListView):

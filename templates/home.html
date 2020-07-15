@@ -11,6 +11,25 @@
 {% endblock %}
 
 {% block content %}
+    {% block category %}
+        <div class="row mb-3">
+            <div class="col-md-3 dropdown">
+                <div class="dropdown category-dropdown">
+                    <button class="btn btn-category btn-secondary btn-md" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-tags fa-fw"></i> Category
+                    </button>
+                    <ul class="dropdown-menu stick-to-bottom" aria-labelledby="dropdownMenuButton">
+                        {% for category in categories %}
+                            <li><a class="btn btn-link"
+                                   href="{% url 'boards:cat-list' category.slug category.pk %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
 
     <div class="forums-mount mb-4">
         <div class="forums-list">

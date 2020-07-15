@@ -7,11 +7,25 @@ from django.utils.text import Truncator
 from markdown import markdown
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=254)
+    slug = AutoSlugField(unique=True, always_update=False, populate_from='name')
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return self.name
+
+
 class Board(models.Model):
     name = models.CharField(max_length=30, unique=True)
+    category = models.ForeignKey(Category, related_name='boards', on_delete=models.CASCADE)
     slug = AutoSlugField(unique=True, always_update=False, populate_from='name')
     description = models.CharField(max_length=100, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Board'

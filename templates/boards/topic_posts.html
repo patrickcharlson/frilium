@@ -137,6 +137,8 @@
                         </div>
                         <div class="post-message">
                             <p>{{ post.get_message_as_markdown }}</p>
+                        </div>
+                        <div class="post-footer">
                             {% if post.updated_at %}
                                 <p class="post-edit"><em>Edited by {{ post.updated_by }}
                                     <abbr title="{{ post.updated_at }}">{{ post.updated_at|naturaltime }}</abbr></em>
@@ -165,7 +167,7 @@
                                 <h5 class="profile-stat-wrap">
                                     <i class="fas fa-comment"></i>
                                     <span class="profile-stat-title">Posts</span>
-                                    <small class="profile-stat-value">{{ post.created_by.post_count}}</small>
+                                    <small class="profile-stat-value">{{ post.created_by.post_count }}</small>
                                 </h5>
                             </li>
                             <li class="profile-stat">

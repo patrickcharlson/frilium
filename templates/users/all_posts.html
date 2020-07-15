@@ -1,4 +1,5 @@
 {% extends 'users/user_profile.html' %}
+{% load i18n %}
 
 {% block section %}
     {% if posts %}
@@ -8,7 +9,7 @@
                     {% include 'includes/pagination.html' %}
                 </div>
                 <h3 class="toolbar-left">
-                    You have posted {{ user.post_count }} message{{ user.post_count|pluralize }}
+                    You have posted {{ user.posts.count }} message{{ posts.count|pluralize }}
                 </h3>
             </nav>
             {% include 'users/post-feed.html' %}

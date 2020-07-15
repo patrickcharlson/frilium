@@ -12,17 +12,36 @@
 {% endblock %}
 
 {% block content %}
-        <div class="row">
-            <div class="col-md-3 profile-sidebar">
-                {% include 'users/nav.html' %}
+    <div class="row">
+        <div class="col-md-3 profile-sidebar">
+            <div class="avatar-wrap d-flex justify-content-center">
+                <img src="{% static 'img/avatar.svg' %}" alt="{{ post.created_by.username }}" class="circular w-75">
+                <span class="avatar-online"></span>
             </div>
-            <div class="col-md-9 profile-content">
 
-                {% block section %}
-                {% endblock %}
+            <h4 class="profile-meta">
+                <small class="profile-user-title">Team member</small>
+            </h4>
+
+            <div class="list-group nav-side">
+
+                <a class="list-group-item active"
+                   href="{{ user.posts_link }}">
+                    <i class="fab fa-stack-exchange fa-fw"></i> Posts</a>
+                <a class="list-group-item "
+                   href="{{ user.topics_link }}">
+                    <i class="fab fa-forumbee fa-fw"></i> Topics</a>
+
 
             </div>
         </div>
+        <div class="col-md-9 profile-content">
+
+            {% block section %}
+            {% endblock %}
+
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascript %}

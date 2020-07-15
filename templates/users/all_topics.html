@@ -8,7 +8,7 @@
                     {% include 'includes/pagination.html' %}
                 </div>
                 <h3 class="toolbar-left">
-                    You have initiated {{ user.all_topics.count }} topic{{ topics.count|pluralize }}
+                    You have initiated {{ user.topics.count }} topic{{ topics.count|pluralize }}
                 </h3>
             </nav>
             {% include 'users/topic-feed.html' %}

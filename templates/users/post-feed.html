@@ -28,7 +28,7 @@
                            href="{{ post.url }}#p-{{ post.id }}">{{ post.created_at|naturaltime|lower }}</a>
                     </div>
                     <div class="post-body">
-                        <article class="post-content">{{ post.get_message_as_markdown }}</article>
+                        <article class="post-content">{{ post.get_message_as_markdown|truncatechars:'1000' }}</article>
                     </div>
                 </div>
             </div>

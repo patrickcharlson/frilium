@@ -10,7 +10,7 @@ from django.views import View
 from django.views.generic import ListView, UpdateView
 
 from .forms import NewTopicForm, PostForm, EditTopicForm, EditPostForm
-from .models import Board, Post, Topic
+from .models import Board, Post, Topic, Category
 
 User = get_user_model()
 
@@ -19,6 +19,11 @@ class BoardsListView(ListView):
     model = Board
     context_object_name = 'boards'
     template_name = 'home.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 
 index = BoardsListView.as_view()
@@ -88,6 +93,22 @@ class PostListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         self.topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'), pk=self.kwargs.get('pk'))
         queryset = self.topic.posts.select_related('created_by', 'topic', 'updated_by').order_by('created_at')
+        return queryset
+
+
+class BoardCategoryListView(ListView):
+    model = Board
+    context_object_name = 'boards'
+    template_name = 'boards/board-category.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['cat'] = self.category
+        return context
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, slug=self.kwargs.get('slug'))
+        queryset = Board.objects.filter(category=self.category)
         return queryset
 
 
