@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
-from django.forms import Form
+from django.forms import Form, ModelForm
 
 User = get_user_model()
 
@@ -39,3 +39,16 @@ class EmailChangeForm(Form):
         if commit:
             self.user.save()
         return self.user
+
+
+class UserForm(ModelForm):
+    bio = forms.CharField(label='Bio', widget=forms.Textarea(attrs={'rows': 7}), required=False)
+
+    class Meta:
+        model = User
+        fields = ['name', 'gender', 'bio', 'location', 'website']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['gender'].required = False
+        self.fields['website'].initial = f'https://'

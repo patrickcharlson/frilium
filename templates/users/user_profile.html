@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-
+{% load humanize %}
 {% load static %}
 
 {% block breadcrumb %}
@@ -31,12 +31,37 @@
                 <a class="list-group-item "
                    href="{{ user.topics_link }}">
                     <i class="fab fa-forumbee fa-fw"></i> Topics</a>
-
-
+                <a class="list-group-item "
+                   href="{% url 'users:user-details' user.username user.pk %}">
+                    <i class="fas fa-user-circle fa-fw"></i> Details</a>
             </div>
         </div>
         <div class="col-md-9 profile-content">
-
+            <div class="page-header-bg">
+                <div class="page-header">
+                    <div class="container">
+                        <h1>{{ user.username }}</h1>
+                    </div>
+                    <div class="header-stats">
+                        <div class="container">
+                            <ul class="list-inline">
+                                <li class="user-rank">
+                                    <span>Team member</span>
+                                </li>
+                                <li class="user-email">
+                                    <a href="mailto:{{ user.email }}" class="">{{ user.email }}</a>
+                                </li>
+                                <li class="user-joined">
+                                    <abbr title="{{ user.date_joined }}">Joined {{ user.date_joined|naturaltime }}</abbr>
+                                </li>
+                                <li class="user-last-post">
+                                    <em><span>Last post {{ user.last_post|naturaltime }}</span></em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% block section %}
             {% endblock %}
 

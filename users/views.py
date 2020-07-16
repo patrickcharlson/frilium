@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.generic import ListView
 
 from boards.models import Post, Topic
-from users.forms import CustomPasswordChangeForm, EmailChangeForm
+from users.forms import CustomPasswordChangeForm, EmailChangeForm, UserForm
 
 User = get_user_model()
 
@@ -66,3 +66,23 @@ def email_change(request):
         form = EmailChangeForm(request.user)
     context = {'form': form}
     return render(request, 'users/profile_email_change.html', context)
+
+
+@login_required
+def update(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated')
+            return redirect('users:edit-user')
+    else:
+        form = UserForm(instance=request.user)
+    context = {'form': form}
+    return render(request, 'users/edit-details.html', context)
+
+
+def user_details(request, username, pk):
+    user = get_object_or_404(User, username=username, pk=pk)
+    context = {'user': user}
+    return render(request, 'users/details.html', context)

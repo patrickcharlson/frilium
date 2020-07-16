@@ -1,0 +1,53 @@
+{% extends '_base.html' %}
+{% load crispy_forms_filters %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        <a class="text-white" href="{% url 'boards:home' %}"><i class="fas fa-home fa-fw"></i> Boards</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">
+        <a class="text-white" href="{% url 'users:user_posts' user.username user.pk %}">{{ request.user.username }}</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">Preferences</li>
+{% endblock %}
+
+{% block content %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+            <strong><i class="fas fa-check-double fa-fw"></i> {{ message }}</strong>
+        </div>
+    {% endfor %}
+
+    <div class="profile-container">
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'users/cp-nav.html' %}
+            </div>
+            <div class="col-md-9">
+                <div>
+                    <form method="post">
+                        <div class="panel panel-default panel-form">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Preferences</h3>
+                            </div>
+                            <div class="panel-body">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                            </div>
+                            <div class="panel-footer">
+                                <button class="btn btn-password btn-sm indigo text-white" type="submit">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

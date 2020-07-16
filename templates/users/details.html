@@ -1,0 +1,61 @@
+{% extends 'users/user_profile.html' %}
+
+{% block section %}
+    {% if user.name or user.gender or user.bio or user.location or user.website %}
+        <div class="panel panel-default panel-form panel-details">
+            <div class="panel-heading">
+                <h3 class="panel-title">Preference</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    {% if user.name %}
+                        <div class="row form-group">
+                            <strong class="control-label col-md-3">Real name:</strong>
+                            <div class="form-control-static col-md-9">
+                                <p>{{ user.name }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if user.gender %}
+                        <div class="row form-group">
+                            <strong class="control-label col-md-3">Gender:</strong>
+                            <div class="form-control-static col-md-9">
+                                <p>{{ user.gender }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if user.bio %}
+                        <div class="row form-group">
+                            <strong class="control-label col-md-3">Bio:</strong>
+                            <div class="form-control-static col-md-9">
+                                <p>{{ user.bio }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if user.location %}
+                        <div class="row form-group">
+                            <strong class="control-label col-md-3">Location:</strong>
+                            <div class="form-control-static col-md-9">
+                                <p>{{ user.location }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if user.website %}
+                        <div class="row form-group">
+                            <strong class="control-label col-md-3">Website:</strong>
+                            <div class="form-control-static col-md-9">
+                                <p>{{ user.website }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        Nothing
+    {% endif %}
+
+{% endblock %}

@@ -12,3 +12,8 @@ User = get_user_model()
 def profile_link(user):
     data = f'<a href="{reverse("users:user_posts", args=[user.username, user.pk])}">{user.username}</a>'
     return mark_safe(data)
+
+
+@register.filter
+def poster(user, post=None):
+    return post.user == user

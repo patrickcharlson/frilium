@@ -24,6 +24,13 @@ class SignupForm(ModelForm):
             raise forms.ValidationError('The above username is not available!')
         return self.cleaned_data['username']
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        is_taken = User.objects.filter(email=email).exists()
+        if is_taken:
+            raise forms.ValidationError('The above email is taken!')
+        return self.cleaned_data['email']
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
@@ -52,7 +59,7 @@ class LoginForm(AuthenticationForm):
         if is_found_email:
             return
 
-        raise forms.ValidationError(f'No account matches {"username":username}')
+        raise forms.ValidationError("No account matches {}.".format(username))
 
     def clean(self):
         self.validate_username()

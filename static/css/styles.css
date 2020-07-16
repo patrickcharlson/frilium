@@ -32,7 +32,7 @@ select:-webkit-autofill:focus {
 .arrow_box:before {
     bottom: 100%;
     left: 81%;
-    border: solid transparent;
+    border: solid #b9b9b9;
     content: " ";
     height: 0;
     width: 0;
@@ -62,6 +62,7 @@ select:-webkit-autofill:focus {
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
     left: -50px !important;
     padding: 5px;
+    border-color: #b9b9b9b9;
 }
 
 .category-dropdown .dropdown-menu {
@@ -675,6 +676,31 @@ a.btn-link {
     color: #172b4d;
 }
 
+select#id_gender {
+    -webkit-appearance: none;
+    width: 13%;
+
+}
+
+.panel-details .form-group {
+    margin: 0;
+}
+
+.form-horizontal .control-label {
+    text-align: right;
+    padding-top: 7px;
+}
+
+.form-control-static {
+    padding-top: 7px;
+    min-height: 34px;
+    padding-bottom: 7px;
+}
+
+.form-control-static p {
+    margin-bottom: 0;
+}
+
 /*Forum index*/
 /*------------------------------------------------------------------------------*/
 .media:first-child {
@@ -850,4 +876,24 @@ p.post-edit {
     font-size: 12px;
     color: #7a869a;
     margin-bottom: 0;
+}
+
+.header-stats .list-inline li {
+    margin-right: 8px;
+    color: #5e6c84;
+}
+
+.user-rank {
+    color: #172b4d !important;
+    font-weight: 700;
+}
+
+.user-email a {
+    color: #5e6c84;
+    font-weight: 700;
+}
+
+.user-email a:hover {
+    text-decoration: underline;
+    color: #172b4d !important;
 }
