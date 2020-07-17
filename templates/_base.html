@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="container my-3">
-    <div class="card card-container justify-content-start blue darken-3 text-white">
+    <div class="card card-container justify-content-start secondary-color-dark text-white">
         <div class="card-body">
             <h4 class="card-title">Pychatbb</h4>
             <p class="card-text text-white">Community Discussion Board.</p>
@@ -25,9 +25,7 @@
             <a href="{% url 'boards:home' %}" class="navbar-brand">Pychatbb</a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'boards:users' %}">
-                        <i class="fas fa-users"></i> Members
-                    </a>
+                    <a class="nav-link" href="{% url 'boards:topics' %}"> Topics </a>
                 </li>
             </ul>
 

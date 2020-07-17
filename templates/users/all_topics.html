@@ -8,10 +8,12 @@
                     {% include 'includes/pagination.html' %}
                 </div>
                 <h3 class="toolbar-left">
-                    You have initiated {{ user.topics.count }} topic{{ topics.count|pluralize }}
+                    You have initiated {{ user.topic_count }} topic{{ user.topic_count|pluralize }}
                 </h3>
             </nav>
             {% include 'users/topic-feed.html' %}
         </div>
+    {% else %}
+        No initiated topic
     {% endif %}
 {% endblock %}

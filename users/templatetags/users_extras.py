@@ -1,6 +1,9 @@
+import hashlib
+
 from django import template
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -15,5 +18,9 @@ def profile_link(user):
 
 
 @register.filter
-def poster(user, post=None):
-    return post.user == user
+def gravatar(user):
+    email = user.email.lower().encode('utf-8')
+    default = 'mm'
+    size = 256
+    url = f'https://www.gravatar.com/avatar/{hashlib.md5(email).hexdigest()}?{urlencode({"d": default, "s": str(size)})}'
+    return url

@@ -200,26 +200,6 @@ div.CodeMirror {
     height: 172px;
 }
 
-.board-body > .row,
-.topic-body > .row {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.board-body,
-.topic-body {
-    padding: 0;
-}
-
-.board-name,
-.topic-title > a {
-    font-weight: bold;
-}
-
-.board-row {
-    padding: 10px 5px;
-    border-bottom: 1px solid #cad7e1;
-}
 
 .board-icon {
     padding-right: 0;
@@ -251,16 +231,15 @@ div.CodeMirror {
     padding: 6px 10px;
     box-shadow: none;
     margin-right: 5px;
-    border-radius: 50%;
+    vertical-align: top;
+}
+
+.btn-icon:focus, .btn-icon:active {
+    box-shadow: none !important;
 }
 
 .btn-control .btn:hover {
     box-shadow: none;
-}
-
-.icon-color {
-    color: white !important;
-    font-size: 10px;
 }
 
 .form-inline {
@@ -277,6 +256,15 @@ div.CodeMirror {
 
 h4.card-title {
     font-family: 'Pacifico', cursive;
+    color: #172b4d;
+}
+
+.card-container p.card-text {
+    color: #172b4d !important;
+}
+
+.card-footer {
+    border-top: none;
 }
 
 .navbar-brand {
@@ -329,6 +317,7 @@ h4.card-title {
 .controls {
     border-bottom: 1px solid #cad7e1;
     padding-bottom: 10px;
+    max-height: 35px;
 }
 
 .profile-body {
@@ -536,9 +525,6 @@ h5 small {
     padding-right: 10px;
 }
 
-.media .media-left {
-    padding: 0;
-}
 
 .post-feed .post-side img {
     margin: 0;
@@ -674,6 +660,14 @@ a.btn-link {
 .panel-body label[for=id_username] {
     font-weight: 700;
     color: #172b4d;
+}
+
+.panel-body .form-group > label {
+    font-weight: 700;
+}
+
+.panel-body .form-group > label:hover {
+    cursor: inherit;
 }
 
 select#id_gender {
@@ -896,4 +890,12 @@ p.post-edit {
 .user-email a:hover {
     text-decoration: underline;
     color: #172b4d !important;
+}
+
+.topic-category.badge {
+    box-shadow: none;
+}
+
+.page-header-bg {
+    margin-bottom: 30px;
 }

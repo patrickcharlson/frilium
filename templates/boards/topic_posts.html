@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load users_extras %}
 {% load humanize %}
 
 {% load static %}
@@ -56,9 +57,9 @@
     {% for post in posts %}
         <div class="card card-posts mb-3">
             {% if forloop.first %}
-                <div class="card-header text-dark bg-white py-2 px-3">
-                    {{ topic.title }}
-                </div>
+                <h5 class="card-header text-dark bg-white py-2 px-3">
+                    <strong>{{ topic.title }}</strong>
+                </h5>
             {% endif %}
             <div class="card-body p-3" id="p-{{ post.id }}">
                 <div class="row">
@@ -81,54 +82,54 @@
 
                                     {% if post.created_by == user %}
                                         {% if forloop.first %}
-                                            <a class=" btn-icon btn btn-secondary"
+                                            <a class=" btn-icon btn"
                                                href="{% url 'boards:edit_topic' post.topic.slug %}"
                                                data-post-id="{{ post.id }}" data-toggle="tooltip"
                                                data-placement="top"
                                                title="Edit this topic">
-                                                <i style="color: green" class="icon-color fas fa-pen-fancy"></i>
+                                                <i style="color: green" class="fas fa-pen-fancy"></i>
                                             </a>
-                                            <a class="btn-icon btn btn-deep-orange"
+                                            <a class="btn-icon btn"
                                                href=""
                                                data-toggle="tooltip" data-placement="top"
                                                title="Report this post">
                                                 <i style="color: orange"
-                                                   class="icon-color fas fa-exclamation-triangle"></i>
+                                                   class="fas fa-exclamation-triangle"></i>
                                             </a>
                                         {% else %}
 
-                                            <a class=" btn-icon btn btn-secondary"
+                                            <a class=" btn-icon btn"
                                                href="{% url 'boards:edit_post' post.slug %}"
                                                data-toggle="tooltip" data-placement="top"
                                                title="Edit this post">
-                                                <i style="color: green" class="icon-color fas fa-pen-fancy"></i>
+                                                <i style="color: green" class="fas fa-pen-fancy"></i>
                                             </a>
 
                                             <a onclick="return confirm('Are you sure you want to delete this post?')"
-                                               type="button" class="btn-icon btn btn-danger"
+                                               type="button" class="btn-icon btn"
                                                href="{% url 'boards:delete_post' post.slug %}"
                                                data-post-id="{{ post.id }}"
                                                data-toggle="tooltip"
                                                data-placement="top"
                                                title="Delete this post">
-                                                <i style="color: orangered" class="icon-color fas fa-trash-alt"></i>
+                                                <i style="color: orangered" class="fas fa-trash-alt"></i>
                                             </a>
 
 
-                                            <a class="btn-icon btn btn-deep-orange"
+                                            <a class="btn-icon btn"
                                                href=""
                                                data-toggle="tooltip" data-placement="top"
                                                title="Report this post">
                                                 <i style="color: orange"
-                                                   class="icon-color fas fa-exclamation-triangle"></i>
+                                                   class="fas fa-exclamation-triangle"></i>
                                             </a>
                                         {% endif %}
                                     {% else %}
-                                        <a class="btn-icon btn btn-deep-orange"
+                                        <a class="btn-icon btn"
                                            href=""
                                            data-post-id="{{ post.id }}" data-toggle="tooltip" data-placement="top"
                                            title="Report this post">
-                                            <i style="color: orange" class="icon-color fas fa-exclamation-triangle"></i>
+                                            <i style="color: orange" class="fas fa-exclamation-triangle"></i>
                                         </a>
                                     {% endif %}
 
@@ -154,7 +155,7 @@
                     <div class="col-3 author-box">
                         <div class="avatar-wrap d-flex justify-content-center">
                             <a href="{% url 'users:user_posts' post.created_by.username post.created_by.pk %}">
-                                <img width="82" height="82" src="{% static 'img/avatar.svg' %}"
+                                <img width="82" height="82" src="{{ post.created_by|gravatar }}"
                                      alt="{{ post.created_by }}"
                                      class="circular"> </a>
                             <span class="avatar-online"></span>

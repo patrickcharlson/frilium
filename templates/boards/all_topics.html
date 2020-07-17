@@ -1,0 +1,15 @@
+{% extends 'boards/topics.html' %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="breadcrumb-item active text-white-50">Topics</li>
+{% endblock %}
+
+{% block new-topic %}
+{% endblock %}
+
+{% block topic-category %}
+    <span class="topic-category badge badge-light">
+      {{ topic.board.category.name }}
+    </span>
+{% endblock %}

@@ -22,7 +22,8 @@
                     <ul class="dropdown-menu stick-to-bottom" aria-labelledby="dropdownMenuButton">
                         {% for category in categories %}
                             <li><a class="btn btn-link"
-                                   href="{% url 'boards:cat-list' category.slug category.pk %}">{{ category.name }}</a></li>
+                                   href="{% url 'boards:cat-list' category.slug category.pk %}">{{ category.name }}</a>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -57,22 +58,12 @@
                             <div class="col-md-2">
                                 <ul class="list-unstyled forum-stats">
                                     <li class="forum-topics-stats">
-                                        {% if board.topic_count < 1 %}
-                                            <span class="far fa-file fa-fw"></span> no topics
-                                        {% else %}
-                                            <span class="far fa-file fa-fw"></span>
-                                            {{ board.topic_count }} topic{{ board.topic_count|pluralize }}
-                                        {% endif %}
-
+                                        <span class="far fa-file fa-fw"></span>
+                                        {{ board.topic_count }} topic{{ board.topic_count|pluralize }}
                                     </li>
                                     <li class="forum-posts-stats">
-                                        {% if board.post_count < 1 %}
-                                            <span class="fab fa-stack-exchange fa-fw"></span> no posts
-                                        {% else %}
-                                            <span class="fab fa-stack-exchange fa-fw"></span>
-                                            {{ board.post_count }} post{{ board.post_count|pluralize }}
-                                        {% endif %}
-
+                                        <span class="fab fa-stack-exchange fa-fw"></span>
+                                        {{ board.post_count }} post{{ board.post_count|pluralize }}
                                     </li>
                                 </ul>
                             </div>
@@ -83,7 +74,8 @@
                                             {% if post %}
                                                 <a href="{% url 'users:user_posts' post.created_by post.created_by.pk %}"
                                                    class="last-poster-avatar">
-                                                    <img src="{% static 'img/avatar.svg' %}" alt="" class="media-class"
+                                                    <img src="{{ post.created_by|gravatar }}" alt=""
+                                                         class="media-class circular"
                                                          width="40" height="40">
                                                 </a>
                                             {% endif %}

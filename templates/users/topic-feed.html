@@ -1,3 +1,4 @@
+{% load users_extras %}
 {% load static %}
 
 {% load humanize %}
@@ -12,7 +13,7 @@
                             Post <i class="fa-fw fas fa-hand-point-right"></i></a>
                         <div class="media">
                             <div class="media-left">
-                                <img class="poster-avatar" src="{% static 'img/avatar-3.png' %}" alt="">
+                                <img class="poster-avatar" src="{{ topic.created_by|gravatar }}" alt="">
                             </div>
                             <div class="media-body">
                                 <div class="media-heading">

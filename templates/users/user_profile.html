@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load users_extras %}
 {% load humanize %}
 {% load static %}
 
@@ -15,7 +16,7 @@
     <div class="row">
         <div class="col-md-3 profile-sidebar">
             <div class="avatar-wrap d-flex justify-content-center">
-                <img src="{% static 'img/avatar.svg' %}" alt="{{ post.created_by.username }}" class="circular w-75">
+                <img src="{{ user|gravatar }}" alt="{{ post.created_by.username }}" class="circular w-75">
                 <span class="avatar-online"></span>
             </div>
 

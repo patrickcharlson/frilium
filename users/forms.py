@@ -51,4 +51,4 @@ class UserForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['gender'].required = False
-        self.fields['website'].initial = f'https://'
+        self.fields['website'].initial = 'https://'

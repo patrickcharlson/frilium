@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
+from django.db.models import Count, F
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
@@ -15,18 +15,24 @@ from .models import Board, Post, Topic, Category
 User = get_user_model()
 
 
-class BoardsListView(ListView):
-    model = Board
-    context_object_name = 'boards'
-    template_name = 'home.html'
+# class BoardsListView(ListView):
+#     model = Board
+#     context_object_name = 'boards'
+#     template_name = 'home.html'
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['categories'] = Category.objects.select_related().all()
+#         return context
+#
+#
+# index = BoardsListView.as_view()
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        return context
 
-
-index = BoardsListView.as_view()
+def index(request):
+    context = {'boards': Board.objects.all(),
+               'categories': Category.objects.all()}
+    return render(request, 'home.html', context)
 
 
 class TopicsListView(LoginRequiredMixin, ListView):
@@ -83,7 +89,7 @@ class PostListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         session_key = f'viewed_topic_{self.topic.slug}'
         if not self.request.session.get(session_key, False):
-            self.topic.views += 1
+            self.topic.views = F('views') + 1
             self.topic.save()
             self.request.session[session_key] = True
         context = super().get_context_data(**kwargs)
@@ -158,13 +164,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         return queryset.filter(created_by=self.request.user)
 
 
-class UsersListView(LoginRequiredMixin, ListView):
-    model = User
-    context_object_name = 'users'
-    template_name = 'boards/members.html'
-    paginate_by = 5
-
-
 def delete_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     post.delete()
@@ -211,3 +210,8 @@ def show_topic(request, slug, pk):
     topic = get_object_or_404(Topic, slug=slug, pk=pk)
     url = f'{reverse("boards:topic_post", args=[topic.slug, topic.pk])}'
     return redirect(url)
+
+
+def all_topics(request):
+    context = {'topics': Topic.objects.select_related().order_by('-date_created').annotate(replies=Count('posts') - 1)}
+    return render(request, 'boards/all_topics.html', context)

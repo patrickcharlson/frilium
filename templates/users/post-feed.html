@@ -1,3 +1,4 @@
+{% load users_extras %}
 {% load static %}
 
 {% load humanize %}
@@ -12,11 +13,11 @@
                             Post <i class=" fa-fw fas fa-hand-point-right"></i></a>
                         <div class="media">
                             <div class="media-left">
-                                <img class="poster-avatar" src="{% static 'img/avatar-3.png' %}" alt="">
+                                <img class="poster-avatar" src="{{ post.created_by|gravatar }}" alt="">
                             </div>
                             <div class="media-body">
                                 <div class="media-heading">
-                                    <a class="item-title" href="">{{ post.created_by.username }}</a>
+                                    <a class="item-title" href="">{{ post.created_by }}</a>
                                 </div>
                                 <a class="user-title user-title-primary" href="">Project Lead</a>
                             </div>
