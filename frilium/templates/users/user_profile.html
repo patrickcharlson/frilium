@@ -1,0 +1,81 @@
+{% extends '_base.html' %}
+
+{% load humanize static pychatbb_tags %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        <a class="text-white" href="{% url 'boards:home' %}">
+            <i class="fas fa-home fa-fw"></i> Boards</a>
+        <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">{{ user.username }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3 profile-sidebar">
+            <div class="avatar-wrap d-flex justify-content-center">
+                <img src="{{ user|gravatar }}" alt="{{ post.created_by.username }}" class="circular w-75">
+                <span class="avatar-online"></span>
+            </div>
+            <h4 class="profile-meta">
+                <small class="profile-user-title">Team member</small>
+            </h4>
+
+            <div class="list-group nav-side">
+
+                <a class="list-group-item active"
+                   href="{{ user.posts_link }}">
+                    <i class="fab fa-stack-exchange fa-fw"></i> Posts</a>
+                <a class="list-group-item "
+                   href="{{ user.topics_link }}">
+                    <i class="fab fa-forumbee fa-fw"></i> Topics</a>
+                <a class="list-group-item "
+                   href="{% url 'users:user-details' user.username user.pk %}">
+                    <i class="fas fa-user-circle fa-fw"></i> Details</a>
+            </div>
+        </div>
+        <div class="col-md-9 profile-content">
+            <div class="page-header-bg">
+                <div class="page-header">
+                    <div class="container">
+                        <h1>{{ user.username }}</h1>
+                    </div>
+                    <div class="header-stats">
+                        <div class="container">
+                            <ul class="list-inline">
+                                <li class="user-rank">
+                                    <span>Team member</span>
+                                </li>
+                                <li class="user-email">
+                                    <a href="mailto:{{ user.email }}" class="">{{ user.email }}</a>
+                                </li>
+                                <li class="user-joined">
+                                    <abbr title="{{ user.date_joined }}">Joined {{ user.date_joined|naturaltime }}</abbr>
+                                </li>
+                                <li class="user-last-post">
+                                    <em><span>Last post {{ user.last_post|naturaltime }}</span></em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% block section %}
+            {% endblock %}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {% comment %}<script>
+        $(document).ready(function () {
+            $("a").click(function () {
+                $(".nav-side a").removeClass("active");
+                $(this).addClass("active");
+            });
+        });
+    </script>{% endcomment %}
+
+{% endblock %}

@@ -6,13 +6,17 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-markdown = "*"
-django = "*"
-django-autoslug = "*"
-django-crispy-forms = "*"
-django-debug-toolbar = "*"
-django-extensions = "*"
-psycopg2-binary = "*"
+asgiref = "==3.2.10"
+django-autoslug = "==1.9.7"
+django-crispy-forms = "==1.9.2"
+django-debug-toolbar = "==2.2"
+django-extensions = "==3.0.2"
+psycopg2-binary = "==2.8.5"
+pytz = "==2020.1"
+six = "==1.15.0"
+sqlparse = "==0.3.1"
+Django = "==3.0.8"
+Markdown = "==3.2.2"
 
 [requires]
 python_version = "3.8"

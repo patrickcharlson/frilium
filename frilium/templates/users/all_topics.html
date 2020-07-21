@@ -1,0 +1,19 @@
+{% extends 'users/user_profile.html' %}
+
+{% block section %}
+    {% if topics %}
+        <div class="profile-feed">
+            <nav class="toolbar">
+                <div class="include-paginate float-right">
+                    {% include 'includes/pagination.html' %}
+                </div>
+                <h3 class="toolbar-left">
+                    You have initiated {{ user.topic_count }} topic{{ user.topic_count|pluralize }}
+                </h3>
+            </nav>
+            {% include 'users/topic-feed.html' %}
+        </div>
+    {% else %}
+        There are no topics initiated here, yet
+    {% endif %}
+{% endblock %}
