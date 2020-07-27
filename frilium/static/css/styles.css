@@ -1,3 +1,56 @@
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+    src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(../fonts/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+    url(../fonts/iconfont/MaterialIcons-Regular.woff) format('woff'),
+    url(../fonts/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icon {
+    font-family: 'Material Icons';
+    position: relative;
+    top: 2px;
+    font-weight: 400;
+    font-style: normal;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+}
+
+.breadcrumb-item i.material-icon {
+    position: relative;
+    top: 2px;
+}
+
+.btn .material-icon {
+    position: relative;
+    top: 2px;
+}
+
+.empty-message .material-icon.md-18 {
+    font-size: 18px;
+}
+
+.footer-content .material-icon {
+    position: relative;
+    top: 2px;
+}
+
 body {
     font-size: 13px;
     font-weight: normal !important;
@@ -248,6 +301,12 @@ div.CodeMirror {
 
 .confirm-btn {
     margin-left: 10px;
+}
+
+#div_id_birthday .form-control {
+    width: 25%;
+    display: inline-block;
+    margin-right: 10px ;
 }
 
 .card-container {
@@ -919,4 +978,255 @@ p.post-edit {
 
 .footer-content a:hover {
     text-decoration: underline;
+}
+
+.list-group-item.empty-message {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.list-group-item.empty-message p {
+    margin: 10px 0;
+    line-height: 1.42857;
+}
+
+p.lead {
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.btn.btn-admin {
+    box-shadow: none;
+    font-size: 13px;
+    padding: 7px 8px;
+    background-color: #aa66cc;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn-light:not([disabled]):not(.disabled):active {
+    box-shadow: none;
+    background-color: #e0e0e0 !important;
+}
+
+/*Admin */
+/*.............................................................................*/
+.col-nav-side {
+    max-width: 240px;
+}
+
+.nav-side-link {
+    flex-direction: column;
+}
+
+.nav-side-link .nav-link {
+    display: flex;
+    align-items: flex-start;
+}
+
+.nav-side-link .nav-section.active {
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.nav-side-link a {
+    color: rgb(107, 119, 140);
+    font-size: 15px;
+}
+
+.nav-side-link a:hover {
+    color: rgb(23, 43, 77);
+}
+
+.nav-side-link .media-icon {
+    width: 30px;
+    text-align: center;
+}
+
+.page-header {
+    margin-bottom: 1rem;
+}
+
+.page-header h1 {
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.card-body .stats-widget {
+    text-align: center;
+}
+
+.card-body .stats-widget .icon {
+    display: block;
+    font-size: 24px;
+    line-height: 16px;
+}
+
+.card-body .stats-widget var {
+    display: block;
+    line-height: 40px;
+    font-size: 24px;
+    font-style: normal;
+}
+
+.card-body .stats-widget label {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.card-admin-table, .card-admin-form {
+    box-shadow: rgba(9, 30, 66, 0.075) 0 0.125rem 0.25rem !important;
+    border: 1px solid rgba(9, 30, 66, 0.125);
+}
+
+.card-admin-table table {
+    margin-bottom: 0;
+}
+
+.card-admin-table th {
+    font-size: 0.875rem;
+    color: rgb(107, 119, 140);
+    border-bottom: 0 !important;
+    font-weight: 500;
+    padding-bottom: 0.25rem !important;
+    padding-top: 0.25rem !important;
+}
+
+.card-admin-table td {
+    vertical-align: middle;
+    padding-bottom: 0.25rem !important;
+    padding-top: 0.25rem !important;
+}
+
+.badge {
+    box-shadow: none;
+    border-radius: 0.25rem;
+    font-size: 75%;
+    padding: 0.25rem 0.4rem;
+    font-weight: 700;
+}
+
+.card-admin-table .small {
+    font-size: 12.8px;
+    color: #172b4d;
+}
+
+.card-admin-table .small a {
+    color: rgb(107, 119, 140);
+}
+
+.card-admin-table .small a:hover {
+    text-decoration: underline;
+    color: #172b4d;
+}
+
+.card-admin-table .item-name {
+    color: rgb(23, 43, 77) !important;
+    font-weight: 700;
+}
+
+.card-admin-table .item-name:hover {
+    text-decoration: underline;
+}
+
+.card-admin-table abbr[title] {
+    text-decoration: none;
+}
+
+.card-admin-table .btn-list {
+    text-align: left !important;
+    margin-right: 20px !important;
+}
+
+.btn {
+    text-transform: none;
+}
+
+.page-action .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 13px;
+    box-shadow: none;
+    background-color: #6554c0;
+    border-radius: 5px;
+}
+
+body.background-color {
+    background-color: #f5f5f5;
+}
+
+.card-admin-form .card-header {
+    background-color: rgba(255, 255, 255, 0);
+    font-weight: 400;
+}
+
+.card-admin-form .form-fieldset {
+    margin: 0 -1.25rem;
+    padding: 1.25rem;
+}
+
+.card-admin-form .card-footer {
+    border-top: 1px solid rgba(9, 30, 66, 0.125);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/*Material icon tooltip*/
+/*.............................................................................*/
+[data-md-tooltip] {
+    position: relative;
+}
+
+[data-md-tooltip]:before {
+    content: attr(data-md-tooltip);
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    padding: 6px 12px;
+    transform: translateX(-50%) scale(0);
+    transition: transform 0.3s ease-in-out;
+    transform-origin: top;
+    background: #172b4d;
+    opacity: 0.9;
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+}
+
+[data-md-tooltip]:hover:before {
+    transform: translateX(-50%) scale(1);
+}
+
+[data-md-tooltip].md-tooltip--right:before {
+    left: auto;
+    right: -10px;
+    bottom: auto;
+    top: 50%;
+    transform: translate(100%, -50%) scale(0);
+    transform-origin: left center;
+}
+
+[data-md-tooltip].md-tooltip--right:hover:before {
+    transform: translate(100%, -50%) scale(1);
+}
+
+[data-md-tooltip].md-tooltip--left:before {
+    left: -15px;
+    right: auto;
+    bottom: auto;
+    top: 50%;
+    transform: translate(-100%, -50%) scale(0);
+    transform-origin: right center;
+}
+
+[data-md-tooltip].md-tooltip--left:hover:before {
+    transform: translate(-100%, -50%) scale(1);
+}
+
+.md-tooltip--top:before {
+    top: -35px;
+    bottom: auto;
+    transform: translateX(-50%) scale(0);
+    transform-origin: bottom center;
 }

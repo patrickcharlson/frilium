@@ -47,10 +47,13 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # Local apps
-    'frilium.users.apps.UsersConfig',
+    'frilium.user.apps.UserConfig',
     'frilium.boards.apps.BoardsConfig',
-    'frilium.accounts.apps.AccountsConfig',
+    'frilium.auth.apps.AuthConfig',
     'frilium.core.apps.CoreConfig',
+    'frilium.admin.apps.AdminConfig',
+
+    'frilium.user.admin.apps.UserAdmin'
 
 ]
 
@@ -96,15 +99,15 @@ WSGI_APPLICATION = 'devproject.wsgi.application'
 
 # Authentication
 # ------------------------------------------------------------------------------
-AUTH_USER_MODEL = 'users.User'
-LOGOUT_REDIRECT_URL = 'boards:home'
-LOGIN_REDIRECT_URL = 'boards:home'
-LOGIN_URL = 'accounts:login'
+AUTH_USER_MODEL = 'user.User'
+LOGOUT_REDIRECT_URL = 'frilium:boards:home'
+LOGIN_REDIRECT_URL = 'frilium:boards:home'
+LOGIN_URL = 'frilium:auth:login'
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'frilium.accounts.backends.EmailAuthBackend',
+    'frilium.auth.backends.EmailAuthBackend',
 ]
 
 # Database
@@ -114,7 +117,7 @@ AUTHENTICATION_BACKENDS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pychatbb',
+        'NAME': 'frilium',
         'USER': 'charlson',
         'PASSWORD': 'pashazzy77!!',
         'HOST': 'localhost',

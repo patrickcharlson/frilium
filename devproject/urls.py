@@ -21,12 +21,7 @@ urlpatterns = [
     # Django admin
     path('admin/', admin.site.urls),
 
-    # User management
-    path('', include('frilium.users.urls')),
-    path('accounts/', include('frilium.accounts.urls')),
-
-    # Local Apps
-    path('', include('frilium.boards.urls'))
+    path('', include('frilium.urls')),
 
 ]
 if settings.DEBUG:

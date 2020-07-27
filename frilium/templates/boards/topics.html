@@ -1,14 +1,14 @@
 {% extends '_base.html' %}
 
-{% load static pychatbb_tags humanize %}
+{% load static frilium_tags humanize %}
 
 {% block title %}
-    {{ board.name }} - {{ block.super }}
+    {{ board.name }} | {{ block.super }}
 {% endblock %}
 
 {% block breadcrumb %}
     <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'boards:home' %}">
+        <a class="white-text" href="{% url 'frilium:boards:home' %}">
             <i class="fas fa-home fa-fw"></i> Boards</a>
         <i class="fas fa-angle-double-right mx-2 my-1 text-white" aria-hidden="true"></i>
     </li>
@@ -18,19 +18,11 @@
 {% block content %}
     {% block new-topic %}
         <div class="row">
-            <div class="col-md-6">
-                <div class="float-left">
-                    <a href="{% url 'boards:new_topic' board.slug %}"
-                       class="mb-4 btn btn-topic btn-dark-green btn-sm text-white"> New
-                        Topic <i class="fa-fw fas fa-plus"></i>
-                    </a>
-
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="float-right">
-                    {% include 'includes/pagination.html' %}
-                </div>
+            <div class="col-md-3">
+                <a href="{% url 'frilium:boards:new_topic' board.slug %}"
+                   class="mb-4 btn btn-topic btn-dark-green btn-sm text-white"> New
+                    Topic <i class="fa-fw fas fa-plus"></i>
+                </a>
             </div>
         </div>
     {% endblock %}
@@ -44,13 +36,13 @@
                         <div class="topic-main col-md-7">
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="{% url 'users:user_posts' topic.created_by topic.created_by.pk %}"
+                                    <a href="{% url 'frilium:user:user_posts' topic.created_by topic.created_by.pk %}"
                                        class="topic-starter-avatar">
                                         <img width="40" height="40" src="{{ topic.created_by|gravatar }}" alt=""
                                              class="user-avatar circular"></a>
                                 </div>
                                 <div class="media-body">
-                                    <a href="{% url 'boards:topic_post' topic.slug topic.pk %}"
+                                    <a href="{% url 'frilium:boards:topic_post' topic.slug topic.pk %}"
                                        class="item-title topic-title">{{ topic.title }}</a>
                                     <div class="row topic-details-bottom">
                                         <div class="col-md-12">
@@ -83,16 +75,16 @@
                             <div class="media">
                                 <div class="media-left">
                                     {% with post=topic.last_post %}
-                                        <a href="{% url 'users:user_posts' post.created_by post.created_by.pk %}"
+                                        <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
                                            class="topic-last-poster-avatar">
                                             <img width="40" height="40" src="{{ post.created_by|gravatar }}"
                                                  alt="" class="media-object circular">
                                         </a>
                                         </div>
                                         <div class="media-body">
-                                        <a href="{% url 'users:user_posts' post.created_by post.created_by.pk %}"
+                                        <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
                                            class="item-title topic-last-poster">{{ post.created_by.username }}</a>
-                                        <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
+                                        <a href="{% url 'frilium:boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
                                            class="topic-last-reply">{{ topic.last_updated|naturaltime }}</a>
                                     {% endwith %}
                                     </div>

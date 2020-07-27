@@ -4,28 +4,29 @@
 <html lang="">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% spaceless %}{% block title %}Frilium Community{% endblock %}{% endspaceless %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'fonts/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}">
     {% block stylesheet %}{% endblock %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" href="{% static 'favicon-32.png' %}">
+
 
 </head>
 <body>
 <div class="container my-3">
-    <div class="card card-container justify-content-start secondary-color-dark text-white">
-        <div class="card-body">
+    <div style="background: #f4f5f7" class="card card-container justify-content-start text-dark">
+        <div class="card-body title-body">
             <h4 class="card-title">Frilium Forums</h4>
             <p class="card-text text-white">Community Discussion Board.</p>
 
         </div>
         <nav class=" card-footer navbar navbar-expand-sm navbar-light bg-light py-1">
-            <a href="{% url 'boards:home' %}" class="navbar-brand">Frilium</a>
+            <a href="{% url 'frilium:boards:home' %}" class="navbar-brand">Frilium</a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'boards:topics' %}"> Topics </a>
+                    <a class="nav-link" href="{% url 'frilium:boards:topics' %}"> Topics </a>
                 </li>
             </ul>
 
@@ -37,13 +38,13 @@
                 {% if not user.is_authenticated %}
                     <li class="nav-item mr-3">
                         <a class="btn btn-sign-in btn-primary btn-sm nav-link text-white" type="button"
-                           href="{% url 'accounts:login' %}">
+                           href="{% url 'frilium:auth:login' %}">
                             Sign in </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="btn btn-signup btn-secondary btn-sm nav-link text-white" type="button"
-                           href="{% url 'accounts:signup' %}">
+                           href="{% url 'frilium:auth:signup' %}">
                             Signup </a>
                     </li>
                 {% endif %}
@@ -56,7 +57,7 @@
 
     {% block header %}
         {% if user.is_authenticated %}
-            <nav style="background: #172b4d" class="navbar navbar-expand-lg text-white mb-3 py-0">
+            <nav style="background: #6554c0" class="navbar navbar-expand-lg text-white mb-3 py-0">
                 <div class="mr-auto">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb clearfix d-none d-md-inline-flex py-2">
@@ -73,14 +74,14 @@
                         </a>
                         <div class="dropdown-menu dropdown-primary arrow_box"
                              aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{% url 'users:edit-user' %}">
+                            <a class="dropdown-item" href="{% url 'frilium:user:edit-user' %}">
                                 <i class="fas fa-user-cog fa-fw"></i> User Control Panel
                             </a>
                             <a class="dropdown-item"
-                               href="{% url 'users:user_posts' request.user.username request.user.pk %}">
+                               href="{% url 'frilium:user:user_posts' request.user.username request.user.pk %}">
                                 <i class="fas fa-user fa-fw"></i> My profile </a>
                             <a onclick="return confirm('Are you sure you want to sign out?')"
-                               class="dropdown-item" href="{% url 'accounts:logout' %}">
+                               class="dropdown-item" href="{% url 'frilium:auth:logout' %}">
                                 <i class="fas fa-power-off fa-fw"></i> Logout </a>
                         </div>
                     </li>
@@ -96,7 +97,16 @@
 
     <div class="frilium-footer">
         <div class="footer-content">
-            <a href="{% url 'boards:home' %}" class="frilium-branding">Powered by <strong>frilium</strong></a>
+            <div class="float-right">
+                {% if request.user.is_admin %}
+
+                    <a href="{% url 'frilium:admin:dashboard' %}" class="frilium-branding">
+                        <strong>Admin Site Index</strong></a>
+                    <i style="color: #172b4d" class="material-icon">settings</i>
+                {% endif %}
+            </div>
+            <a href="{% url 'frilium:boards:home' %}" class="frilium-branding">Powered by <strong>frilium</strong></a>
+            <i style="color: #172b4d" class="material-icon">favorite</i>
         </div>
     </div>
 

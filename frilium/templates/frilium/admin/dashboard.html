@@ -1,0 +1,71 @@
+{% extends 'frilium/admin/layout.html' %}
+
+{% block section %}
+    <div class="page-header row align-items-center">
+        <div class="col">
+            <h1>Dashboard</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stats-widget">
+                        <div class="icon">
+                            <i class="material-icon">people</i>
+                        </div>
+                        <div class="text">
+                            <var>{{ users_count }}</var>
+                            <label class="text-muted">Users</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stats-widget">
+                        <div class="icon">
+                            <i class="material-icon">forum</i>
+                        </div>
+                        <div class="text">
+                            <var>{{ topic_count }}</var>
+                            <label class="text-muted">Topics</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card stats-widget">
+                <div class="card-body">
+                    <div class="stats-widget">
+                        <div class="icon">
+                            <i class="material-icon">chat</i>
+                        </div>
+                        <div class="text">
+                            <var>{{ posts_count }}</var>
+                            <label class="text-muted">Posts</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card stats widget">
+                <div class="card-body">
+                    <div class="stats-widget">
+                        <div class="icon">
+                            <i class="material-icon">group_work</i>
+                        </div>
+                        <div class="text">
+                            <var>{{ category_count }}</var>
+                            <label class="text-muted">Categories</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

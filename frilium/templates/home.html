@@ -1,10 +1,10 @@
 {% extends '_base.html' %}
 
-{% load pychatbb_tags static humanize %}
+{% load frilium_tags static humanize %}
 
 {% block breadcrumb %}
     <li class="breadcrumb-item active text-white-50">
-        <span><i class="fas fa-home fa-fw"></i> Boards</span>
+        <span><i class="material-icon">home</i> Boards</span>
     </li>
 {% endblock %}
 
@@ -15,12 +15,13 @@
                 <div class="dropdown category-dropdown">
                     <button class="btn btn-category btn-secondary btn-md" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-tags fa-fw"></i> Category
+                        <span><i class="material-icon">loyalty</i> Category</span>
                     </button>
                     <ul class="dropdown-menu stick-to-bottom" aria-labelledby="dropdownMenuButton">
                         {% for category in categories %}
                             <li><a class="btn btn-link"
-                                   href="{% url 'boards:cat-list' category.slug category.pk %}">{{ category.name }}</a>
+                                   href="{% url 'frilium:boards:cat-list' category.slug category.pk %}">
+                                {{ category.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -29,87 +30,98 @@
         </div>
     {% endblock %}
 
-
-    <div class="forums-mount mb-4">
-        <div class="forums-list">
-            {% for board in boards %}
-                <ul class="list-group list-group-forum mb-1">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-6 forum-main">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <div class="read-status">
-                                            <span class="forum-icon fas fa-comment-alt"></span>
+    {% if boards %}
+        <div class="forums-mount mb-4">
+            <div class="forums-list">
+                {% for board in boards %}
+                    <ul class="list-group list-group-forum mb-1">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6 forum-main">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <div class="read-status">
+                                                <span class="forum-icon fas fa-comment-alt"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">
-                                            <a href="{% url 'boards:board_topics' board.slug %}">{{ board.name }}</a>
-                                        </h4>
-                                        <div class="forum-description">
-                                            <p>{{ board.description }}</p>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">
+                                                <a href="{% url 'frilium:boards:board_topics' board.slug %}">
+                                                    {{ board.name }}</a>
+                                            </h4>
+                                            <div class="forum-description">
+                                                <p>{{ board.description }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <ul class="list-unstyled forum-stats">
-                                    <li class="forum-topics-stats">
-                                        <span class="far fa-file fa-fw"></span>
-                                        {{ board.topic_count }} topic{{ board.topic_count|pluralize }}
-                                    </li>
-                                    <li class="forum-posts-stats">
-                                        <span class="fab fa-stack-exchange fa-fw"></span>
-                                        {{ board.post_count }} post{{ board.post_count|pluralize }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4 forum-last-topic">
-                                <div class="media">
-                                    <div class="media-left">
-                                        {% with post=board.get_last_post %}
-                                            {% if post %}
-                                                <a href="{% url 'users:user_posts' post.created_by post.created_by.pk %}"
-                                                   class="last-poster-avatar">
-                                                    <img src="{{ post.created_by|gravatar }}" alt=""
-                                                         class="media-class circular"
-                                                         width="40" height="40">
-                                                </a>
-                                            {% endif %}
+                                <div class="col-md-2">
+                                    <ul class="list-unstyled forum-stats">
+                                        <li class="forum-topics-stats">
+                                            <span class="far fa-file fa-fw"></span>
+                                            {{ board.topic_count }} topic{{ board.topic_count|pluralize }}
+                                        </li>
+                                        <li class="forum-posts-stats">
+                                            <span class="fab fa-stack-exchange fa-fw"></span>
+                                            {{ board.post_count }} post{{ board.post_count|pluralize }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 forum-last-topic">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            {% with post=board.get_last_post %}
+                                                {% if post %}
+                                                    <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
+                                                       class="last-poster-avatar">
+                                                        <img src="{{ post.created_by|gravatar }}" alt=""
+                                                             class="media-class circular"
+                                                             width="40" height="40">
+                                                    </a>
+                                                {% endif %}
+                                                </div>
+                                                <div class="media-body">
+                                                <div class="media-heading">
+                                                    {% if post %}
+                                                        <a href="{% url 'frilium:boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
+                                                           class="item-title topic-title">{{ post.topic.title }}</a>
+                                                    {% endif %}
+                                                </div>
+                                                <ul class="list-inline">
+                                                <li class="forum-last-topic-poster">
+                                                    {% if post %}
+                                                        <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
+                                                           class="item-title">{{ post.created_by.username }}</a>
+                                                    {% endif %}
+                                                </li>
+                                                <li class="divider">&mdash;</li>
+                                                <li class="forum-last-topic-date">
+                                                    {% if post %}
+                                                        <a href="{% url 'frilium:boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}">
+                                                            {{ post.topic.last_updated|naturaltime }}</a>
+                                                    {% endif %}
+                                                </li>
+                                            {% endwith %}
+                                            </ul>
                                             </div>
-                                            <div class="media-body">
-                                            <div class="media-heading">
-                                                {% if post %}
-                                                    <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
-                                                       class="item-title topic-title">{{ post.topic.title }}</a>
-                                                {% endif %}
-                                            </div>
-                                            <ul class="list-inline">
-                                            <li class="forum-last-topic-poster">
-                                                {% if post %}
-                                                    <a href="{% url 'users:user_posts' post.created_by post.created_by.pk %}"
-                                                       class="item-title">{{ post.created_by.username }}</a>
-                                                {% endif %}
-                                            </li>
-                                            <li class="divider">&mdash;</li>
-                                            <li class="forum-last-topic-date">
-                                                {% if post %}
-                                                    <a href="{% url 'boards:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}">
-                                                        {{ post.topic.last_updated|naturaltime }}</a>
-                                                {% endif %}
-                                            </li>
-                                        {% endwith %}
-                                        </ul>
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
-            {% endfor %}
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% else %}
+        <ul class="list-group">
+            <li class="list-group-item empty-message">
+                <i class="material-icon md-18">announcement_late</i>
+                <p class="lead">There are no forums created yet!</p>
+                <p>Contact your site Administrator to start one!</p>
+            </li>
+        </ul>
+    {% endif %}
+
 {% endblock %}
 
 {% block javascript %}

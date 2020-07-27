@@ -1,0 +1,45 @@
+{% extends '_base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block title %}Login | {{ block.super }}{% endblock title %}
+
+{% block header %}
+{% endblock %}
+
+
+{% block content %}
+
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong><i class="fas fa-info-circle fa-fw"></i> {{ message }}</strong>
+        </div>
+    {% endfor %}
+
+    <div class="form d-flex justify-content-center">
+        <form class="col-md-7" method="post">
+            <div class="panel panel-default panel-form">
+                <div class="panel-heading sign-in text-center">
+                    <h3 class="panel-title">Sign In</h3>
+                </div>
+                <div class="panel-body">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="forgot-password">
+                        <a class="" href="{% url 'frilium:auth:password-reset' %}">Forgot password?</a>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button class="btn btn-login btn-block indigo text-white" type="submit">
+                        <i class="fas fa-sign-out-alt"></i> Login
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock content %}

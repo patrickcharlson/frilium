@@ -35,7 +35,7 @@ class Board(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('boards:board_topics', kwargs={'slug': self.slug})
+        return reverse('frilium:boards:board_topics', kwargs={'slug': self.slug})
 
     @property
     def post_count(self):
@@ -64,17 +64,25 @@ class Topic(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        reverse('boards:topic', args=[self.slug, self.pk])
+        reverse('frilium:boards:topic', args=[self.slug, self.pk])
 
     def last_post(self):
         return Post.objects.select_related().filter(topic_id=self).latest()
 
     def url(self):
-        return reverse('boards:topic', args=[self.slug, self.pk])
+        return reverse('frilium:boards:topic', args=[self.slug, self.pk])
 
     @property
     def first_post(self):
         return self.posts.select_related().order_by('created_at').first()
+
+    # @property
+    # def first_post_id(self):
+    #     post_id = Post.objects.select_related().filter(topic=self).order_by('created_at')
+    #     if post_id:
+    #         return post_id[0].id
+    #     else:
+    #         return None
 
 
 class Post(models.Model):
@@ -96,11 +104,11 @@ class Post(models.Model):
         return truncated_message.chars(30)
 
     def get_absolute_url(self):
-        return reverse('boards:post', args=[self.slug])
+        return reverse('frilium:boards:post', args=[self.slug])
 
     def get_message_as_markdown(self):
         return mark_safe(markdown(self.message, safe_mode='escape'))
 
     def url(self):
         """Returns url for a specific post"""
-        return reverse('boards:post', args=[self.slug])
+        return reverse('frilium:boards:post', args=[self.slug])
