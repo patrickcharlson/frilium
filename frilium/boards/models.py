@@ -2,21 +2,9 @@ from autoslug import AutoSlugField
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.utils.safestring import mark_safe
-from django.utils.text import Truncator
-from markdown import markdown
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=254)
-    slug = AutoSlugField(unique=True, always_update=False, populate_from='name')
-
-    class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
-
-    def __str__(self):
-        return self.name
+from frilium.category.models import Category
+from frilium.post.models import Post
 
 
 class Board(models.Model):
@@ -26,6 +14,7 @@ class Board(models.Model):
     description = models.CharField(max_length=100, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    is_private = models.BooleanField('private', default=False)
 
     class Meta:
         verbose_name = 'Board'
@@ -35,7 +24,10 @@ class Board(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('frilium:boards:board_topics', kwargs={'slug': self.slug})
+        if self.pk == settings.TOPIC_PRIVATE_BOARD_PK:
+            return reverse('frilium:boards:private:index')
+        else:
+            return reverse('frilium:boards:private:private-posts', args=[self.slug, self.pk])
 
     @property
     def post_count(self):
@@ -47,68 +39,3 @@ class Board(models.Model):
     @property
     def topic_count(self):
         return self.topics.count()
-
-
-class Topic(models.Model):
-    title = models.CharField(max_length=255)
-    slug = AutoSlugField(unique=True, always_update=True, populate_from='title')
-    date_created = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    board = models.ForeignKey(Board, related_name='topics', verbose_name='Board', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='topics', verbose_name='User',
-                                   on_delete=models.CASCADE)
-    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='+', on_delete=models.CASCADE)
-    views = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        reverse('frilium:boards:topic', args=[self.slug, self.pk])
-
-    def last_post(self):
-        return Post.objects.select_related().filter(topic_id=self).latest()
-
-    def url(self):
-        return reverse('frilium:boards:topic', args=[self.slug, self.pk])
-
-    @property
-    def first_post(self):
-        return self.posts.select_related().order_by('created_at').first()
-
-    # @property
-    # def first_post_id(self):
-    #     post_id = Post.objects.select_related().filter(topic=self).order_by('created_at')
-    #     if post_id:
-    #         return post_id[0].id
-    #     else:
-    #         return None
-
-
-class Post(models.Model):
-    message = models.TextField()
-    topic = models.ForeignKey(Topic, related_name='posts', on_delete=models.CASCADE)
-    slug = AutoSlugField(unique=True, always_update=True, populate_from='message')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(null=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE)
-    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='+', on_delete=models.CASCADE)
-
-    class Meta:
-        get_latest_by = 'created_at'
-        verbose_name = 'Post'
-        verbose_name_plural = 'Posts'
-
-    def __str__(self):
-        truncated_message = Truncator(self.message)
-        return truncated_message.chars(30)
-
-    def get_absolute_url(self):
-        return reverse('frilium:boards:post', args=[self.slug])
-
-    def get_message_as_markdown(self):
-        return mark_safe(markdown(self.message, safe_mode='escape'))
-
-    def url(self):
-        """Returns url for a specific post"""
-        return reverse('frilium:boards:post', args=[self.slug])

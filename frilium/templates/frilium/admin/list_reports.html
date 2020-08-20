@@ -1,0 +1,83 @@
+{% extends 'frilium/admin/layout.html' %}
+{% load humanize %}
+
+
+{% block tabs %}
+    {% include 'frilium/admin/sidenav.html' with active_tab=3 %}
+{% endblock %}
+
+{% block section %}
+    <div class="page-header row align-items-center">
+        <div class="col">
+            <h1>Reports</h1>
+        </div>
+    </div>
+    <div class="card card-admin-table">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 1px" class="row-select"> &nbsp;</th>
+                <th>Poster</th>
+                <th>Topic</th>
+                <th>Reporter</th>
+                <th>Reported</th>
+                <th style="width: 1px"></th>
+                <td style="width: 1px"></td>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for report in reports %}
+                <tr>
+                    <td class="row-select">
+
+                    </td>
+                    <td class="pr-0">
+                        <div class="small">
+                            <a class="item-name"
+                               href="{% url 'frilium:user:user_posts' report.post.created_by report.post.created_by.pk %}">
+                                {{ report.post.created_by }}</a>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="small">
+                            <a class="item-name"
+                               href="{% url 'frilium:post:topic_post' report.post.topic.slug report.post.topic.pk %}#p-{{ report.post.id }}">
+                                {{ report.post.topic.title }}</a>
+                        </div>
+                    </td>
+                    <td class="small">{{ report.reported_by }}</td>
+                    <td class="small">{{ report.created_on|naturaltime }}</td>
+                    <td class="small">
+                        <a type="button" class="btn-icon btn"
+                           href=""
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           title="moderate">
+                            <i class="material-icon">settings</i>
+                        </a>
+                    </td>
+                    <td class="small">
+                        <a onclick="return confirm('Are you sure you want to delete this report?')"
+                           type="button" class="btn-icon btn"
+                           href="{% url 'frilium:admin:boards:report-delete' report.pk %}"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           title="Delete">
+                            <i class="material-icon">delete</i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+{% endblock %}

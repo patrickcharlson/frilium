@@ -10,7 +10,7 @@ class UserForm(ModelForm):
 
     class Meta:
         model = User
-        fields = ['name', 'gender', 'bio', 'location', 'website']
+        fields = ['name', 'gender', 'is_admin', 'is_mod', 'bio', 'location', 'website']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -1,0 +1,9 @@
+<a class="list-group-item {% if active_tab == 0 %} active {% endif %}"
+   href="{% url 'frilium:user:user_posts' user_p user_p.pk %}">
+    <i class="material-icon">chat_bubble</i> Posts</a>
+<a class="list-group-item {% if active_tab == 1 %} active{% endif %} "
+   href="{% url 'frilium:user:user_topics' user_p user_p.pk %}">
+    <i class="material-icon">forum</i> Topics</a>
+<a class="list-group-item {% if active_tab == 2 %} active {% endif %} "
+   href="{% url 'frilium:user:user-details' user_p user_p.pk %}">
+    <i class="material-icon">loupe</i> Details</a>

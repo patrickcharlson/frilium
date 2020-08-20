@@ -1,8 +1,12 @@
+from datetime import timedelta
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import TextChoices
+from django.utils import timezone
 
-from frilium.boards.models import Post, Topic
+from ..boards.models import Post
+from ..thread.models import Topic
 
 
 class User(AbstractUser):
@@ -22,6 +26,8 @@ class User(AbstractUser):
     is_admin = models.BooleanField('Administrator status', default=False)
     is_mod = models.BooleanField('moderator status', default=False)
     birthday = models.DateField('Birthday', null=True)
+    last_post_on = models.DateTimeField('Last post on', null=True, blank=True)
+    last_post_hash = models.CharField('Last post hash', max_length=32, blank=True)
 
     @property
     def post_count(self):
@@ -46,3 +52,12 @@ class User(AbstractUser):
         if self.is_admin:
             self.is_mod = True
         super().save(*args, **kwargs)
+
+    def update_post_hash(self, post_hash):
+        return bool(
+            self.objects.filter(pk=self.pk).exclude(
+                last_post_hash=post_hash,
+                last_post_on__gte=timezone.now() - timedelta(
+                    minutes=30)).update(
+                last_post_hash=post_hash,
+                last_post_on=timezone.now()))

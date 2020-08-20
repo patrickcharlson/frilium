@@ -1,20 +1,30 @@
 <nav class="nav nav-side-link">
-    <a href="{% url 'frilium:admin:dashboard' %}" class="nav-link nav-section active">
+    <a class="nav-link nav-section {% if active_tab == 0 %} active{% endif %}"
+       href="{% url 'frilium:admin:dashboard' %}">
         <div class="media-icon">
             <span class="material-icon">home</span>
         </div>
         <div class="">Dashboard</div>
     </a>
-    <a href="{% url 'frilium:admin:user:user-list' %}" class="nav-link nav-section">
+    <a class="nav-link nav-section {% if active_tab == 1 %}active{% endif %} "
+       href="{% url 'frilium:admin:user:user-list' %}">
         <div class="media-icon">
             <span class="material-icon">people</span>
         </div>
         <div class="">Users</div>
     </a>
-    <a href="" class="nav-link nav-section">
+    <a class="nav-link nav-section {% if active_tab == 2 %}active{% endif %}"
+       href="{% url 'frilium:admin:category:category-list' %}">
         <div class="media-icon">
             <span class="material-icon">group_work</span>
         </div>
         <div class="">Categories</div>
+    </a>
+    <a class="nav-link nav-section {% if active_tab == 3 %}active{% endif %}"
+       href="{% url 'frilium:admin:boards:reports' %}">
+        <div class="media-icon">
+            <span class="material-icon">flag</span>
+        </div>
+        <div class="">Reports</div>
     </a>
 </nav>

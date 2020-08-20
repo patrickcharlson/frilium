@@ -1,0 +1,78 @@
+{% extends 'frilium/_base.html' %}
+
+{% load static frilium_tags %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        <a class="text-white" href="{% url 'frilium:boards:home' %}">
+            <i class="material-icon">home</i> Boards</a>
+        <i class="material-icon mx-2 text-white" aria-hidden="true">keyboard_tab</i>
+    </li>
+    <li class="breadcrumb-item active text-white-50">{{ user_p.username }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+
+        <div class="col-md-3 profile-sidebar">
+            {% block profile-sidebar %}
+                <div class="avatar-wrap d-flex justify-content-center">
+                    <img src="{% avatar_url user_p '256' %}" alt="{{ user_p }}" class="circular w-75">
+                    <span class="avatar-online"></span>
+                </div>
+                <h4 class="profile-meta">
+                    <small class="profile-user-title">Team member</small>
+                </h4>
+
+                <div class="list-group nav-side">
+
+                    {% block tabs %}{% endblock %}
+
+                </div>
+            {% endblock %}
+        </div>
+
+
+        <div class="col-md-9 profile-content">
+
+            {% block profile-content %}
+                <div class="page-header-bg">
+                    <div class="page-header">
+                        <div class="container">
+                            {% if not user.username == user_p.username %}
+                                <a href="" class="btn btn-default btn-sm float-right">Private Message</a>
+                            {% endif %}
+
+                            <h1>{{ user_p.username }}</h1>
+                        </div>
+                        <div class="header-stats">
+                            <div class="container">
+                                <ul class="list-inline">
+                                    <li class="user-rank">
+                                        <span>Team member</span>
+                                    </li>
+                                    <li class="user-email">
+                                        <a href="mailto:{{ user_p.email }}" class="">
+                                            {{ user_p.email }}</a>
+                                    </li>
+                                    <li class="user-joined">
+                                        <abbr title="{{ user_p.date_joined }}">
+                                            Joined {{ user_p.date_joined|humanizetime }}</abbr>
+                                    </li>
+                                    <li class="user-last-post">
+                                        {% if user_p.last_post %}
+                                            <em><span>Last post {{ user_p.last_post|humanizetime }}</span></em>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+
+            {% block section %}{% endblock %}
+
+        </div>
+    </div>
+{% endblock %}

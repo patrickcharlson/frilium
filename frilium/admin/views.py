@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
 
-from frilium.boards.models import Category, Topic, Post
-from frilium.core.utils.decorators import administrator_required
+from ..category.models import Category
+from ..core.utils.decorators import administrator_required
+from ..post.models import Post
+from ..thread.models import Topic
 
 User = get_user_model()
 

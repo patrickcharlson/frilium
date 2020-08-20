@@ -1,0 +1,62 @@
+{% extends 'frilium/admin/layout.html' %}
+
+{% load humanize frilium_tags crispy_forms_filters %}
+
+{% block tabs %}
+    {% include 'frilium/admin/sidenav.html' with active_tab=1 %}
+{% endblock %}
+
+{% block section %}
+    <div class="page-header row align-items-center">
+        <div class="col">
+            <h1>Users</h1>
+        </div>
+    </div>
+    <div class="card card-admin-form">
+        <form method="post">
+            <h5 class="card-header">
+                Edit User
+            </h5>
+            <div class="card-body">
+                <div class="media py-1">
+                    <a href="{% url 'frilium:user:user_posts' user user.pk %}" class="mr-3">
+                        <img class="circular" src="{% avatar_url user '56' %}" alt="">
+                    </a>
+                    <div class="media-body">
+                        <h5 class="">{{ user }}
+                            {% if user.is_admin %}
+                                <span class="badge badge-secondary">Super Admin</span>
+                            {% endif %}
+                        </h5>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <span> joined {{ user.date_joined|naturaltime }}</span>
+                            </li>
+                            <li class="list-inline-item">{{ user.posts.count }} posts</li>
+                            <li class="list-inline-item">{{ user.topics.count }} topics</li>
+                            {% if user.last_post %}
+                                <li class="list-inline-item">last post {{ user.last_post|naturaltime }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-fieldset border-top">
+                    <fieldset>
+                        <legend>Basic Account Settings</legend>
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    </fieldset>
+
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button class="btn btn-login btn-sm indigo text-white" type="submit">
+                    <i class="fas fa-sign-out-alt"></i> Save changes
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

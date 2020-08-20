@@ -11,7 +11,7 @@
 }
 
 .material-icon {
-    font-family: 'Material Icons';
+    font-family: 'Material Icons', serif;
     position: relative;
     top: 2px;
     font-weight: 400;
@@ -108,14 +108,21 @@ select:-webkit-autofill:focus {
 }
 
 .user-dropdown .dropdown-menu {
-    min-width: 111px !important;
+    width: 240px;
     min-height: 60px !important;
     border-radius: 5px !important;
     font-size: inherit !important;
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
-    left: -50px !important;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .04), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .06);
+    left: -195px !important;
     padding: 5px;
-    border-color: #b9b9b9b9;
+    border: none;
+    top: 119%;
+}
+
+.user-dropdown .dropdown-menu .divider {
+    background-color: #ebecf0;
+    margin: 9px 0;
+    border-top: 1px solid #ebecf0;
 }
 
 .category-dropdown .dropdown-menu {
@@ -163,15 +170,37 @@ select:-webkit-autofill:focus {
 
 .dropdown-item {
     padding: 5px !important;
-    font-size: inherit !important;
+    font-size: 13px !important;
+}
+
+.user-dropdown .dropdown-item {
+    padding: 6px 20px !important;
+    border: none;
+    clear: both;
+    float: none;
+    display: block;
+}
+
+.user-dropdown .dropdown-item:hover {
+    background-color: #ebecf0;
+    color: #172b4d;
+}
+
+.user-dropdown .dropdown-header {
+    padding: 6px 20px;
 }
 
 .dropdown-divider {
-    margin: 0;
+    margin: 9px 0;
+    height: 1px;
 }
 
-.dropdown-item:hover {
-    background-color: white;
+.user-dropdown .dropdown-buttons {
+    padding: 2px 20px 7px !important;
+    margin: 4px 0;
+    text-align: center;
+    background-color: #e0e0e0;
+    height: 26px;
 }
 
 .dropdown .dropdown-menu .dropdown-item:active {
@@ -194,6 +223,11 @@ select:-webkit-autofill:focus {
 
 .btn {
     margin: 0;
+    box-shadow: none;
+}
+
+.btn-light:focus {
+    box-shadow: none;
 }
 
 .nav-item .btn {
@@ -219,6 +253,10 @@ select:-webkit-autofill:focus {
     background-color: #6554c0 !important;
     text-transform: none;
     font-size: 13px !important;
+}
+
+.btn-reply {
+    background-color: #aa66cc !important;
 }
 
 .btn-category {
@@ -281,10 +319,11 @@ div.CodeMirror {
 
 
 .btn-icon {
-    padding: 6px 10px;
+    padding: 6px 12px;
     box-shadow: none;
     margin-right: 5px;
     vertical-align: top;
+    font-size: 14px;
 }
 
 .btn-icon:focus, .btn-icon:active {
@@ -306,7 +345,7 @@ div.CodeMirror {
 #div_id_birthday .form-control {
     width: 25%;
     display: inline-block;
-    margin-right: 10px ;
+    margin-right: 10px;
 }
 
 .card-container {
@@ -535,7 +574,7 @@ h5 small {
 }
 
 .post-side .btn-default {
-    background: #172b4d !important;
+    background: #aa66cc !important;
     color: #ffffff;
     font-weight: 400 !important;
     text-transform: none;
@@ -623,7 +662,7 @@ a.item-title:visited {
 }
 
 .post-heading > .btn-link:hover {
-    text-decoration: none;
+    text-decoration: underline;
     color: #172b4d;
 }
 
@@ -775,7 +814,6 @@ select#id_gender {
 
 .forum-main .media-left .forum-icon {
     color: #fff;
-    vertical-align: middle;
 }
 
 .forum-main .media-body {
@@ -801,6 +839,10 @@ h4.media-heading {
 .forum-main .media-heading a:link,
 .forum-main .media-heading a:visited {
     color: #344563;
+}
+
+.forum-main .media-heading a:hover {
+    text-decoration: underline;
 }
 
 .forum-main .forum-description p:last-child {
@@ -874,6 +916,10 @@ a.item-title:hover {
     color: #7a869a;
 }
 
+.forum-last-topic .list-inline a:hover {
+    text-decoration: underline;
+}
+
 .list-group .list-group-item {
     border-left-color: #ebecf0;
     border-right-color: #ebecf0;
@@ -917,6 +963,10 @@ a.item-title:hover {
     font-size: 12px;
 }
 
+.topics-list .topic-last-action .topic-last-reply:hover {
+    text-decoration: underline;
+}
+
 .post-message {
     padding-bottom: 30px;
 }
@@ -951,6 +1001,11 @@ p.post-edit {
 
 .topic-category.badge {
     box-shadow: none;
+}
+
+.topic-category .badge {
+    font-size: 13px !important;
+    font-weight: 400;
 }
 
 .page-header-bg {
@@ -1002,7 +1057,7 @@ p.lead {
     padding: 7px 8px;
     background-color: #aa66cc;
     color: white;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .btn-light:not([disabled]):not(.disabled):active {
@@ -1025,9 +1080,17 @@ p.lead {
     align-items: flex-start;
 }
 
+.user-dropdown .nav-link {
+    padding: 0;
+}
+
 .nav-side-link .nav-section.active {
     font-weight: 700;
     color: #172b4d;
+}
+
+.nav-side-link .nav-link.active .media-icon {
+    color: #aa66cc;
 }
 
 .nav-side-link a {
@@ -1108,7 +1171,7 @@ p.lead {
 }
 
 .card-admin-table .small {
-    font-size: 12.8px;
+    font-size: 13px;
     color: #172b4d;
 }
 
@@ -1143,12 +1206,20 @@ p.lead {
     text-transform: none;
 }
 
+.btn-user:active, .btn-user:focus {
+    box-shadow: none;
+}
+
+.btn-user {
+    padding: 0 !important;
+}
+
 .page-action .btn-sm {
-    padding: 0.25rem 0.5rem;
+    padding: 6px 12px;
     font-size: 13px;
     box-shadow: none;
     background-color: #6554c0;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 body.background-color {
@@ -1168,6 +1239,22 @@ body.background-color {
 .card-admin-form .card-footer {
     border-top: 1px solid rgba(9, 30, 66, 0.125);
     background-color: rgba(0, 0, 0, 0);
+}
+
+.card-admin-form label {
+    font-weight: 700;
+}
+
+.card-admin-table .dropdown-item {
+    padding: .25rem 1.5rem !important;
+    clear: both;
+    color: #172b4d;
+    border: 0;
+}
+
+.card-admin-table .dropdown-item:hover {
+    color: rgb(17, 32, 57);
+    background-color: rgb(244, 245, 247);
 }
 
 /*Material icon tooltip*/

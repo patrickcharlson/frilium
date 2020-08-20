@@ -1,29 +1,13 @@
 import hashlib
+from datetime import datetime
 
 from django import template
-from django.contrib.auth import get_user_model
-from django.urls import reverse
-from django.utils.http import urlencode, urlquote
-from django.utils.safestring import mark_safe
+from django.template import defaultfilters
+from django.utils.http import urlquote, urlencode
+from django.utils.timezone import is_aware, utc
+from django.utils.translation import ngettext_lazy, gettext_lazy
 
 register = template.Library()
-
-User = get_user_model()
-
-
-@register.filter
-def profile_link(user):
-    data = f'<a href="{reverse("user:user_posts", args=[user.username, user.pk])}">{user.username}</a>'
-    return mark_safe(data)
-
-
-@register.filter
-def gravatar(user):
-    email = user.email.lower().encode('utf-8')
-    default = 'identicon'
-    size = 256
-    url = f'https://www.gravatar.com/avatar/{hashlib.md5(email).hexdigest()}?{urlencode({"d": default, "s": str(size)})}'
-    return url
 
 
 @register.simple_tag()
@@ -34,3 +18,47 @@ def avatar_url(user, size, rating='g', default='identicon'):
                       ('s', str(size)),
                       ('r', rating)])
     return "".join((url, hash_, '?', data))
+
+
+@register.filter
+def humanizetime(value):
+    return HumanizeNaturalTime.time_string(value)
+
+
+class HumanizeNaturalTime:
+    time_strings = {
+        'past-day': gettext_lazy('%(delta)s ago'),
+        'past-hour': ngettext_lazy('an hour ago', '%(count)s hours ago', 'count'),
+        'past-minute': ngettext_lazy('a minute ago', '%(count)s minutes ago', 'count'),
+        'past-second': ngettext_lazy('a second ago', '%(count)s seconds ago', 'count'),
+        'now': gettext_lazy('now'),
+    }
+    past_substrings = {
+        'year': ngettext_lazy('%d year', '%d years'),
+        'month': ngettext_lazy('%d month', '%d months'),
+        'week': ngettext_lazy('%d week', '%d weeks'),
+        'day': ngettext_lazy('%d day', '%d days'),
+        'hour': ngettext_lazy('%d hour', '%d hours'),
+        'minute': ngettext_lazy('%d minute', '%d minutes'),
+    }
+
+    @classmethod
+    def time_string(cls, value):
+
+        now = datetime.now(utc if is_aware(value) else None)
+        if value < now:
+            delta = now - value
+            if delta.days:
+                return cls.time_strings['past-day'] % {
+                    'delta': defaultfilters.timesince(value, now, time_strings=cls.past_substrings).split(', ')[0],
+                }
+            elif delta.seconds == 0:
+                return cls.time_strings['now']
+            elif delta.seconds < 60:
+                return cls.time_strings['past-second'] % {'count': delta.seconds}
+            elif delta.seconds // 60 < 60:
+                count = delta.seconds // 60
+                return cls.time_strings['past-minute'] % {'count': count}
+            else:
+                count = delta.seconds // 60 // 60
+                return cls.time_strings['past-hour'] % {'count': count}

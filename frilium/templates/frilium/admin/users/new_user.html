@@ -1,0 +1,31 @@
+{% extends 'frilium/admin/layout.html' %}
+{% load crispy_forms_filters frilium_tags%}
+
+{% block tabs %}
+    {% include 'frilium/admin/sidenav.html' with active_tab=1 %}
+{% endblock %}
+
+{% block section %}
+    <div class="page-header row align-items-center">
+        <div class="col">
+            <h1>Users</h1>
+        </div>
+    </div>
+    <div class="card card-admin-form">
+        <form method="post">
+            <h5 class="card-header">
+                New User
+            </h5>
+            <div class="card-body">
+                <legend>Basic Account Settings</legend>
+                {% csrf_token %}
+                {{ form|crispy }}
+            </div>
+            <div class="card-footer text-right">
+                <button class="btn btn-login btn-sm indigo text-white" type="submit">
+                    <i class="fas fa-sign-out-alt"></i> Add user
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

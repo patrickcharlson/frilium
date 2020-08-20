@@ -1,0 +1,13 @@
+{% extends 'frilium/thread/topics.html' %}
+
+{% block title %}Topics {{ block.super }}{% endblock %}
+
+{% block new-topic %}
+{% endblock %}
+
+{% block topic-category %}
+    <span class="topic-category">
+      <a href="{% url 'frilium:category:topic-category' topic.board.category.slug topic.board.category.pk %}">
+          {{ topic.board.category.get_html_badge }}</a>
+    </span>
+{% endblock %}

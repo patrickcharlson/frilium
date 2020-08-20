@@ -1,0 +1,104 @@
+{% extends 'frilium/_base.html' %}
+
+{% load static frilium_tags %}
+
+{% block title %}
+    {{ board.name }} | {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    {% block new-topic %}
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{% url 'frilium:thread:new_topic' board.slug %}"
+                   class="mb-4 btn btn-topic btn-dark-green btn-sm text-white"> New
+                    Topic <i class="material-icon">add_circle</i>
+                </a>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% if topics %}
+        <div class="topics-list ui-ready mb-4">
+            {% for topic in topics %}
+                <ul class="list-group mb-1">
+                    <li class="list-group-item topic-read">
+                        <div class="row topic-row">
+                            <div class="topic-main col-md-7">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="{% url 'frilium:user:user_posts' topic.created_by topic.created_by.pk %}"
+                                           class="topic-starter-avatar">
+                                            <img width="40" height="40" src="{% avatar_url topic.created_by '40' %}"
+                                                 alt=""
+                                                 class="user-avatar circular"></a>
+                                    </div>
+                                    <div class="media-body">
+                                        {% block title-url %}
+                                            <a href="{% url 'frilium:post:topic_post' topic.slug topic.pk %}"
+                                               class="item-title topic-title">{{ topic.title }}</a>
+                                        {% endblock %}
+                                        <div class="row topic-details-bottom">
+                                            <div class="col-md-12">
+                                                {% block topic-category %}
+                                                {% endblock %}
+
+                                                <span class="topic-details-views">
+                                                    <i class="material-icon">visibility</i>
+                                                    {{ topic.views }} view{{ topic.views|pluralize }}
+                                            </span>
+                                                <span class="topic-detail-replies">
+                                                    <i class="material-icon">chat</i>
+                                                    {{ topic.replies }} repl{{ topic.replies|pluralize:"y,ies" }}
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="offset-2 col-md-3 topic-last-action">
+                                <div class="media">
+                                    <div class="media-left">
+                                        {% with post=topic.last_post %}
+                                            <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
+                                               class="topic-last-poster-avatar">
+                                                <img width="40" height="40" src="{% avatar_url post.created_by '40' %}"
+                                                     alt="" class="media-object circular">
+                                            </a>
+                                            </div>
+                                            <div class="media-body">
+                                            <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
+                                               class="item-title topic-last-poster">{{ post.created_by.username }}</a>
+                                            <a href="{% url 'frilium:post:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
+                                               class="topic-last-reply">{{ topic.last_updated|humanizetime }}</a>
+                                        {% endwith %}
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+    {% else %}
+        <ul class="list-group">
+            <li class="list-group-item empty-message">
+                <i class="material-icon md-18">announcement_late</i>
+                {% block topic-warning %}
+                    <p class="lead">There are no topics associated with this board!</p>
+                    <p>Be the first to start it off!</p>
+                {% endblock %}
+            </li>
+        </ul>
+    {% endif %}
+
+
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+{% endblock %}

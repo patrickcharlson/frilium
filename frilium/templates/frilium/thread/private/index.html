@@ -1,0 +1,22 @@
+{% extends 'frilium/thread/topics.html' %}
+
+{% block new-topic %}
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{% url 'frilium:thread:private:new-topic-private' %}"
+               class="mb-4 btn btn-topic btn-sm text-white"> Start Private
+                Topic <i class="material-icon">add_circle</i>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title-url %}
+    <a href="{% url 'frilium:thread:private:private-posts' topic.slug topic.pk %}"
+       class="item-title topic-title">{{ topic.title }}</a>
+{% endblock %}
+
+{% block topic-warning %}
+    <p class="lead">You aren't participating in any private topics yet</p>
+    <p>Have a go at it!!</p>
+{% endblock %}

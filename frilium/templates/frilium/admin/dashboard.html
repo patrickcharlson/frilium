@@ -1,6 +1,11 @@
 {% extends 'frilium/admin/layout.html' %}
 
+{% block tabs %}
+    {% include 'frilium/admin/sidenav.html' with active_tab=0 %}
+{% endblock %}
+
 {% block section %}
+
     <div class="page-header row align-items-center">
         <div class="col">
             <h1>Dashboard</h1>
@@ -16,7 +21,7 @@
                         </div>
                         <div class="text">
                             <var>{{ users_count }}</var>
-                            <label class="text-muted">Users</label>
+                            <label class="text-muted">User{{ users_count|pluralize }}</label>
                         </div>
                     </div>
                 </div>
@@ -31,7 +36,7 @@
                         </div>
                         <div class="text">
                             <var>{{ topic_count }}</var>
-                            <label class="text-muted">Topics</label>
+                            <label class="text-muted">Topic{{ topic_count|pluralize }}</label>
                         </div>
                     </div>
                 </div>
@@ -46,7 +51,7 @@
                         </div>
                         <div class="text">
                             <var>{{ posts_count }}</var>
-                            <label class="text-muted">Posts</label>
+                            <label class="text-muted">Post{{ posts_count|pluralize }}</label>
                         </div>
                     </div>
                 </div>
@@ -61,7 +66,7 @@
                         </div>
                         <div class="text">
                             <var>{{ category_count }}</var>
-                            <label class="text-muted">Categories</label>
+                            <label class="text-muted">Categor{{ category_count|pluralize:'y,ies' }}</label>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,20 @@
+{% extends 'frilium/user/user_profile.html' %}
+
+{% block tabs %}
+    {% include 'frilium/user/user-nav.html' with active_tab=0 %}
+{% endblock %}
+
+{% block section %}
+    {% if posts %}
+        <div class="profile-feed">
+            <nav class="toolbar">
+                <h3 class="toolbar-left">
+                    You have posted {{ user_p.posts.count }} message{{ posts.count|pluralize }}
+                </h3>
+            </nav>
+            {% include 'frilium/user/post-feed.html' %}
+        </div>
+    {% else %}
+        There are no posts here, yet
+    {% endif %}
+{% endblock %}

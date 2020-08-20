@@ -1,10 +1,11 @@
 from django.urls import path
 
-from frilium.user.admin.views import user_list, edit, create_user
+from ...user.admin.views import create_user, delete_user, edit_user, list_users
 
 app_name = 'user'
 urlpatterns = [
-    path('', user_list, name='user-list'),
-    path('<int:pk>/edit/', edit, name='edit'),
-    path('new/', create_user, name='new-user')
+    path('', list_users, name='user-list'),
+    path('<int:pk>/edit/', edit_user, name='edit'),
+    path('new/', create_user, name='new-user'),
+    path('u/<int:pk>/delete/', delete_user, name='user-delete')
 ]

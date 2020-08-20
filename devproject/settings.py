@@ -9,19 +9,29 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import json
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.contrib import messages
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+with open(os.path.join(os.path.dirname(__file__), 'secrets.json'), 'r') as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(setting):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = f'Set the {setting} secret variable'
+        raise ImproperlyConfigured(error_msg)
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7jw(#th$d7@9lhnf@_cvzs*e8wfqq&*u8jnc!%le=nh6t)&gx='
+SECRET_KEY = get_secret('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # ------------------------------------------------------------------------------
@@ -47,13 +57,20 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # Local apps
-    'frilium.user.apps.UserConfig',
-    'frilium.boards.apps.BoardsConfig',
-    'frilium.auth.apps.AuthConfig',
-    'frilium.core.apps.CoreConfig',
     'frilium.admin.apps.AdminConfig',
+    'frilium.auth.apps.AuthConfig',
+    'frilium.boards.apps.BoardsConfig',
+    'frilium.category.apps.CategoryConfig',
+    'frilium.core.apps.CoreConfig',
+    'frilium.post.apps.PostConfig',
+    'frilium.thread.apps.TopicConfig',
+    'frilium.user.apps.UserConfig',
 
-    'frilium.user.admin.apps.UserAdmin'
+    'frilium.boards.admin.apps.FriliumBoardsAdminConfig',
+    'frilium.category.admin.apps.FriliumCategoryAdmin',
+    'frilium.post.report.apps.ReportConfig',
+    'frilium.thread.private.apps.PrivateConfig',
+    'frilium.user.admin.apps.UserAdmin',
 
 ]
 
@@ -81,8 +98,7 @@ ROOT_URLCONF = 'devproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frilium/templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'frilium/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,9 +133,9 @@ AUTHENTICATION_BACKENDS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'frilium',
-        'USER': 'charlson',
-        'PASSWORD': 'pashazzy77!!',
+        'NAME': get_secret('DATABASE_NAME'),
+        'USER': get_secret('DATABASE_USER'),
+        'PASSWORD': get_secret('DATABASE_PASSWORD'),
         'HOST': 'localhost',
         'PORT': 5432
     }
@@ -187,3 +203,18 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+DEBUG_TOOLBAR_PANELS = [
+    "debug_toolbar.panels.versions.VersionsPanel",
+    "debug_toolbar.panels.timer.TimerPanel",
+    "debug_toolbar.panels.settings.SettingsPanel",
+    "debug_toolbar.panels.headers.HeadersPanel",
+    "debug_toolbar.panels.request.RequestPanel",
+    "debug_toolbar.panels.sql.SQLPanel",
+    "debug_toolbar.panels.templates.TemplatesPanel",
+    "debug_toolbar.panels.staticfiles.StaticFilesPanel",
+    "debug_toolbar.panels.cache.CachePanel",
+    "debug_toolbar.panels.signals.SignalsPanel",
+    "debug_toolbar.panels.logging.LoggingPanel",
+    "debug_toolbar.panels.redirects.RedirectsPanel",
+]

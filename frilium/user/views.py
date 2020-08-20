@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from frilium.boards.models import Post, Topic
+from frilium.post.models import Post
+from frilium.thread.models import Topic
 from frilium.user.forms import CustomPasswordChangeForm, EmailChangeForm, UserForm
 
 User = get_user_model()
@@ -14,16 +15,16 @@ User = get_user_model()
 def user_posts(request, username, pk):
     user = get_object_or_404(User, username=username, pk=pk)
     posts = Post.objects.select_related().filter(created_by=user).order_by('-created_at')
-    context = {'posts': posts, 'user': user}
-    return render(request, 'user/all_posts.html', context)
+    context = {'posts': posts, 'user_p': user}
+    return render(request, 'frilium/user/all_posts.html', context)
 
 
 @login_required
 def user_topics(request, username, pk):
     user = get_object_or_404(User, username=username, pk=pk)
     topics = Topic.objects.select_related().filter(created_by=user).order_by('-date_created')
-    context = {'topics': topics, 'user': user}
-    return render(request, 'user/all_topics.html', context)
+    context = {'topics': topics, 'user_p': user}
+    return render(request, 'frilium/user/all_topics.html', context)
 
 
 @login_required
@@ -38,7 +39,7 @@ def password_change(request):
     else:
         form = CustomPasswordChangeForm(request.user)
     context = {'form': form}
-    return render(request, 'user/password_change.html', context)
+    return render(request, 'frilium/user/password_change.html', context)
 
 
 @login_required
@@ -52,7 +53,7 @@ def email_change(request):
     else:
         form = EmailChangeForm(request.user)
     context = {'form': form}
-    return render(request, 'user/email_change.html', context)
+    return render(request, 'frilium/user/email_change.html', context)
 
 
 @login_required
@@ -66,10 +67,10 @@ def update(request):
     else:
         form = UserForm(instance=request.user)
     context = {'form': form}
-    return render(request, 'user/edit-details.html', context)
+    return render(request, 'frilium/user/edit-details.html', context)
 
 
 def user_details(request, username, pk):
     user = get_object_or_404(User, username=username, pk=pk)
-    context = {'user': user}
-    return render(request, 'user/details.html', context)
+    context = {'user_p': user}
+    return render(request, 'frilium/user/details.html', context)
