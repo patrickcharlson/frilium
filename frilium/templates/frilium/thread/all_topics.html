@@ -2,7 +2,15 @@
 
 {% block title %}Topics {{ block.super }}{% endblock %}
 
-{% block new-topic %}
+{% block header %}
+    <div class="forum-header text-center py-2">
+        <header>
+            <h1 class="forum-title">Public Threads</h1>
+            {% block page-tabs %}
+                {% include 'frilium/thread/page-tabs.html' with active_tab=0 %}
+            {% endblock %}
+        </header>
+    </div>
 {% endblock %}
 
 {% block topic-category %}

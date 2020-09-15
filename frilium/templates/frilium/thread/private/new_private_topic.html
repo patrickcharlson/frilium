@@ -25,20 +25,6 @@
     </script>
 {% endblock %}
 
-
-{% block breadcrumb %}
-    <li class="breadcrumb-item">
-        <a class="white-text" href="{% url 'frilium:boards:home' %}">
-            <i class="material-icon">home</i> Boards</a>
-        <i class="material-icon mx-2 text-white" aria-hidden="true">keyboard_tab</i>
-    </li>
-    <li class="breadcrumb-item">
-        <a class="white-text" href="">{{ board.name }}</a>
-        <i class="material-icon mx-2  text-white" aria-hidden="true">keyboard_tab</i>
-    </li>
-    <li class="breadcrumb-item active text-white-50">New topic</li>
-{% endblock %}
-
 {% block content %}
     <form method="post">
         {% csrf_token %}

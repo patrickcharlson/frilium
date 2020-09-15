@@ -15,7 +15,7 @@
 
 </head>
 <body>
-<div class="container my-3">
+<div class="container mt-3">
     <div style="background: #f4f5f7" class="card card-container justify-content-start text-dark">
         <div class="card-body title-body">
             <h4 class="card-title">Frilium Forums</h4>
@@ -31,10 +31,6 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <form class="form-inline my-2 my-lg-0 mr-3">
-                    <input class="form-control inputbox search tiny" type="search" placeholder="Search..."
-                           aria-label="Search">
-                </form>
                 {% if not user.is_authenticated %}
                     <li class="nav-item mr-3">
                         <a class="btn btn-sign-in btn-primary btn-sm nav-link text-white" type="button"
@@ -49,6 +45,28 @@
                     </li>
                 {% else %}
                     <ul class="navbar-nav ml-auto mx-2">
+                        {% if request.user.is_admin %}
+                            <li class="nav-item">
+                                <a href="{% url 'frilium:admin:dashboard' %}"
+                                   class="navbar-icon" title="administrator">
+                                    <span class="material-icon">stars</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if request.user.is_mod %}
+                            <li class="nav-item">
+                                <a href="{% url 'frilium:post:report:report' %}"
+                                   class="navbar-icon" title="moderator">
+                                    <span class="material-icon">tune</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a href="{% url 'frilium:thread:private:index' %}"
+                               class="navbar-icon" title="private threads">
+                                <span class="material-icon">forum</span>
+                            </a>
+                        </li>
                         <li class="nav-item dropdown user-dropdown">
                             <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
@@ -64,7 +82,7 @@
                                     <i class="material-icon">settings_input_component</i> User Control Panel
                                 </a>
                                 <a class="dropdown-item"
-                                   href="{% url 'frilium:user:user_posts' request.user.username request.user.pk %}">
+                                   href="{% url 'frilium:user:user_posts' request.user request.user.pk %}">
                                     <i class="material-icon">account_circle</i> My profile </a>
                                 <a class="dropdown-item"
                                    href="{% url 'frilium:thread:private:index' %}">
@@ -83,21 +101,13 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container mt-3">
 
     {% block content %}
     {% endblock %}
 
-    <div class="frilium-footer">
+    <div class="frilium-footer text-center">
         <div class="footer-content">
-            <div class="float-right">
-                {% if request.user.is_admin %}
-
-                    <a href="{% url 'frilium:admin:dashboard' %}" class="frilium-branding">
-                        <strong>Admin Site Index</strong></a>
-                    <i style="color: #172b4d" class="material-icon">settings</i>
-                {% endif %}
-            </div>
             <a href="{% url 'frilium:boards:home' %}" class="frilium-branding">Powered by <strong>frilium</strong></a>
             <i style="color: #172b4d" class="material-icon">favorite</i>
         </div>

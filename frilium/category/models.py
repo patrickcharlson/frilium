@@ -3,11 +3,12 @@ from django.db import models
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
-from frilium.post.models import Post
-from frilium.thread.models import Topic
+from ..post.models import Post
+from ..thread.models import Topic
 
 
 class Category(models.Model):
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=254)
     slug = AutoSlugField(unique=True, always_update=True, populate_from='name')
     color = models.CharField('color', max_length=7, default='#007bff')

@@ -17,7 +17,6 @@ six = "==1.15.0"
 sqlparse = "==0.3.1"
 Django = "==3.0.8"
 Markdown = "==3.2.2"
-models = "*"
 
 [requires]
 python_version = "3.8"

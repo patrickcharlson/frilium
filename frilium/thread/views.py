@@ -4,17 +4,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
 
-from frilium.boards.models import Board
-from frilium.post.forms import PostForm, EditPostForm
-from frilium.post.models import Post
-from frilium.thread.forms import NewTopicForm, EditTopicForm
-from frilium.thread.models import Topic
+from .forms import NewTopicForm, EditTopicForm
+from .models import Topic
+from .private.models import TopicPrivate
+from ..boards.models import Board
+from ..core.conf import settings
+from ..post.forms import PostForm, EditPostForm
+from ..post.models import Post
+
+private_topics = TopicPrivate.objects.all()
 
 
 @login_required
 def list_topics(request, slug):
     board = get_object_or_404(Board, slug=slug)
-    board_topics = board.topics.select_related() \
+    board_topics = board.topics.exclude(private_topics__in=private_topics).select_related() \
         .order_by('-date_created').annotate(replies=Count('posts') - 1)
     context = {'board': board, 'topics': board_topics}
     return render(request, 'frilium/thread/topics.html', context)
@@ -28,12 +32,12 @@ def add_topic(request, slug):
         if form.is_valid():
             topic = form.save(commit=False)
             topic.board = board
-            topic.created_by = request.user
+            topic.user = request.user
             topic.save()
             Post.objects.create(
                 message=form.cleaned_data.get('message'),
                 topic=topic,
-                created_by=request.user
+                user=request.user
             )
             return redirect('frilium:post:topic_post', slug=topic.slug, pk=topic.pk)
     else:
@@ -46,17 +50,16 @@ def add_topic(request, slug):
 def reply_topic(request, slug):
     topic = get_object_or_404(Topic, slug=slug)
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, user=request.user, topic=topic)
         if form.is_valid():
             post = form.save(commit=False)
             post.topic = topic
-            post.created_by = request.user
+            post.user = request.user
             post.save()
 
             topic.last_updated = timezone.now()
             topic.save()
-            url = f'/t/{topic.slug}/{topic.pk}/#p-{post.id}'
-            return redirect(url)
+            return redirect(topic.get_absolute_url())
     else:
         form = PostForm()
     context = {'form': form, 'thread': topic}
@@ -97,7 +100,27 @@ def show_topic(request, slug, pk):
     return redirect(url)
 
 
+@login_required
 def all_topics(request):
-    topics = Topic.objects.public().select_related().order_by('-date_created').annotate(
-        replies=Count('posts') - 1)
+    topics = Topic.objects.exclude(private_topics__in=private_topics,
+                                   private_topics__user=request.user).select_related().order_by(
+        '-date_created').annotate(replies=Count('posts') - 1)
     return render(request, 'frilium/thread/all_topics.html', context={'topics': topics})
+
+
+@login_required
+def my_topics(request, slug=None):
+    if slug:
+        board = get_object_or_404(Board, slug=slug)
+
+        topics = Topic.objects.exclude(board_id=settings.TOPIC_PRIVATE_BOARD_PK,
+                                       private_topics__in=private_topics).select_related() \
+            .filter(board=board, user=request.user).order_by(
+            '-date_created').annotate(replies=Count('posts') - 1)
+        context = {'topics': topics, 'board': board}
+        return render(request, 'frilium/thread/forum_my_topics.html', context)
+
+    topics = Topic.objects.exclude(private_topics__in=private_topics).select_related().filter(
+        user=request.user).order_by('-date_created').annotate(
+        replies=Count('posts') - 1)
+    return render(request, 'frilium/thread/my_topics.html', context={'topics': topics})

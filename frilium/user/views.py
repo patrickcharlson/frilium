@@ -4,17 +4,21 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from frilium.post.models import Post
-from frilium.thread.models import Topic
-from frilium.user.forms import CustomPasswordChangeForm, EmailChangeForm, UserForm
+from .forms import CustomPasswordChangeForm, EmailChangeForm, UserForm
+from ..post.models import Post
+from ..thread.models import Topic
+from ..thread.private.models import TopicPrivate
 
 User = get_user_model()
+
+private_topics = TopicPrivate.objects.all()
 
 
 @login_required
 def user_posts(request, username, pk):
     user = get_object_or_404(User, username=username, pk=pk)
-    posts = Post.objects.select_related().filter(created_by=user).order_by('-created_at')
+    posts = Post.objects.exclude(topic__private_topics__in=private_topics).select_related().filter(user=user).order_by(
+        '-created_at')
     context = {'posts': posts, 'user_p': user}
     return render(request, 'frilium/user/all_posts.html', context)
 
@@ -22,7 +26,8 @@ def user_posts(request, username, pk):
 @login_required
 def user_topics(request, username, pk):
     user = get_object_or_404(User, username=username, pk=pk)
-    topics = Topic.objects.select_related().filter(created_by=user).order_by('-date_created')
+    topics = Topic.objects.exclude(private_topics__in=private_topics).select_related().filter(user=user).order_by(
+        '-date_created')
     context = {'topics': topics, 'user_p': user}
     return render(request, 'frilium/user/all_topics.html', context)
 
@@ -70,6 +75,7 @@ def update(request):
     return render(request, 'frilium/user/edit-details.html', context)
 
 
+@login_required
 def user_details(request, username, pk):
     user = get_object_or_404(User, username=username, pk=pk)
     context = {'user_p': user}

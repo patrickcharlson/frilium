@@ -1,9 +1,10 @@
 from autoslug import AutoSlugField
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
-from frilium.thread.managers import TopicQuerySet
+from .managers import TopicQuerySet
+from .private.models import TopicPrivate
+from ..core.conf import settings
 
 
 class Topic(models.Model):
@@ -11,16 +12,10 @@ class Topic(models.Model):
     slug = AutoSlugField(unique=True, always_update=True, populate_from='title')
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    board = models.ForeignKey('frilium_boards.Board', related_name='topics', verbose_name='Board',
-                              on_delete=models.CASCADE)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='topics', verbose_name='User',
-                                   on_delete=models.CASCADE)
+    board = models.ForeignKey('frilium_boards.Board', related_name='topics', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='topics', on_delete=models.CASCADE)
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='+', on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
-    is_pinned = models.BooleanField('Pinned', default=False)
-    is_globally_pinned = models.BooleanField('Globally pinned', default=False)
-    is_closed = models.BooleanField('closed', default=False)
-    is_removed = models.BooleanField('removed', default=False)
 
     objects = TopicQuerySet.as_manager()
 
@@ -28,8 +23,8 @@ class Topic(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        if self.pk == 1:
-            return reverse('frilium:thread:private:index')
+        if self.board_id == settings.TOPIC_PRIVATE_BOARD_PK:
+            return reverse('frilium:thread:private:private-posts', args=[self.slug, self.pk])
         else:
             return reverse('frilium:thread:topic', args=[self.slug, self.pk])
 

@@ -1,13 +1,25 @@
 {% extends 'frilium/user/user_profile.html' %}
+{% load frilium_tags %}
 
 {% load crispy_forms_filters %}
 
-{% block profile-sidebar %}{% endblock %}
+{% block profile-sidebar %}
+    <div class="avatar-wrap d-flex justify-content-center">
+        <a href="{% url 'frilium:user:user_posts' post.user post.user.pk %}">
+            <img src="{% avatar_url post.user '256' %}" alt="{{ post.user }}"
+                 class="circular w-75"></a>
+        <span class="avatar-online"></span>
+    </div>
+{% endblock %}
 
 {% block profile-content %}
     <div class="subhead">
         <h2 class="subhead-heading">
-            Reporting {{ post.created_by }}'s post
+            {% if request.user.is_authenticated and request.user == post.user %}
+                Reporting your own post
+            {% else %}
+                Reporting {{ post.user }}'s post
+            {% endif %}
         </h2>
     </div>
 {% endblock %}

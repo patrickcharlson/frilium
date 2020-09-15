@@ -1,20 +1,31 @@
 {% extends 'frilium/_base.html' %}
 
-{% load static frilium_tags %}
+{% load static %}
 
 {% block title %}
     {{ board.name }} | {{ block.super }}
 {% endblock %}
 
 {% block content %}
-    {% block new-topic %}
-        <div class="row">
-            <div class="col-md-3">
-                <a href="{% url 'frilium:thread:new_topic' board.slug %}"
-                   class="mb-4 btn btn-topic btn-dark-green btn-sm text-white"> New
-                    Topic <i class="material-icon">add_circle</i>
-                </a>
-            </div>
+    {% block header %}
+        <div class="forum-header py-2">
+            <header>
+                <h1 class="forum-title text-center">{{ board.name }}</h1>
+                <div class="forum-description text-center">{{ board.description }}</div>
+                {% block new-topic %}
+                    <div class="text-right">
+                        <a href="{% url 'frilium:thread:new_topic' board.slug %}"
+                           class="btn btn-topic btn-dark-green btn-sm text-white"> New
+                            Topic <i class="material-icon">add_circle</i>
+                        </a>
+                    </div>
+                {% endblock %}
+                {% block forum-topic %}
+                    {% include 'frilium/thread/page-tabs.html' with active_tab=0 %}
+                {% endblock %}
+                {% block page-tabs %}
+                {% endblock %}
+            </header>
         </div>
     {% endblock %}
 
@@ -27,9 +38,9 @@
                             <div class="topic-main col-md-7">
                                 <div class="media">
                                     <div class="media-left">
-                                        <a href="{% url 'frilium:user:user_posts' topic.created_by topic.created_by.pk %}"
+                                        <a href="{% url 'frilium:user:user_posts' topic.user topic.user.pk %}"
                                            class="topic-starter-avatar">
-                                            <img width="40" height="40" src="{% avatar_url topic.created_by '40' %}"
+                                            <img width="40" height="40" src="{% avatar_url topic.user '40' %}"
                                                  alt=""
                                                  class="user-avatar circular"></a>
                                     </div>
@@ -46,11 +57,11 @@
                                                 <span class="topic-details-views">
                                                     <i class="material-icon">visibility</i>
                                                     {{ topic.views }} view{{ topic.views|pluralize }}
-                                            </span>
+                                                </span>
                                                 <span class="topic-detail-replies">
-                                                    <i class="material-icon">chat</i>
+                                                    <i class="material-icon">forum</i>
                                                     {{ topic.replies }} repl{{ topic.replies|pluralize:"y,ies" }}
-                                            </span>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -60,15 +71,15 @@
                                 <div class="media">
                                     <div class="media-left">
                                         {% with post=topic.last_post %}
-                                            <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
+                                            <a href="{% url 'frilium:user:user_posts' post.user post.user.pk %}"
                                                class="topic-last-poster-avatar">
-                                                <img width="40" height="40" src="{% avatar_url post.created_by '40' %}"
+                                                <img width="40" height="40" src="{% avatar_url post.user '40' %}"
                                                      alt="" class="media-object circular">
                                             </a>
                                             </div>
                                             <div class="media-body">
-                                            <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
-                                               class="item-title topic-last-poster">{{ post.created_by.username }}</a>
+                                            <a href="{% url 'frilium:user:user_posts' post.user post.user.pk %}"
+                                               class="item-title topic-last-poster">{{ post.user }}</a>
                                             <a href="{% url 'frilium:post:topic_post' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
                                                class="topic-last-reply">{{ topic.last_updated|humanizetime }}</a>
                                         {% endwith %}

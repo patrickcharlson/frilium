@@ -7,9 +7,9 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import UpdateView
 
-from frilium.post.forms import PostForm
-from frilium.post.models import Post
-from frilium.thread.models import Topic
+from .forms import PostForm
+from .models import Post
+from ..thread.models import Topic
 
 
 @login_required

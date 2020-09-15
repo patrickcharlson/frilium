@@ -1,12 +1,14 @@
-from datetime import timedelta
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import TextChoices
-from django.utils import timezone
+from django.urls import reverse
 
 from ..boards.models import Post
+from ..post.report.models import Report
 from ..thread.models import Topic
+from ..thread.private.models import TopicPrivate
+
+private_topics = TopicPrivate.objects.all()
 
 
 class User(AbstractUser):
@@ -26,20 +28,21 @@ class User(AbstractUser):
     is_admin = models.BooleanField('Administrator status', default=False)
     is_mod = models.BooleanField('moderator status', default=False)
     birthday = models.DateField('Birthday', null=True)
-    last_post_on = models.DateTimeField('Last post on', null=True, blank=True)
-    last_post_hash = models.CharField('Last post hash', max_length=32, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('frilium:user:user_posts', args=[self.username, self.pk])
 
     @property
     def post_count(self):
-        return Post.objects.select_related().filter(created_by=self).count()
+        return Post.objects.select_related().filter(user=self).exclude(topic__private_topics__in=private_topics).count()
 
     @property
     def topic_count(self):
-        return Topic.objects.select_related().filter(created_by=self).count()
+        return Topic.objects.select_related().filter(user=self).exclude(private_topics__in=private_topics).count()
 
     @property
     def last_post(self):
-        posts = Post.objects.filter(created_by=self).order_by('-created_at')
+        posts = Post.objects.filter(user=self).exclude(topic__private_topics__in=private_topics).order_by('-created_at')
         if posts:
             return posts[0].created_at
         else:
@@ -52,12 +55,3 @@ class User(AbstractUser):
         if self.is_admin:
             self.is_mod = True
         super().save(*args, **kwargs)
-
-    def update_post_hash(self, post_hash):
-        return bool(
-            self.objects.filter(pk=self.pk).exclude(
-                last_post_hash=post_hash,
-                last_post_on__gte=timezone.now() - timedelta(
-                    minutes=30)).update(
-                last_post_hash=post_hash,
-                last_post_on=timezone.now()))

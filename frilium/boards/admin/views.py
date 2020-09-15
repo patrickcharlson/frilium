@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ...boards.admin.forms import AddBoardForm, EditBoardForm
 from ...boards.models import Category, Board
 from ...core.utils.decorators import administrator_required
-from ...post.report.models import Report
 
 
 @administrator_required
@@ -53,16 +52,3 @@ def delete_board(request, pk):
     board.delete()
     messages.info(request, 'A board has been deleted!')
     return redirect('frilium:admin:boards:boards-list', board.category.pk)
-
-
-@administrator_required
-def list_reports(request):
-    context = {'reports': Report.objects.all()}
-    return render(request, 'frilium/admin/list_reports.html', context)
-
-
-def delete_report(request, pk):
-    report = get_object_or_404(Report, pk=pk)
-    report.delete()
-    messages.info(request, 'Report deleted!')
-    return redirect('frilium:admin:boards:reports')

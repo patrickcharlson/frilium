@@ -1,0 +1,6 @@
+<h2 class="block-tabHeader tabs">
+    <a class="tabs-tab {% if active_tab == 'opened' %}is-active{% endif %}"
+       href="{% url 'frilium:post:report:report:opened' %}">Active reports</a>
+    <a class="tabs-tab {% if active_tab == 'closed' %}is-active{% endif %}"
+       href="{% url 'frilium:post:report:report:closed' %}">Closed reports</a>
+</h2>

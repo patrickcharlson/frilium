@@ -1,0 +1,30 @@
+<div class="page-tabs">
+    <ul class="nav nav-tabs">
+        {% if board.slug %}
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 0 %}active {% endif %}"
+                   href="{% url 'frilium:thread:board_topics' board.slug %}">All</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 0 %}active {% endif %}"
+                   href="{% url 'frilium:thread:topics' %}">All</a>
+            </li>
+        {% endif %}
+
+        {% if board.slug %}
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 1 %} active {% endif %} "
+                   href="{% url 'frilium:thread:my-topics' board.slug %}">My</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 1 %} active {% endif %} "
+                   href="{% url 'frilium:thread:my-topics' %}">My</a>
+            </li>
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link {% if active_tab == 2 %} active {% endif %} " href="#">Unread</a>
+        </li>
+    </ul>
+</div>

@@ -18,13 +18,12 @@
             {% block profile-sidebar %}
                 <div class="avatar-wrap d-flex justify-content-center">
                     <img src="{% avatar_url user_p '256' %}" alt="{{ user_p }}" class="circular w-75">
-                    <span class="avatar-online"></span>
+                    <span data-toggle="tooltip"
+                          data-placement="top"
+                          title="online now"
+                          class="avatar-online"></span>
                 </div>
-                <h4 class="profile-meta">
-                    <small class="profile-user-title">Team member</small>
-                </h4>
-
-                <div class="list-group nav-side">
+                <div class="list-group nav-side mt-2">
 
                     {% block tabs %}{% endblock %}
 
@@ -75,4 +74,13 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
 {% endblock %}

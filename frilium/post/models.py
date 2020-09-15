@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 from django.utils.text import Truncator
 from markdown import markdown
 
-from frilium.thread.models import Topic
+from ..thread.models import Topic
 
 
 class Post(models.Model):
@@ -15,7 +15,7 @@ class Post(models.Model):
     slug = AutoSlugField(unique=True, always_update=True, populate_from='message')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE)
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='+', on_delete=models.CASCADE)
 
     class Meta:

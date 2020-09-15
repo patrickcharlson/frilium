@@ -1,0 +1,129 @@
+{% extends 'frilium/_base.html' %}
+
+{% block content %}
+    <section class="mod-box_alt mb-4">
+        <div class="mod-box">
+            <article class="mod-columns">
+                <div class="mod-column column-fluid">
+                    <div class="mod-pad">
+                        <h2 class="section-head">
+                            <a href="{% url 'frilium:post:topic_post' report.post.topic.slug report.post.topic.pk %}"
+                               class="thread-link">{{ report.post.topic.title }}</a>
+                        </h2>
+                        <br>
+                        <a href="{% url 'frilium:post:topic_post' report.post.topic.slug report.post.topic.pk %}#p-{{ report.post.id }}"
+                           class="post-link">Post in {{ report.post.topic.board }} forum</a>
+                        <br>
+                        <br>
+                        <div class="mod-post">
+                            {{ report.post.get_message_as_markdown }}
+                        </div>
+                        <hr>
+                        <ul class="list-inline">
+                            <li><a href="">Edit</a></li>
+                            {% if report.post == first_post %}
+                                <li><a href="">Edit</a></li>
+                            {% endif %}
+                            <li><a href="">Delete</a></li>
+                            <li><a href="">Delete Topic</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="mod-column column-wide">
+                    <div id="sidebar">
+                        <div class="mod-box--child">
+                            <div class="mod-pad-half">
+                                <p class="sidebar-icon"></p>
+                                <strong>status:</strong>
+                                <span class="report-status">New report</span>
+                            </div>
+                            <div class="dropdown">
+                                <button type="button" data-toggle="dropdown" id="dropdownMenuButton"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        class="btn btn-secondary btn-sm mod-button dropdown-toggle">Mark
+                                    report as
+                                </button>
+                                <div class="dropdown-menu ffcMenu ffcMenu_bottomRight arrow_box"
+                                     aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-menu-item"
+                                       href="">Delete</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="mod-panel" class="mod-box">
+                        <div class="mod-box--child">
+                            <a href="" class="user-photo"></a>
+                            <div class="mod-pad-half">
+                                <a href="" class="section-head"></a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </article>
+        </div>
+    </section>
+    <section class="report-box">
+        <div class="report-clearfix">
+            <h2 class="section-title">Responses to this report</h2>
+        </div>
+        <div class="report-tabs">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#user-report" role="tab"
+                       aria-controls="home"
+                       aria-selected="true">User Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                       aria-controls="profile" aria-selected="false">Moderator Comment</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content report-panel" id="myTabContent">
+            <div class="tab-pane tab-panel fade show active" id="user-report" role="tabpanel"
+                 aria-labelledby="home-tab">
+                <ul class="post-list post-feed">
+                    {% for r in reports %}
+                        <li class="post post-primary">
+                            <div class="panel panel-default panel-post
+                                {% if r.post.user.is_admin %}purple-border{% endif %} ">
+                                <div class="panel-body">
+                                    <div class="post-side post-side-registered">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="{% url 'frilium:user:user_posts' r.post.user r.post.user.pk %}"
+                                                   class="">
+                                                    <img width="40" height="40"
+                                                         class="poster-avatar"
+                                                         src="{% avatar_url r.post.user '150' %}"
+                                                         alt="">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="media-heading">
+                                                    <a class="item-title"
+                                                       href="{% url 'frilium:user:user_posts' r.post.user r.post.user.pk %}">
+                                                        {{ r.post.user }}</a>
+                                                </div>
+                                                <span class="user-title user-title-primary">
+                                                     submitted {{ r.created_on|humanizetime }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-top: 20px" class="post-body">
+                                        <article class="post-content">{{ r.get_markdown }}</article>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+        </div>
+    </section>
+
+{% endblock %}

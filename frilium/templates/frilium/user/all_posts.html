@@ -9,7 +9,7 @@
         <div class="profile-feed">
             <nav class="toolbar">
                 <h3 class="toolbar-left">
-                    You have posted {{ user_p.posts.count }} message{{ posts.count|pluralize }}
+                    You have posted {{ user_p.post_count }} message{{ user_p.post_count|pluralize }}
                 </h3>
             </nav>
             {% include 'frilium/user/post-feed.html' %}

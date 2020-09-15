@@ -10,10 +10,10 @@
 
 {% block content %}
     {% block category %}
-        <div class="row mb-3">
+        <div class="row my-3">
             <div class="col-md-3 dropdown">
                 <div class="dropdown category-dropdown">
-                    <button class="btn btn-category btn-secondary btn-md" type="button" id="dropdownMenuButton"
+                    <button class="btn btn-category btn-md" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span><i class="material-icon">loyalty</i> Category</span>
                     </button>
@@ -34,7 +34,7 @@
         <div class="forums-mount mb-4">
             <div class="forums-list">
                 {% for board in boards %}
-                    <ul class="list-group list-group-forum mb-1">
+                    <ul class="list-group list-group-forum mt-3 mb-1">
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-md-6 forum-main">
@@ -72,9 +72,9 @@
                                         <div class="media-left">
                                             {% with post=board.get_last_post %}
                                                 {% if post %}
-                                                    <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
+                                                    <a href="{% url 'frilium:user:user_posts' post.user post.user.pk %}"
                                                        class="last-poster-avatar">
-                                                        <img src="{% avatar_url post.created_by '40' %}" alt=""
+                                                        <img src="{% avatar_url post.user '40' %}" alt=""
                                                              class="media-class circular"
                                                              width="40" height="40">
                                                     </a>
@@ -90,8 +90,8 @@
                                                 <ul class="list-inline">
                                                 <li class="forum-last-topic-poster">
                                                     {% if post %}
-                                                        <a href="{% url 'frilium:user:user_posts' post.created_by post.created_by.pk %}"
-                                                           class="item-title">{{ post.created_by.username }}</a>
+                                                        <a href="{% url 'frilium:user:user_posts' post.user post.user.pk %}"
+                                                           class="item-title">{{ post.user }}</a>
                                                     {% endif %}
                                                 </li>
                                                 <li class="divider">&mdash;</li>
