@@ -1,0 +1,5 @@
+<form action="{% url 'frilium:topics:private:invite-participant' topic.pk %}" method="post">
+    {% csrf_token %}
+    {% include "frilium/_form.html" %}
+    <button class="ipsButton" type="submit">Invite</button>
+</form>

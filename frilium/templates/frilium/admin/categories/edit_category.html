@@ -1,0 +1,60 @@
+{% extends 'frilium/admin/layout.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block heading %}
+    <div class="pull-left">
+        <h1 id="main-page-title">Edit Category</h1>
+    </div>
+{% endblock %}
+
+{% block main-menu %}
+    {% include 'frilium/admin/main-menu.html' with active_tab=2 %}
+{% endblock %}
+
+{% block section %}
+    <a href="{% url 'frilium:admin:categories:categories-list' %}" class="btn btn-primary">
+        <i class="material-icon">arrow_back_ios</i> Back to categories list</a>
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card card-admin-form">
+                <form method="post">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    </div>
+                    <div class="card-footer text-right">
+                        <button class="btn btn-login btn-sm indigo text-white" type="submit">
+                            <i class="fas fa-sign-out-alt"></i> Save changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <fieldset>
+                        <div class="form-group text-center">
+                            <label for="">Parent Category</label>
+                        </div>
+                    </fieldset>
+                    <hr>
+                    <a href="" class="btn btn-info btn-block">
+                        <i class="material-icon">settings</i> Edit Privileges</a>
+                    <a href="{% url 'frilium:categories:view' c.slug c.pk %}"
+                       class="btn btn-info btn-block">
+                        <i class="material-icon">visibility</i> View category</a>
+                    <hr>
+                    <button class="btn btn-sm btn-block btn-danger">Disable</button>
+                    <button class="btn btn-block btn-danger purge">
+                        <i class="material-icon">delete_forever</i> Purge Category
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

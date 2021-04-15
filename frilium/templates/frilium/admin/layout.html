@@ -1,23 +1,30 @@
 {% extends 'frilium/admin/base.html' %}
 
-{% block article %}
+{% load frilium_tags %}
 
-    {% for message in messages %}
-        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"></span>
-            </button>
-            <strong><i class="material-icon">done_all</i> {{ message }}</strong>
-        </div>
-    {% endfor %}
+{% block body %}
 
-    <div class="row">
-        <div class="col col-nav-side">
-            {% block tabs %}
+    <nav class="header" id="header" style="position: relative">
+
+        {% block heading %}
+        {% endblock %}
+
+        <ul class="quick-actions">
+            <li><a href=""><img src="{% avatar_url request.user '35' %}" class="circular" alt=""></a></li>
+            <li><a href="{% url 'frilium:index' %}"><i class="material-icon">house</i></a></li>
+            <li><a href=""><i class="material-icon">notifications</i></a></li>
+            <li><a href=""><i class="material-icon">search</i></a></li>
+        </ul>
+
+        {% block main-menu %}
+        {% endblock %}
+    </nav>
+
+    <div class="container pb-3 mt-5">
+        {% block section %}
+            {% block side-menu %}
             {% endblock %}
-        </div>
-        <div class="col">
-            {% block section %}{% endblock %}
-        </div>
+        {% endblock %}
     </div>
+
 {% endblock %}

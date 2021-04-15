@@ -35,14 +35,14 @@
                     <td class="pr-0">
                         <div class="small">
                             <a class="item-name"
-                               href="{% url 'frilium:user:user_posts' report.post.created_by report.post.created_by.pk %}">
+                               href="{% url 'frilium:users:user_posts' report.post.created_by report.post.created_by.pk %}">
                                 {{ report.post.created_by }}</a>
                         </div>
                     </td>
                     <td class="">
                         <div class="small">
                             <a class="item-name"
-                               href="{% url 'frilium:post:topic_post' report.post.topic.slug report.post.topic.pk %}#p-{{ report.post.id }}">
+                               href="{% url 'frilium:posts:topic_post' report.post.topic.slug report.post.topic.pk %}#p-{{ report.post.id }}">
                                 {{ report.post.topic.title }}</a>
                         </div>
                     </td>

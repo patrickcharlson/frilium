@@ -1,0 +1,85 @@
+{% load frilium_tags %}
+
+{% if topics %}
+    <div class="topics-list ui-ready mb-4">
+        <hr>
+        {% for t in topics %}
+            <ul class="list-group topic">
+                <li class="list-group-item topic-read">
+                    <div class="row topic-row">
+                        <div class="topic-main col-md-7">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="{% url 'frilium:users:profile' t.user %}"
+                                       class="topic-starter-avatar">
+                                        <img width="40" height="40" src="{% avatar_url t.user '40' %}"
+                                             alt=""
+                                             class="user-avatar circular"></a>
+                                </div>
+                                <div class="media-body">
+                                    {% if not category %}
+                                        <a href="{{ t.get_absolute_url }}"
+                                           class="item-title topic-title">{{ t.title }}</a>
+                                    {% else %}
+                                        <a href="{% url 'frilium:topics:view' t.slug t.pk %}"
+                                           class="item-title topic-title">{{ t.title }}</a>
+                                    {% endif %}
+
+                                    <div class="row topic-details-bottom">
+                                        <div class="col-md-12">
+                                            {% if t.category.title %}
+                                                <span class="category-title">
+                                                    <a href="{% url 'frilium:categories:view' t.category.slug t.category.pk %}"
+                                                    >{{ t.category.title }}</a>
+                                                </span>
+                                            {% endif %}
+
+                                            <span class="topic-details-views">
+                                                    <i class="material-icon">visibility</i>
+                                                    {{ t.views }} view{{ t.views|pluralize }}
+                                            </span>
+                                            <span class="topic-detail-replies">
+                                                    <i class="material-icon">forum</i>
+                                                    {{ t.replies }} repl{{ t.replies|pluralize:"y,ies" }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offset-2 col-md-3 topic-last-action">
+                            <div class="media">
+                                <div class="media-left">
+                                    {% with post=t.last_post %}
+                                        <a href="{% url 'frilium:users:profile' post.user %}"
+                                           class="topic-last-poster-avatar">
+                                            <img width="40" height="40" src="{% avatar_url post.user '40' %}"
+                                                 alt="" class="media-object circular">
+                                        </a>
+                                        </div>
+                                        <div class="media-body">
+                                        <a href="{% url 'frilium:users:profile' post.user %}"
+                                           class="item-title topic-last-poster">{{ post.user }}</a>
+                                        <a href="{% url 'frilium:topics:view' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
+                                           class="topic-last-reply">{{ t.last_updated|humanizetime }}</a>
+                                    {% endwith %}
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <hr>
+        {% endfor %}
+    </div>
+{% else %}
+    <ul class="list-group">
+        <li class="list-group-item empty-message">
+            <i class="material-icon md-18">announcement_late</i>
+            {% block topic-warning %}
+                <p class="lead">There are no topics associated with this category!</p>
+                <p>Be the first to start it off!</p>
+            {% endblock %}
+        </li>
+    </ul>
+{% endif %}

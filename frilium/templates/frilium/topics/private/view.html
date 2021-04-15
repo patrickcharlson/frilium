@@ -1,0 +1,146 @@
+{% extends 'frilium/topics/view.html' %}
+{% load i18n %}
+
+{% block post-header %}
+    <div class="go-back">
+        <div class="row">
+            <div class="btn-back col-lg-1">
+                <a href="{% url 'frilium:topics:private:index' %}"
+                   class="btn btn-default-back btn-block btn-outline btn-icon">
+                    <span class="material-icon">keyboard_arrow_left</span>
+                </a>
+            </div>
+            <div class="col-md-10">
+                <div class="topic-header">
+                    <header>
+                        <h1 class="forum-title">{{ topic.title }}</h1>
+                    </header>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block participants %}
+    <div class="panel panel-default panel-participants">
+        <div class="panel-body">
+            <div class="participants-cards">
+                <p>
+                    {% blocktrans trimmed count users=participants|length %}
+                        This thread has {{ users }} participant.
+                    {% plural %}
+                        This thread has {{ users }} participants.
+                    {% endblocktrans %}
+                </p>
+                <div class="row">
+
+                    {% for participant in participants %}
+                        <div class="col-md-2 participant-card">
+                            <div class="dropdown">
+                                <button aria-haspopup="true" aria-expanded="false"
+                                        {% with user=participant.user %}
+                                        class="btn btn-{% if topic.user.pk == user.pk %}color {% else %}primary{% endif %}  btn-user btn-block"
+                                        {% endwith %}
+                                        data-toggle="dropdown"
+                                        type="button">
+                                    <img src="{% avatar_url participant.user '50' %}" height="34" width="34" alt="">
+                                    <span class="btn-text">
+                                        {{ participant.user }}
+                                    </span>
+                                    {% with user=participant.user %}
+                                        {% if topic.user.pk == user.pk %}
+                                            <span class="material-icon">start</span>
+                                        {% endif %}
+                                    {% endwith %}
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% if topic.user.pk == user.pk %}
+                                        {% with user_p=participant.user %}
+                                            {% if topic.user.pk == user_p.pk %}
+                                                <li class="dropdown-header dropdown-header-owner">
+                                                    <span class="material-icon">start</span>
+                                                    <span class="icon-text">Thread owner</span>
+                                                </li>
+                                                <li class="dropdown-header"></li>
+                                                <li><a href="{{ participant.user.get_absolute_url }}">See profile</a>
+                                                </li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <a href="{% url 'frilium:topics:private:remove-participant' participant.pk %}"
+                                                       onclick="return confirm('Are you sure you want to leave this topics?')"
+                                                       class="btn btn-link" type="button">Leave thread
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="dropdown-header"></li>
+                                                <li><a href="{{ participant.user.get_absolute_url }}">
+                                                    See profile</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <button class="btn btn-link">Make owner</button>
+                                                </li>
+                                                <li>
+                                                    <a onclick="return confirm('Are you sure you want to remove {{ participant.user }} from this topics?')"
+                                                       href="{% url 'frilium:topics:private:remove-participant' participant.pk %}"
+                                                       class="btn btn-link">Remove</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endif %}
+                                    {% if topic.user.pk != user.pk %}
+                                        {% with user_p=participant.user %}
+                                            {% if topic.user.pk == user_p.pk %}
+                                                <li class="dropdown-header dropdown-header-owner">
+                                                    <span class="material-icon">start</span>
+                                                    <span class="icon-text">Thread owner</span>
+                                                </li>
+                                                <li class="dropdown-header"></li>
+                                                <li><a href="{{ participant.user.get_absolute_url }}">See profile</a>
+                                                </li>
+                                                <li role="separator" class="divider"></li>
+                                            {% elif user_p.pk == user.pk %}
+                                                <li class="dropdown-header"></li>
+                                                <li><a href="{{ participant.user.get_absolute_url }}">
+                                                    See profile</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <a href="{% url 'frilium:topics:private:remove-participant' participant.pk %}"
+                                                       onclick="return confirm('Are you sure you want to leave this topics?')"
+                                                       class="btn btn-link">Leave thread
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li><a href="{{ participant.user.get_absolute_url }}">
+                                                    See profile</a></li>
+                                                <li role="separator" class="divider"></li>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% if topic.user.pk == user.pk %}
+                        <div class="col-md-1">
+                            <div class="dropdown">
+                                <button aria-haspopup="true" aria-expanded="false"
+                                        class="btn btn-large btn-user-add"
+                                        data-toggle="dropdown"
+                                        type="button">
+                                    <span class="icon-bar material-icon">add</span>
+                                    <span class="icon-bar material-icon">person</span>
+                                </button>
+                                <div class="dropdown-menu ipsMenu ipsMenu_topCenter ipsPad ipsWide menu">
+                                    {% render_invite_form topic %}
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

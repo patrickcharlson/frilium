@@ -1,0 +1,18 @@
+<div class="row my-3">
+    <div class="col-md-3 dropdown">
+        <div class="dropdown category-dropdown">
+            <button class="btn btn-category btn-md" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span>Category</span>
+            </button>
+            <ul class="dropdown-menu stick-to-bottom" aria-labelledby="dropdownMenuButton">
+                {% for c in categories %}
+                    <li><a class="btn btn-link"
+                           href="{% url 'frilium:categories:view' c.slug c.pk %}">
+                        {{ c.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

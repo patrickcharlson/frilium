@@ -1,0 +1,42 @@
+{% load static frilium_tags %}
+
+<ul class="post-list post-feed">
+    <hr>
+    {% for post in posts %}
+        <li id="#p-{{ post.id }}" class="post post-primary">
+            <div class="panel panel-default panel-post {% if post.user.is_admin %}purple-border{% endif %} ">
+                <div class="panel-body">
+                    <div class="post-side post-side-registered">
+                        <a class="btn btn-post btn-default btn-sm float-right"
+                           href="{{ post.url }}#p-{{ post.id }}">See
+                            Post <i class=" fa-fw fas fa-hand-point-right"></i></a>
+                        <div class="media">
+                            <div class="media-left">
+                                <img width="36" height="36"
+                                     class="poster-avatar" src="{% avatar_url post.user '50' %}" alt="">
+                            </div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                    <a class="item-title" href="">{{ post.user }}</a>
+                                </div>
+                                <a class="user-title user-title-primary" href="">Project Lead</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-heading">
+                        <a class="btn btn-link item-title" href="{{ post.url }}">{{ post.topic.title }}</a>
+                        <a class="btn btn-link"
+                           href="{% url 'frilium:categories:view' post.topic.category.slug post.topic.category.pk %}">
+                            {{ post.topic.category.get_html_badge }}</a>
+                        <a class="btn btn-link posted-on"
+                           href="{{ post.url }}#p-{{ post.id }}">{{ post.created_at|humanizetime }}</a>
+                    </div>
+                    <div class="post-body">
+                        <article class="post-content">{{ post.get_message_as_markdown|truncatechars:'1000' }}</article>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <hr>
+    {% endfor %}
+</ul>

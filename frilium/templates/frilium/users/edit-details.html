@@ -1,0 +1,46 @@
+{% extends 'frilium/users/user_layout.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a class="deep-purple-text" href="{% url 'frilium:index' %}"> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="deep-purple-text" href="{% url 'frilium:users:profile' user_p %}">{{ user_p }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block user_profile %}
+    <div class="profile-container">
+        <div class="row">
+            <div class="col-md-3">
+                {% block tabs %}
+                    {% include 'frilium/users/cp-nav.html' with active_tab=0 %}
+                {% endblock %}
+            </div>
+            <div class="col-md-9">
+                <form method="post">
+                    <div class="panel panel-default panel-form">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Preferences</h3>
+                        </div>
+                        <div class="panel-body">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-password btn-sm indigo text-white" type="submit">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'frilium/_base.html' %}
+
+{% load crispy_forms_filters static %}
+
+{% block title %}{{ topic.title }} | {{ topic.category.title }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+    {% block post-header %}
+        <div class="go-back">
+            <div class="row">
+                <div class="btn-back col-lg-1">
+                    <a href="{% url 'frilium:categories:view' topic.category.slug topic.category.pk %}"
+                       class="btn btn-default-back btn-block btn-outline btn-icon">
+                        <span class="material-icon">keyboard_arrow_left</span>
+                    </a>
+                </div>
+                <div class="col-md-10">
+                    <div class="topic-header">
+                        <header>
+                            <h1 class="forum-title">{{ topic.title }}</h1>
+                            <div class="topic-info">
+                                <div class="category-item inline-block">
+                                    <a href="{% url 'frilium:categories:view' topic.category.slug topic.category.pk %}"
+                                    >{{ topic.category }}</a>
+                                </div>
+                                <div class="inline-block">
+                                    <div class="stats text-muted">
+                                        <i class="material-icon">person</i>
+                                        <span>{{ count }}</span>
+                                    </div>
+                                    <div class="stats text-muted">
+                                        <i class="material-icon">create</i>
+                                        <span>{{ topic.replies }}</span>
+                                    </div>
+                                    <div class="stats text-muted">
+                                        <i class="material-icon">visibility</i>
+                                        <span>{{ topic.views }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="float-left">
+                <div class="mb-3">
+                    {% with post=topic.last_post %}
+                        <a href="#p-{{ post.id }}"
+                           class="btn last-post btn-sm text-white"
+                           role="button">Last post</a>
+                    {% endwith %}
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="float-right">
+                <div class="mb-3">
+                    <a href="{% url 'frilium:topics:reply_topic' topic.slug %}"
+                       class="btn btn-reply  btn-sm text-white"
+                       role="button">Reply <i class="fa-fw fas fa-reply"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong><i class="fas fa-info-circle fa-fw"></i> {{ message }}</strong>
+        </div>
+    {% endfor %}
+
+    {% block participants %}
+    {% endblock %}
+    <hr>
+    {% include 'frilium/posts/_view_list.html' %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="float-left">
+                <div class="mb-4 my-2">
+                    {% include 'frilium/includes/pagination.html' %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="float-right">
+                <div class="mb-4">
+                    <a href="{% url 'frilium:topics:reply_topic' topic.slug %}"
+                       class="btn btn-reply btn-sm text-white"
+                       role="button">Reply <i class="fa-fw fas fa-reply"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+{% endblock %}
+

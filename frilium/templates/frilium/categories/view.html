@@ -1,0 +1,22 @@
+{% extends 'frilium/_base.html' %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a class="deep-purple-text" href="{% url 'frilium:index' %}"> Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ c }}</li>
+        </ol>
+    </nav>
+
+    <div class="forum-header py-2">
+        <header>
+            <div class="">
+                <a href="{% url 'frilium:topics:new_topic' c.pk %}"
+                   class="btn btn-topic btn-dark-green btn-sm text-white"> New Topic </a>
+            </div>
+        </header>
+    </div>
+    {% include 'frilium/topics/_view_list.html' %}
+{% endblock %}

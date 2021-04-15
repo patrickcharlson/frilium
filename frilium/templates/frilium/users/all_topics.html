@@ -1,0 +1,25 @@
+{% extends 'frilium/users/user_layout.html' %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a class="deep-purple-text" href="{% url 'frilium:index' %}"> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'frilium:users:profile' user_p %}" class="deep-purple-text">{{ user_p }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Topics</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block user_profile %}
+    {% if topics %}
+        <div class="profile-feed">
+            {% include 'frilium/topics/_view_list.html' %}
+        </div>
+    {% else %}
+        There are no topics initiated here, yet
+    {% endif %}
+{% endblock %}

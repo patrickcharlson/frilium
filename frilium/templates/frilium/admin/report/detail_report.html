@@ -7,11 +7,11 @@
                 <div class="mod-column column-fluid">
                     <div class="mod-pad">
                         <h2 class="section-head">
-                            <a href="{% url 'frilium:post:topic_post' report.post.topic.slug report.post.topic.pk %}"
+                            <a href="{% url 'frilium:posts:topic_post' report.post.topic.slug report.post.topic.pk %}"
                                class="thread-link">{{ report.post.topic.title }}</a>
                         </h2>
                         <br>
-                        <a href="{% url 'frilium:post:topic_post' report.post.topic.slug report.post.topic.pk %}#p-{{ report.post.id }}"
+                        <a href="{% url 'frilium:posts:topic_post' report.post.topic.slug report.post.topic.pk %}#p-{{ report.post.id }}"
                            class="post-link">Post in {{ report.post.topic.board }} forum</a>
                         <br>
                         <br>
@@ -94,7 +94,7 @@
                                     <div class="post-side post-side-registered">
                                         <div class="media">
                                             <div class="media-left">
-                                                <a href="{% url 'frilium:user:user_posts' r.post.user r.post.user.pk %}"
+                                                <a href="{% url 'frilium:users:user_posts' r.post.user r.post.user.pk %}"
                                                    class="">
                                                     <img width="40" height="40"
                                                          class="poster-avatar"
@@ -105,7 +105,7 @@
                                             <div class="media-body">
                                                 <div class="media-heading">
                                                     <a class="item-title"
-                                                       href="{% url 'frilium:user:user_posts' r.post.user r.post.user.pk %}">
+                                                       href="{% url 'frilium:users:user_posts' r.post.user r.post.user.pk %}">
                                                         {{ r.post.user }}</a>
                                                 </div>
                                                 <span class="user-title user-title-primary">

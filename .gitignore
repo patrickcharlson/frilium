@@ -134,7 +134,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# pytype static type analyzer
+# pytype site_static type analyzer
 .pytype/
 
 # Cython debug symbols
@@ -144,3 +144,10 @@ cython_debug/
 
 #secrets
 secrets.json
+
+# Media and Static directories
+/media/
+!/media/.gitkeep
+
+/static/
+!/static/.gitkeep

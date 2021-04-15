@@ -1,0 +1,65 @@
+{% extends 'frilium/_base.html' %}
+
+{% load static frilium_tags %}
+
+{% block content %}
+
+    {% block breadcrumb %}
+    {% endblock %}
+
+    <div class="account">
+        <div class="avatar-wrap d-flex justify-content-center">
+            <img src="{% avatar_url user_p '128' %}" alt="{{ user_p }}" class="circular w-20">
+
+            <span data-toggle="tooltip"
+                  data-placement="top"
+                  title="Online"
+                  class="avatar-online"></span>
+        </div>
+        <div class="btn-group account-fab bottom-sheet">
+            <button type="button" class="fab" data-display="static" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <i class="material-icon">more_vert</i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="{% url 'frilium:users:profile' user_p %}" class="inline-block">Profile</a></li>
+                <li><a href="{% url 'frilium:users:edit-users' user_p %}">Edit</a></li>
+                <li><a href="">Settings</a></li>
+                <li role="separator" class="divider"></li>
+                <li>
+                    <a href="">Following</a>
+                    <span class="badge badge-default pull-right formatted-number"></span>
+                </li>
+                <li>
+                    <a href="">Followers</a>
+                    <span class="badge badge-default pull-right formatted-number"></span>
+                </li>
+                <li>
+                    <a href="">Blocks</a>
+                    <span class="badge badge-default pull-right formatted-number"></span>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                    <a href="{% url 'frilium:users:user_topics' user_p %}">Topics</a>
+                    <span class="badge badge-default pull-right formatted-number"></span>
+                </li>
+                <li>
+                    <a href="{% url 'frilium:users:user_posts' user_p %}">Posts</a>
+                    <span class="badge badge-default pull-right formatted-number"></span>
+                </li>
+                <li>
+                    <a href="">Watched categories</a>
+                    <span class="badge badge-default pull-right formatted-number"></span>
+                </li>
+                <li>
+                    <a href="">Watched</a>
+                    <span class="badge badge-default pull-right formatted-number"></span>
+                </li>
+            </ul>
+        </div>
+        {% block user_profile %}
+            {% block tabs %}
+            {% endblock %}
+        {% endblock %}
+    </div>
+{% endblock %}

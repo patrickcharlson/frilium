@@ -1,0 +1,105 @@
+{% extends 'frilium/_base.html' %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a class="deep-purple-text" href="{% url 'frilium:index' %}"> Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+        </ol>
+    </nav>
+
+    <h1 class="categories-title">Categories</h1>
+    {% if categories %}
+        <div class="forums-mount mb-4">
+            <div class="forums-list">
+                {% for c in categories %}
+                    <ul class="list-group list-group-forum mt-3 mb-1">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6 forum-main">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <div class="read-status">
+                                                <span class="forum-icon material-icon">chat_bubble</span>
+                                            </div>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">
+                                                <a href="{% url 'frilium:categories:view' c.slug c.pk %}">
+                                                    {{ c.title }}</a>
+                                            </h4>
+                                            <div class="forum-description">
+                                                <p>{{ c.description }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 stats">
+                                    <span class="">{{ c.topic_count }}</span>
+                                    <br>
+                                    <small>TOPIC{{ c.topic_count|pluralize|upper }}</small>
+                                </div>
+                                <div class="col-md-1 stats">
+                                    <span class="">{{ c.post_count }}</span>
+                                    <br>
+                                    <small>POST{{ c.post_count|pluralize|capfirst }}</small>
+                                </div>
+                                <div class="col-md-4 forum-last-topic">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            {% with post=c.get_last_post %}
+                                                {% if post %}
+                                                    <a href="{% url 'frilium:users:profile' post.user %}"
+                                                       class="last-poster-avatar">
+                                                        <img src="{% avatar_url post.user '40' %}" alt=""
+                                                             class="media-class circular"
+                                                             width="40" height="40">
+                                                    </a>
+                                                {% endif %}
+                                                </div>
+                                                <div class="media-body">
+                                                <div class="media-heading">
+                                                    {% if post %}
+                                                        <a href="
+{% url 'frilium:topics:view' post.topic.slug post.topic.pk %}#p-{{ post.id }}"
+                                                           class="item-title topic-title">{{ post.topic.title }}</a>
+                                                    {% endif %}
+                                                </div>
+                                                <ul class="list-inline">
+                                                <li class="forum-last-topic-poster">
+                                                    {% if post %}
+                                                        <a href="{% url 'frilium:users:profile' post.user %}"
+                                                           class="item-title">{{ post.user }}</a>
+                                                    {% endif %}
+                                                </li>
+                                                <li class="divider">&mdash;</li>
+                                                <li class="forum-last-topic-date">
+                                                    {% if post %}
+                                                        <a href="
+{% url 'frilium:topics:view' post.topic.slug post.topic.pk %}#p-{{ post.id }}">
+                                                            {{ post.topic.last_updated|humanizetime }}</a>
+                                                    {% endif %}
+                                                </li>
+                                            {% endwith %}
+                                            </ul>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <ul class="list-group">
+            <li class="list-group-item empty-message">
+                <i class="material-icon md-18">announcement_late</i>
+                <p class="lead">There are no categories created yet!</p>
+                <p>Initiate one yourself!</p>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}

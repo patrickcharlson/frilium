@@ -1,0 +1,91 @@
+{% extends 'frilium/admin/layout.html' %}
+
+{% block heading %}
+    <div class="pull-left">
+        <h1 id="main-page-title">Categories</h1>
+    </div>
+{% endblock %}
+
+{% block main-menu %}
+    {% include 'frilium/admin/main-menu.html' with active_tab=2 %}
+{% endblock %}
+
+{% block section %}
+    <div class="page-header row align-items-center">
+        <div class="col-auto page-action">
+            <a href='{% url 'frilium:admin:categories:new-category' %}' class="btn text-white btn-sm">
+                New Category
+            </a>
+        </div>
+    </div>
+    <div class="card card-admin-table">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 1px"> &nbsp;</th>
+                <th>Categories</th>
+                <th>Topics</th>
+                <th>Posts</th>
+                <th style="width: 1px"></th>
+                <th style="width: 1px"></th>
+                <th style="width: 1px"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for category in categories %}
+                <tr>
+                    <td class="pr-0">
+                    </td>
+                    <td class="pr-0">
+                        <div class="small">
+                            <a class="item-name"
+                               href="{% url 'frilium:admin:categories:category-edit' category.pk %}"
+                            >{{ category.title }}</a>
+                        </div>
+                    </td>
+                    <td class="small">{{ category.topic_count }}</td>
+                    <td class="small">{{ category.post_count }}</td>
+                    <td class="small">
+                        <a href="{% url 'frilium:admin:categories:category-edit' category.pk %}" class="">
+                            <span class="material-icon" data-toggle="tooltip" data-placement="top"
+                                  title="Edit">edit</span></a>
+                    </td>
+                    <td class="small">
+                        <a onclick="return confirm('Are you sure you want to delete this categories?')"
+                           type="button" class="btn-icon"
+                           href="{% url 'frilium:admin:categories:category-delete' category.pk %}"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           title="Delete this category">
+                            <i class="material-icon"> delete</i>
+                        </a>
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-sm" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ...
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="">Edit</a></li>
+                                <li><a href="">Privileges</a></li>
+                                <li><a href="">View category</a></li>
+                                <li><a href="">Disable</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+{% endblock %}

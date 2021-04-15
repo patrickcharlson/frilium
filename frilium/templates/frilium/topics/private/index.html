@@ -1,0 +1,18 @@
+{% extends 'frilium/_base.html' %}
+
+{% block content %}
+    <div class="forum-header py-2">
+        <header>
+            <h1 class="forum-title text-center">Private Topics</h1>
+            <div class="text-right">
+                <a href="{% url 'frilium:topics:private:new-topic-private' %}"
+                   class="btn btn-topic btn-sm text-white"> Start
+                    Topic
+                </a>
+            </div>
+        </header>
+    </div>
+
+    {% include 'frilium/topics/_view_list.html' %}
+
+{% endblock %}

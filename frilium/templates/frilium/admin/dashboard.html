@@ -1,16 +1,17 @@
 {% extends 'frilium/admin/layout.html' %}
 
-{% block tabs %}
-    {% include 'frilium/admin/sidenav.html' with active_tab=0 %}
+{% block heading %}
+    <div class="pull-left">
+        <h1 id="main-page-title">Dashboard</h1>
+    </div>
+{% endblock %}
+
+{% block main-menu %}
+    {% include 'frilium/admin/main-menu.html' with active_tab=0 %}
 {% endblock %}
 
 {% block section %}
 
-    <div class="page-header row align-items-center">
-        <div class="col">
-            <h1>Dashboard</h1>
-        </div>
-    </div>
     <div class="row">
         <div class="col">
             <div class="card">

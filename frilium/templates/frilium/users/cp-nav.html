@@ -1,0 +1,11 @@
+<div class="list-group nav-side ">
+    <a class="list-group-item {% if active_tab == 0 %} active{% endif %}"
+       href="{% url 'frilium:users:edit-users' user_p %}">
+        <i class="fas fa-user-edit fa-fw"></i> Preferences</a>
+    <a class="list-group-item {% if active_tab == 1 %} active{% endif %}"
+       href="{% url 'frilium:users:password-change' user_p %}">
+        <i class="fab fa-keycdn fa-fw"></i> Change password</a>
+    <a class="list-group-item {% if active_tab == 2 %} active{% endif %}"
+       href="{% url 'frilium:users:email-change' user_p%}">
+        <i class="fas fa-envelope-open fa-fw"></i> Change email</a>
+</div>

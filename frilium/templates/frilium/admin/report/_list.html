@@ -13,7 +13,7 @@
                     <div class="topic-main col-md-5">
                         <div class="media">
                             <div class="media-body">
-                                <a href="{% url 'frilium:post:report:report:detail-report' r.pk %}"
+                                <a href="{% url 'frilium:posts:report:report:detail-report' r.pk %}"
                                    class="item-title topic-title">{{ r.post.topic.title }}</a>
                                 <div class="row topic-details-bottom">
                                     <div class="col-md-12">
@@ -45,16 +45,16 @@
                     <div class="col-md-4 topic-last-action">
                         <div class="media">
                             <div class="media-left">
-                                <a href="{% url 'frilium:user:user_posts' r.post.user r.post.user.pk %}"
+                                <a href="{% url 'frilium:users:user_posts' r.post.user r.post.user.pk %}"
                                    class="topic-last-poster-avatar">
                                     <img width="40" height="40" src="{% avatar_url r.post.user '40' %}"
                                          alt="" class="media-object circular">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <a href="{% url 'frilium:user:user_posts' r.post.user r.post.user.pk %}"
+                                <a href="{% url 'frilium:users:user_posts' r.post.user r.post.user.pk %}"
                                    class="item-title topic-last-poster">{{ r.post.user }}</a>
-                                <a href="{% url 'frilium:post:topic_post' r.post.topic.slug r.post.topic.pk %}#p-{{ post.id }}"
+                                <a href="{% url 'frilium:posts:topic_post' r.post.topic.slug r.post.topic.pk %}#p-{{ post.id }}"
                                    class="topic-last-reply">reported {{ r.date|humanizetime }}</a>
                             </div>
                         </div>

@@ -1,0 +1,9 @@
+<div class="lower-menu row">
+    <ul id="side-menu">
+        <li class="menu-item {% if active_tab == 0 %}active{% endif %}"><a href="
+{% url 'frilium:admin:users:users-list' %}">Manage Users</a></li>
+        <li class="menu-item {% if active_tab == 1 %}active{% endif %}"><a href="">Banned Users</a></li>
+        <li class="menu-item {% if active_tab == 2 %}active{% endif %}"><a href="
+{% url 'frilium:admin:users:new-users' %}">Add User</a></li>
+    </ul>
+</div>
