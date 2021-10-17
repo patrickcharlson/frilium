@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
     'django_extensions',
-    'django_summernote',
 
     # Local apps
     'frilium.apps.core',
