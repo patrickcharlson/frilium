@@ -2,7 +2,7 @@
 
 {% for post in posts %}
     <div class="card card-posts mb-3 {% if post.user.is_admin %}purple-border{% endif %} ">
-        <div class="card-body p-3" id="p-{{ post.id }}">
+        <div class="card-body p-1" id="p-{{ post.id }}">
             <div class="row">
                 <div class="col-3 author-box">
                     <h3 class="profile-user-name text-center">
@@ -58,7 +58,7 @@
                                             <div class="dropdown-menu ffcMenu ffcMenu_bottomRight arrow_box"
                                                  aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-menu-item"
-                                                   href="{% url 'frilium:posts:report:report' post.pk %}">Report</a>
+                                                   href="">Report</a>
                                                 <a class="dropdown-menu-item" href="#">Share</a>
                                                 <a class="dropdown-sep" href="">
                                                     <hr>
@@ -79,7 +79,7 @@
                                             <div class="dropdown-menu ffcMenu ffcMenu_bottomRight arrow_box"
                                                  aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-menu-item"
-                                                   href="{% url 'frilium:posts:report:report' post.pk %}">Report</a>
+                                                   href="">Report</a>
                                                 <a class="dropdown-menu-item" href="#">Share</a>
                                                 <a class="dropdown-sep" href="">
                                                     <hr>
@@ -104,7 +104,7 @@
                                         <div class="dropdown-menu ffcMenu ffcMenu_bottomRight arrow_box"
                                              aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-menu-item"
-                                               href="{% url 'frilium:posts:report:report' post.pk %}">Report</a>
+                                               href="">Report</a>
                                             <a class="dropdown-menu-item" href="#">Share</a>
                                         </div>
                                     </div>
@@ -116,11 +116,11 @@
                         <p>{{ post.get_message_as_markdown }}</p>
                     </div>
                     <div class="post-footer">
-                        {% if topic.last_updated and topic.first_post == post.post_id %}
-                            <p class="post-edit"><em>Edited by {{ topic.updated_by }}
-                                <abbr title="{{ topic.last_updated }}">{{ topic.last_updated|humanizetime }}</abbr></em>
-                            </p>
-                        {% endif %}
+                        <div class="float-left">
+                            {% if request.user.is_authenticated %}
+                                {% like_widget for post %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

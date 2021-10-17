@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ed8731c22bb8f9612c3f6f65a0337122643bb64a3cba37290543719079a91065"
+            "sha256": "eff329e1fbd7f116c8e683c4265b712aedcb991074176cff0fef3a284ef309ab"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -40,6 +40,14 @@
             "index": "pypi",
             "version": "==1.9.7"
         },
+        "django-classy-tags": {
+            "hashes": [
+                "sha256:25eb4f95afee396148683bfb4811b83b3f5729218d73ad0a3399271a6f9fcc49",
+                "sha256:d59d98bdf96a764dcf7a2929a86439d023b283a9152492811c7e44fc47555bc9"
+            ],
+            "index": "pypi",
+            "version": "==2.0.0"
+        },
         "django-crispy-forms": {
             "hashes": [
                 "sha256:888bb316db89b60050a42ec35080facb361d823eec38010ccb0702f45642d3b8",
@@ -64,13 +72,36 @@
             "index": "pypi",
             "version": "==3.0.2"
         },
-        "markdown": {
+        "django-js-asset": {
             "hashes": [
-                "sha256:1fafe3f1ecabfb514a5285fca634a53c1b32a81cb0feb154264d55bf2ff22c17",
-                "sha256:c467cd6233885534bf0fe96e62e3cf46cfc1605112356c4f9981512b8174de59"
+                "sha256:8ec12017f26eec524cab436c64ae73033368a372970af4cf42d9354fcb166bdd",
+                "sha256:c163ae80d2e0b22d8fb598047cd0dcef31f81830e127cfecae278ad574167260"
+            ],
+            "version": "==1.2.2"
+        },
+        "django-mptt": {
+            "hashes": [
+                "sha256:63b421a054bceb7406582e2be876a80b3848a5106765baea1003696348ffd628",
+                "sha256:8ae6c3821127b529bb2f938de27bf0771b1bcbe9dbccdfba33986af78611f13a"
             ],
             "index": "pypi",
-            "version": "==3.2.2"
+            "version": "==0.12.0"
+        },
+        "django-sekizai": {
+            "hashes": [
+                "sha256:5c5e16845d37ce822fc655ce79ec02715191b3d03330b550997bcb842cf24fdf",
+                "sha256:e829f09b0d6bf01ee5cde05de1fb3faf2fbc5df66dc4dc280fbaac224ca4336f"
+            ],
+            "index": "pypi",
+            "version": "==2.0.0"
+        },
+        "markdown": {
+            "hashes": [
+                "sha256:31b5b491868dcc87d6c24b7e3d19a0d730d59d3e46f4eea6430a321bed387a49",
+                "sha256:96c3ba1261de2f7547b46a00ea8463832c921d3f9d6aba3f255a6f71386db20c"
+            ],
+            "index": "pypi",
+            "version": "==3.3.4"
         },
         "psycopg2-binary": {
             "hashes": [

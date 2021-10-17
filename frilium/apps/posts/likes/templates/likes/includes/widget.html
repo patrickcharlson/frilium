@@ -1,0 +1,28 @@
+{% load static frilium_tags sekizai_tags %}
+<p class="like-widget">
+    <span class="like-badge ">
+        {% if object|liked_count > 0 %}
+            {{ object|liked_count }}
+        {% endif %}
+    </span>
+    <button type="button"
+            class="like-button{% if object|liked_by:request.user %} active{% endif %}"
+            data-href="{% url "frilium:posts:likes:json_set_like" content_type_id object.pk %}"
+            data-remove-label="<i class='like material-icon'>favorite_border</i>"
+            data-add-label="<i class='unlike material-icon'>favorite</i>">
+        {% if object|liked_by:request.user %}
+            <i class="unlike material-icon">favorite</i>
+        {% else %}
+            <i class="like material-icon">favorite_border</i>
+        {% endif %}
+    </button>
+
+</p>
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static 'likes/css/widget.css' %}"/>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    <script src="{% static 'likes/js/widget.js' %}"></script>
+{% endaddtoblock %}

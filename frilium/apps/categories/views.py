@@ -28,7 +28,7 @@ def view_category(request, slug, pk):
 
 @login_required
 def list_categories(request):
-    categories = Category.objects.all()
+    categories = Category.objects.visible().parents()
 
     context = {'categories': categories}
     return render(request, 'frilium/categories/categories.html', context)

@@ -3,7 +3,7 @@ from datetime import datetime
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
-from django.forms import Form, ModelForm
+from django.forms import Form
 
 User = get_user_model()
 years = range(1930, datetime.utcnow().year + 1)
@@ -46,7 +46,7 @@ class EmailChangeForm(Form):
         return self.user
 
 
-class UserForm(ModelForm):
+class UserForm(forms.ModelForm):
     bio = forms.CharField(label='Bio', widget=forms.Textarea(attrs={'rows': 7}), required=False)
     birthday = forms.DateField(label='Birthday', widget=forms.SelectDateWidget(years=YEARS))
 

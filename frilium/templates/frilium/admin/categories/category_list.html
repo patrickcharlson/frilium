@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="card card-admin-table">
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th style="width: 1px"> &nbsp;</th>
@@ -33,34 +33,19 @@
             </thead>
             <tbody>
 
-            {% for category in categories %}
+            {% for c in categories %}
                 <tr>
                     <td class="pr-0">
                     </td>
-                    <td class="pr-0">
+                    <td class="">
                         <div class="small">
                             <a class="item-name"
-                               href="{% url 'frilium:admin:categories:category-edit' category.pk %}"
-                            >{{ category.title }}</a>
+                               href="{% url 'frilium:admin:categories:category-edit' c.pk %}"
+                            >{{ c.title }}</a>
                         </div>
                     </td>
-                    <td class="small">{{ category.topic_count }}</td>
-                    <td class="small">{{ category.post_count }}</td>
-                    <td class="small">
-                        <a href="{% url 'frilium:admin:categories:category-edit' category.pk %}" class="">
-                            <span class="material-icon" data-toggle="tooltip" data-placement="top"
-                                  title="Edit">edit</span></a>
-                    </td>
-                    <td class="small">
-                        <a onclick="return confirm('Are you sure you want to delete this categories?')"
-                           type="button" class="btn-icon"
-                           href="{% url 'frilium:admin:categories:category-delete' category.pk %}"
-                           data-toggle="tooltip"
-                           data-placement="top"
-                           title="Delete this category">
-                            <i class="material-icon"> delete</i>
-                        </a>
-                    </td>
+                    <td class="small">{{ c.topic_count }}</td>
+                    <td class="small">{{ c.post_count }}</td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-light btn-sm" type="button"
@@ -76,6 +61,21 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+
+                    {% if c.category_set.all.ordered %}
+                        <td class="pr-0">
+                        </td>
+                        <td>
+                            {% for subc in c.category_set.all.ordered %}
+                                <a href="{% url 'frilium:admin:categories:category-edit' subc.pk %}">{{ subc.title }}</a>
+                            {% endfor %}
+                        </td>
+                    {% endif %}
+
+                </tr>
+
+
             {% endfor %}
 
             </tbody>

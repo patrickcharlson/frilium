@@ -8,7 +8,7 @@ from ...core.utils.decorators import administrator_required
 
 @administrator_required
 def list_category(request):
-    context = {'categories': Category.objects.all()}
+    context = {'categories': Category.objects.filter(parent=None, is_private=False)}
     return render(request, 'frilium/admin/categories/category_list.html', context)
 
 

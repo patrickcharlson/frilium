@@ -56,7 +56,7 @@ def password_change(request, username):
 def email_change(request, username):
     user = get_object_or_404(User, username=username)
     if request.method == 'POST':
-        form = EmailChangeForm(request.user, request.POST)
+        form = EmailChangeForm(request.POST or None, request.user)
         if form.is_valid():
             form.save()
             messages.info(request, 'Your email has been changed!')
@@ -71,7 +71,7 @@ def email_change(request, username):
 def update(request, username):
     user = get_object_or_404(User, username=username)
     if request.method == 'POST':
-        form = UserForm(request.POST, instance=request.user)
+        form = UserForm(request.POST or None, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Your profile has been updated')

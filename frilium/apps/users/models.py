@@ -4,7 +4,6 @@ from django.db.models import TextChoices
 from django.urls import reverse
 
 from ..posts.models import Post
-from ..posts.report.models import Report
 from ..topics.models import Topic
 from ..topics.private.models import TopicPrivate
 

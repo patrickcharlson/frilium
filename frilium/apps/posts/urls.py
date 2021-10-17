@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import include, path
 
-from .views import delete_post, show_post, PostUpdateView
+from .views import PostUpdateView, delete_post, show_post
 
 app_name = 'posts'
 urlpatterns = [
@@ -8,5 +8,5 @@ urlpatterns = [
     path('posts/<slug:slug>/delete/', delete_post, name='delete_post'),
     path('posts/<slug:slug>/', show_post, name='posts'),
 
-    path('', include('frilium.apps.posts.report.urls'))
+    path('likes/', include(('frilium.apps.posts.likes.urls', 'likes'), namespace='likes'))
 ]

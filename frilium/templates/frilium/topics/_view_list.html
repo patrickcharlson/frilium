@@ -17,13 +17,11 @@
                                              class="user-avatar circular"></a>
                                 </div>
                                 <div class="media-body">
-                                    {% if not category %}
+                                    {% if not t.is_private %}
                                         <a href="{{ t.get_absolute_url }}"
                                            class="item-title topic-title">{{ t.title }}</a>
-                                    {% else %}
-                                        <a href="{% url 'frilium:topics:view' t.slug t.pk %}"
-                                           class="item-title topic-title">{{ t.title }}</a>
                                     {% endif %}
+
 
                                     <div class="row topic-details-bottom">
                                         <div class="col-md-12">

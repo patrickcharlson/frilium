@@ -1,14 +1,16 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Count
-from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Count, F
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic.detail import SingleObjectMixin
 
-from .forms import NewTopicForm, EditTopicForm
+from .forms import EditTopicForm, NewTopicForm
 from .models import Topic
 from .private.models import TopicPrivate
 from ..categories.models import Category
-from ..posts.forms import PostForm, EditPostForm
+from ..core.viewmodels.views import BaseViewForm
+from ..posts.forms import EditPostForm, PostForm
 from ..posts.models import Post
 
 private_topics = TopicPrivate.objects.all()
@@ -81,6 +83,25 @@ def reply_topic(request, slug):
         form = PostForm()
     context = {'form': form, 'topics': topic}
     return render(request, 'frilium/topics/reply_topic.html', context)
+
+
+class TopicReply(SingleObjectMixin, BaseViewForm):
+    model = Post
+    template_name = 'frilium/topics/reply_topic.html'
+
+    def get_success_url(self):
+        return '{0}?p-{1}'.format(
+            reverse(
+                'frilium:topics:topic',
+                kwargs={
+                    'category_slug': self.category_post.topic.category.slug,
+                    'category_pk': self.category_post.topic.category.pk,
+                    'slug': self.category_post.topic.slug,
+                    'pk': self.category_post.topic.pk
+                },
+            ),
+            self.category_post.pk
+        )
 
 
 @login_required

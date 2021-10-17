@@ -151,3 +151,4 @@ secrets.json
 
 /static/
 !/static/.gitkeep
+migrations/

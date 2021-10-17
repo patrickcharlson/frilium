@@ -1,0 +1,14 @@
+.like-button {
+    border: 0;
+    background: none;
+    color: #7a869a;
+}
+
+.like-widget {
+    font-size: 1.1487em;
+    color: #7a869a;
+}
+
+.unlike {
+    color: #fa6c8d !important;
+}

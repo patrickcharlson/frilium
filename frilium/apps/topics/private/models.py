@@ -10,6 +10,7 @@ class TopicPrivate(models.Model):
     topic = models.ForeignKey('topics.Topic', related_name='private_topics', on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
     is_owner = models.BooleanField(default=False)
+    is_private = models.BooleanField(default=True)
 
     objects = PrivateTopicQuerySet.as_manager()
 

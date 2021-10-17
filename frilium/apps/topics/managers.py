@@ -1,6 +1,10 @@
 from django.db import models
 from django.db.models import Q
 
+from .private.models import TopicPrivate
+
+private_topics = TopicPrivate.objects.all()
+
 
 class TopicQuerySet(models.QuerySet):
     def unremoved(self):
@@ -20,3 +24,6 @@ class TopicQuerySet(models.QuerySet):
             return self.filter(category=category)
 
         return self.filter(Q(category=category) | Q(category_parent=category))
+
+    def private(self):
+        return self.exclude(private_topics__in=private_topics)

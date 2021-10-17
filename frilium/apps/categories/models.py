@@ -1,6 +1,7 @@
 from autoslug import AutoSlugField
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
@@ -18,6 +19,7 @@ class Category(models.Model):
     title = models.CharField(max_length=254)
     slug = AutoSlugField(unique=True, always_update=True, populate_from='title')
     description = models.CharField(max_length=100, blank=True)
+    modified = models.DateTimeField(default=timezone.now)
     color = models.CharField('color', max_length=7, default='#007bff')
     is_removed = models.BooleanField(default=False)
     is_private = models.BooleanField(default=False)
@@ -35,7 +37,7 @@ class Category(models.Model):
         if self.pk == settings.TOPIC_PRIVATE_CATEGORY_PK:
             return reverse('frilium:topics:private:index')
 
-        return reverse('frilium:category:view', kwargs={'pk': str(self.pk), 'slug': self.slug})
+        return reverse('frilium:categories:view', kwargs={'pk': str(self.pk), 'slug': self.slug})
 
     def get_last_post(self):
         return Post.objects.select_related().filter(topic__category=self).exclude(
@@ -49,15 +51,20 @@ class Category(models.Model):
 
     @property
     def url(self):
-        return reverse('frilium:category:view', args=[self.slug, self.pk])
+        return reverse('frilium:categories:view', args=[self.slug, self.pk])
 
     @property
     def topic_count(self):
-        return Topic.objects.select_related().filter(category=self).count()
+        return Topic.objects.select_related().filter(category=self).private().count()
 
     @property
     def post_count(self):
-        return Post.objects.select_related().filter(topic__category=self).count()
+        return (
+            Post.objects
+                .select_related()
+                .filter(topic__category=self)
+                .private()
+                .count())
 
     def get_html_badge(self):
         title = escape(self.title)

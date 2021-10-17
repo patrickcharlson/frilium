@@ -44,7 +44,11 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th style="width: 1px" class="row-select"> &nbsp;</th>
+
+                        <th style="width: 1px" class="row-select">
+                            <input type="checkbox" name="rowtoggle" class="action-checkall"
+                                   title="Select All"/>
+                        </th>
                         <th style="width: 1px">&nbsp;</th>
                         <th>username</th>
                         <th>Role</th>
@@ -59,9 +63,8 @@
                     {% for user in users %}
                         <tr>
                             <td class="row-select">
-                                <label>
-                                    <input type="checkbox">
-                                </label>
+                                <input type="checkbox" name="rowid" class="action-checkbox" value="{{ user.id }}"
+                                       title="Select User"/>
                             </td>
                             <td class="pr-0">
                                 <a href="{% url 'frilium:users:profile' user %}">
@@ -101,6 +104,13 @@
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+
+        $(document).ready(function () {
+            $('.action-checkall').change(function () {
+                $('input.action-checkbox').prop('checked', this.checked);
+            });
+        });
+
     </script>
 {% endblock %}
