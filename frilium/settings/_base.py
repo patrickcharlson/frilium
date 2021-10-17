@@ -57,8 +57,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
     'django_extensions',
-    'sekizai',
-    'mptt',
+    'django_summernote',
 
     # Local apps
     'frilium.apps.core',
@@ -71,7 +70,7 @@ INSTALLED_APPS = [
     'frilium.apps.users.apps.UserConfig',
 
     'frilium.apps.categories.admin.apps.FriliumCategoryAdmin',
-    'frilium.apps.posts.likes.apps.FriliumPostLikeAppConfig',
+    'frilium.apps.posts.report.apps.ReportConfig',
     'frilium.apps.topics.private.apps.PrivateConfig',
     'frilium.apps.users.admin.apps.UserAdmin',
 
@@ -109,7 +108,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'sekizai.context_processors.sekizai'
             ],
             'builtins': [
                 'frilium.apps.core.templatetags.frilium_tags',
@@ -209,13 +207,6 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert-success',
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
-}
-
-DEBUG_TOOLBAR_CONFIG = {
-    "DISABLE_PANELS": [],
-    "SHOW_TOOLBAR_CALLBACK":
-        "frilium.apps.core.misc.custom_show_toolbar",
-    "SHOW_TEMPLATE_CONTEXT": True,
 }
 
 DEBUG_TOOLBAR_PANELS = [
