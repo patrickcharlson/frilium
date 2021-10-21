@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
     'django_extensions',
-    'django_summernote',
+    'sekizai',
+    'widget_tweaks',
 
     # Local apps
     'frilium.apps.core',
@@ -70,7 +71,6 @@ INSTALLED_APPS = [
     'frilium.apps.users.apps.UserConfig',
 
     'frilium.apps.categories.admin.apps.FriliumCategoryAdmin',
-    'frilium.apps.posts.report.apps.ReportConfig',
     'frilium.apps.topics.private.apps.PrivateConfig',
     'frilium.apps.users.admin.apps.UserAdmin',
 
@@ -108,6 +108,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'sekizai.context_processors.sekizai',
             ],
             'builtins': [
                 'frilium.apps.core.templatetags.frilium_tags',
@@ -127,7 +128,7 @@ LOGIN_URL = 'frilium:auth:login'
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
     'frilium.apps.auth.backends.EmailAuthBackend',
 ]
 

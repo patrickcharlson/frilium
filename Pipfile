@@ -20,6 +20,7 @@ django-classy-tags = "*"
 django-sekizai = "*"
 django-mptt = "*"
 markdown = "*"
+django-widget-tweaks = "*"
 
 [requires]
 python_version = "3.8"
