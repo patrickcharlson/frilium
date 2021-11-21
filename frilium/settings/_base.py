@@ -37,7 +37,7 @@ SECRET_KEY = get_secret('SECRET_KEY')
 # ------------------------------------------------------------------------------
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 # ------------------------------------------------------------------------------
@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'sekizai',
     'widget_tweaks',
+    'rest_framework',
 
     # Local apps
     'frilium.apps.core',
@@ -83,6 +84,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,7 +92,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'frilium.apps.admin.middleware.AdminAuthMiddleware',
+
 ]
 
 ROOT_URLCONF = 'frilium.urls'

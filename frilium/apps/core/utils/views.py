@@ -1,3 +1,9 @@
+import typing as t
+
+from django.utils.decorators import classonlymethod
+from django.views import View
+
+
 def is_post(request):
     return request.method == 'POST'
 

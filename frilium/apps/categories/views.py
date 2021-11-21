@@ -15,7 +15,6 @@ def view_category(request, slug, pk):
     subcategories = Category.objects.children(parent=category)
     topics = (Topic.objects
               .for_category(category=category)
-              .exclude(private_topics__in=private_topics)
               .annotate(replies=Count('posts') - 1)
               .select_related('category')
               .order_by('-date_created'))

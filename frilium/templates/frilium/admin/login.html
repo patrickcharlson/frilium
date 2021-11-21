@@ -1,0 +1,58 @@
+{% extends 'frilium/admin/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block body %}
+    <body class="login-form">
+    <form class="login-form-container" method="post" role="form">
+        {% csrf_token %}
+
+        <div class="card login-form-card">
+            <div class="card-body">
+                <h1 class="card-title login-form-title">Login to Frilium Admin</h1>
+
+                {% for error in form.non_field_errors %}
+                    <p class="alert alert-danger text-center" role="alert">
+                        {{ error }}
+                        <br>{% trans "Please try again." %}
+                    </p>
+                {% endfor %}
+                {% for message in messages %}
+                    {% if 'success' in message.tags %}
+                        <div class="alert alert-success text-center" role="alert">
+                    {% elif 'warning' in message.tags %}
+                        <div class="alert alert-warning text-center" role="alert">
+                    {% elif 'error' in message.tags %}
+                        <div class="alert alert-danger text-center" role="alert">
+                    {% else %}
+                        <div class="alert alert-info text-center" role="alert">
+                    {% endif %}
+                {{ message }}
+                </div>
+                {% endfor %}
+
+                <div class="form-group">
+                    <div class="control-input">
+                        <input type="text" name="username" class="form-control input-lg"
+                               placeholder="{% trans "Username or e-mail" %}"
+                               {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="control-input">
+                        <input type="password" name="password" class="form-control input-lg"
+                               placeholder="{% trans "Password" %}">
+                    </div>
+                </div>
+                <button class="btn btn-log-admin text-white btn-block mb-2">
+                    {% trans "Sign in" %}
+                </button>
+                <a href="{% url 'frilium:index' %}" class="btn btn-return btn-block">
+                    {% trans "Return to site" %}
+                </a>
+                </div>
+                </div>
+    </form>
+    </body>
+{% endblock %}
+

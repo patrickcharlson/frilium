@@ -407,12 +407,17 @@ select:-webkit-autofill:focus {
 .btn-login, .btn-topic, .btn-new-topic, .last-post,
 .btn-reply, .btn-post-reply, .btn-edit-topic, .btn-password,
 .btn-email, .btn-username, .btn-register, .btn-save-post, .btn-edit-post,
-.btn-category {
+.btn-category, .btn-log-admin, .btn-return {
     box-shadow: none;
     font-weight: 400;
     background-color: #6554c0 !important;
     text-transform: none;
     font-size: 13px !important;
+    border-radius: 3px !important;
+}
+
+.btn-return {
+    background-color: #d5d7e0 !important;
 }
 
 .last-post {
@@ -2077,4 +2082,25 @@ a.navigation:hover {
 
 .btn-block + .btn-block {
     margin-top: 5px;
+}
+
+/*Admin Login*/
+.login-form-container {
+    padding: 100px 0;
+    background-color: #f4f5f5;
+}
+
+.login-form-card {
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding-top: 45px;
+    padding-bottom: 45px;
+    box-shadow: 0 4px 8px rgba(25, 39, 52, 0.06), 0 0 4px rgba(25, 39, 52, 0.12);
+}
+
+.login-form-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
 }

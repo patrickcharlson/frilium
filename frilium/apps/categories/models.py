@@ -36,8 +36,9 @@ class Category(models.Model):
     def get_absolute_url(self):
         if self.pk == settings.TOPIC_PRIVATE_CATEGORY_PK:
             return reverse('frilium:topics:private:index')
-
-        return reverse('frilium:categories:view', kwargs={'pk': str(self.pk), 'slug': self.slug})
+        else:
+            return reverse('frilium:categories:view',
+                           kwargs={'pk': str(self.pk), 'slug': self.slug})
 
     def get_last_post(self):
         return Post.objects.select_related().filter(topic__category=self).exclude(

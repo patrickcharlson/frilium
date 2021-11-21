@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views import View
 
 from .forms import CustomPasswordChangeForm, EmailChangeForm, UserForm
 from ..posts.models import Post
@@ -14,14 +15,24 @@ User = get_user_model()
 
 private_topics = TopicPrivate.objects.all()
 
+#
+# @login_required
+# def user_posts(request, username):
+#     user = get_object_or_404(User, username=username)
+#     posts = Post.objects.exclude(topic__private_topics__in=private_topics).select_related().filter(user=user).order_by(
+#         '-created_at')
+#     context = {'posts': posts, 'user_p': user}
+#     return render(request, 'frilium/users/all_posts.html', context)
 
-@login_required
-def user_posts(request, username):
-    user = get_object_or_404(User, username=username)
-    posts = Post.objects.exclude(topic__private_topics__in=private_topics).select_related().filter(user=user).order_by(
-        '-created_at')
-    context = {'posts': posts, 'user_p': user}
-    return render(request, 'frilium/users/all_posts.html', context)
+
+class UserPostsView(View):
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        posts = Post.objects.exclude(topic__private_topics__in=private_topics).select_related().filter(
+            user=user).order_by('-created_at')
+        context = {'posts': posts,
+                   'user_p': user}
+        return render(request, 'frilium/users/all_posts.html', context)
 
 
 @login_required
@@ -86,3 +97,6 @@ def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     context = {'user_p': user}
     return render(request, 'frilium/users/user_profile.html', context)
+
+
+user_posts = UserPostsView.as_view()

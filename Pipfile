@@ -21,6 +21,7 @@ django-sekizai = "*"
 django-mptt = "*"
 markdown = "*"
 django-widget-tweaks = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.8"

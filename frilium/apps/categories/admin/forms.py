@@ -12,12 +12,8 @@ class AddCategoryForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        queryset = (
-            Category.objects
-                .visible()
-                .parents()
-                .ordered()
-        )
+        queryset = Category.objects.visible().parents().ordered()
+
         if self.instance.pk:
             queryset = queryset.exclude(pk=self.instance.pk)
 

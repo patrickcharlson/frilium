@@ -24,13 +24,13 @@ class Topic(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        if self.category_id == settings.TOPIC_PRIVATE_CATEGORY_PK:
+        if self.category.pk == settings.TOPIC_PRIVATE_CATEGORY_PK:
             return reverse('frilium:topics:private:view', args=[self.slug, self.pk])
         else:
             return reverse('frilium:topics:view', args=[self.slug, self.pk])
 
     def last_post(self):
-        return self.posts.select_related().latest()
+        return self.posts.select_related('topic').latest()
 
     def url(self):
         return reverse('frilium:topics:topic', args=[self.slug, self.pk])
