@@ -4,12 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+django-debug-toolbar = "*"
 
 [packages]
 asgiref = "==3.2.10"
 django-autoslug = "==1.9.7"
 django-crispy-forms = "==1.9.2"
-django-debug-toolbar = "==2.2"
 django-extensions = "==3.0.2"
 psycopg2-binary = "==2.8.5"
 pytz = "==2020.1"

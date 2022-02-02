@@ -114,9 +114,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
             ],
-            # 'builtins': [
-            #     'frilium.apps.core.templatetags.frilium_tags',
-            # ],
+            'builtins': [
+                'frilium.apps.core.templatetags.frilium_tags',
+            ],
         },
     },
 ]
