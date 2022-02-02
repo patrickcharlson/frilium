@@ -63,13 +63,13 @@ INSTALLED_APPS = [
 
     # Local apps
     'frilium.apps.core',
-    'frilium.apps.admin.apps.AdminConfig',
-    'frilium.apps.auth.apps.AuthConfig',
-    'frilium.apps.categories.apps.CategoryConfig',
+    'frilium.apps.admin',
+    'frilium.apps.auth',
+    'frilium.apps.categories',
 
-    'frilium.apps.posts.apps.PostConfig',
-    'frilium.apps.topics.apps.TopicConfig',
-    'frilium.apps.users.apps.UserConfig',
+    'frilium.apps.posts',
+    'frilium.apps.topics',
+    'frilium.apps.users',
 
     'frilium.apps.categories.admin.apps.FriliumCategoryAdmin',
     'frilium.apps.topics.private.apps.PrivateConfig',
@@ -92,7 +92,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'frilium.apps.admin.middleware.AdminAuthMiddleware',
+
+    # 'frilium.apps.admin.middleware.AdminAuthMiddleware',
 
 ]
 
@@ -113,9 +114,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
             ],
-            'builtins': [
-                'frilium.apps.core.templatetags.frilium_tags',
-            ],
+            # 'builtins': [
+            #     'frilium.apps.core.templatetags.frilium_tags',
+            # ],
         },
     },
 ]

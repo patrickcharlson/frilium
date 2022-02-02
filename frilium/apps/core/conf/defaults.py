@@ -2,7 +2,7 @@ TOPIC_PRIVATE_CATEGORY_PK = 1
 
 # Frilium admin path
 
-FRILIUM_ADMIN_PATH = 'admin'
+FRILIUM_ADMIN_PATH = 'admincp'
 
 CATEGORY_ROOT_LEVEL = 2
 

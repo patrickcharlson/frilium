@@ -655,10 +655,19 @@ a.nav-link .material-icon {
 
 /*Avatar*/
 /*------------------------------------------------------------------------------*/
-img.circular {
+.circular {
     border-radius: 50% !important;
 }
 
+.profile_avatar {
+    width: 128px;
+    height: 128px;
+    justify-content: center;
+    font-size: 50px;
+    align-items: center;
+    color: white;
+    display: flex;
+}
 
 .avatar-online {
     background-color: #cddc39;

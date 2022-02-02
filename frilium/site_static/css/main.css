@@ -13,9 +13,10 @@ body {
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     margin: -20px 0 50px;
+    font-size: 13px;
 }
 
-h1 {
+h2{
     font-weight: bold;
     margin: 0;
 }
@@ -248,4 +249,8 @@ footer i {
 footer a {
     color: #3c97bf;
     text-decoration: none;
+}
+
+.form-container .form-group {
+    margin-bottom: 0;
 }

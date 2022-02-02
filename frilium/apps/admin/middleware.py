@@ -17,6 +17,6 @@ class AdminAuthMiddleware(MiddlewareMixin):
             remove_admin_authorization(request)
             if request.resolver_match.url_name == "dashboard":
                 return login(request)
-            return redirect('frilium:admin:dashboard')
+            return redirect('%s:dashboard' % request.admin_namespace)
 
         update_admin_authorization(request)

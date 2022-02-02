@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 
@@ -9,7 +8,6 @@ from ..topics.private.models import TopicPrivate
 private_topics = TopicPrivate.objects.all()
 
 
-@login_required
 def view_category(request, slug, pk):
     category = get_object_or_404(Category, slug=slug, pk=pk)
     subcategories = Category.objects.children(parent=category)
@@ -25,7 +23,6 @@ def view_category(request, slug, pk):
     return render(request, 'frilium/categories/view.html', context)
 
 
-@login_required
 def list_categories(request):
     categories = Category.objects.visible().parents()
 

@@ -15,27 +15,17 @@ User = get_user_model()
 
 private_topics = TopicPrivate.objects.all()
 
-#
-# @login_required
-# def user_posts(request, username):
-#     user = get_object_or_404(User, username=username)
-#     posts = Post.objects.exclude(topic__private_topics__in=private_topics).select_related().filter(user=user).order_by(
-#         '-created_at')
-#     context = {'posts': posts, 'user_p': user}
-#     return render(request, 'frilium/users/all_posts.html', context)
-
 
 class UserPostsView(View):
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
-        posts = Post.objects.exclude(topic__private_topics__in=private_topics).select_related().filter(
+        posts = Post.objects.exclude(topic__private_topics__in=private_topics).select_related('topic').filter(
             user=user).order_by('-created_at')
         context = {'posts': posts,
                    'user_p': user}
         return render(request, 'frilium/users/all_posts.html', context)
 
 
-@login_required
 def user_topics(request, username):
     user = get_object_or_404(User, username=username)
     topics = (Topic.objects

@@ -2,12 +2,12 @@ from django import http
 from django.conf import settings
 from django.contrib.auth import login as auth_views
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
 from . import signals
-from .forms import SignupForm, LoginForm, CustomAuthenticationForm, CustomSetPasswordForm, RegistrationForm, SignInForm
+from .forms import LoginForm, CustomAuthenticationForm, CustomSetPasswordForm, RegistrationForm, SignInForm
 
 
 class CustomPasswordResetView(PasswordResetView):
@@ -36,19 +36,6 @@ custom_login = CustomLoginView.as_view()
 password_reset_view = CustomPasswordResetView.as_view()
 password_reset_done_view = CustomPasswordResetDoneView.as_view()
 password_reset_confirm = CustomPasswordResetConfirmView.as_view()
-
-
-def signup(request, backend='auth.backends.EmailAuthBackend'):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            auth_views(request, user, backend)
-            return redirect(settings.LOGIN_URL)
-    else:
-        form = SignupForm()
-    context = {'form': form}
-    return render(request, 'frilium/auth/signup.html', context)
 
 
 class AccountAuthView(generic.TemplateView):

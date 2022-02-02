@@ -9,8 +9,9 @@
 
     <div class="account">
         <div class="avatar-wrap d-flex justify-content-center">
-            <img src="{% avatar_url user_p '128' %}" alt="{{ user_p }}" class="circular w-20">
-
+            <div class="profile_avatar circular w-20" style="background-color: {% get_avatar_color user_p.pk %}">
+                {{ user_p.username.0.upper }}
+            </div>
             <span data-toggle="tooltip"
                   data-placement="top"
                   title="Online"

@@ -3,8 +3,8 @@ from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 
-from frilium.apps.admin import auth
-from frilium.apps.users.admin.forms import AdminAuthenticationForm
+from ...admin import auth
+from ...users.admin.forms import AdminAuthenticationForm
 
 
 @sensitive_post_parameters()

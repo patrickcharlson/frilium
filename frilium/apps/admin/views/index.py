@@ -22,8 +22,11 @@ User = get_user_model()
 #     }
 #     return render(request, 'frilium/admin/dashboard.html', context)
 
-@method_decorator(administrator_required, name='dispatch')
 class DashboardView(View):
+
+    @method_decorator(administrator_required, name='dispatch')
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
         context = {

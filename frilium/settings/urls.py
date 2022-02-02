@@ -15,9 +15,7 @@ urlpatterns = [
     path('', include('frilium.apps.users.urls')),
 ]
 if settings.FRILIUM_ADMIN_PATH:
-    adminpatterns = [
-        path('', include('frilium.apps.admin.urls'))
-    ]
+    adminpatterns = [path('', include('frilium.apps.admin.urls'))]
 
     admin_prefix = f'{settings.FRILIUM_ADMIN_PATH}/'
     urlpatterns += [

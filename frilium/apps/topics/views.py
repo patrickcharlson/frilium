@@ -16,7 +16,6 @@ from ..posts.models import Post
 private_topics = TopicPrivate.objects.all()
 
 
-@login_required
 def view_topic(request, slug, pk):
     topic = get_object_or_404(Topic.objects.annotate(replies=Count('posts') - 1), slug=slug, pk=pk)
     posts = topic.posts.select_related().order_by('created_at')
@@ -30,7 +29,6 @@ def view_topic(request, slug, pk):
     return render(request, 'frilium/topics/view.html', context)
 
 
-@login_required
 def index(request):
     categories = Category.objects.all()
     topics = (Topic.objects
