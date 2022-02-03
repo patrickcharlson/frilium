@@ -114,9 +114,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
             ],
-            'builtins': [
-                'frilium.apps.core.templatetags.frilium_tags',
-            ],
         },
     },
 ]
@@ -213,6 +210,10 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEBUG_TOOLBAR_PANELS = [
     "debug_toolbar.panels.versions.VersionsPanel",

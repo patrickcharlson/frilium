@@ -12,6 +12,7 @@ class PostLike(LikeableObject, models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
+        app_label = 'likes'
         verbose_name = 'Like'
         verbose_name_plural = 'Likes'
         ordering = ['-pk']

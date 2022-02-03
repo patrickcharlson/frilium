@@ -1,6 +1,5 @@
 from autoslug import AutoSlugField
 from django.conf import settings
-from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -19,7 +18,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE)
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='+', on_delete=models.CASCADE)
-    last_likes = JSONField(blank=True, null=True)
+    # last_likes = JSONField(blank=True, null=True)
     likes = models.PositiveIntegerField(default=0)
 
     objects = PostQuerySet.as_manager()

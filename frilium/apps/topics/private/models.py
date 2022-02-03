@@ -15,6 +15,7 @@ class TopicPrivate(models.Model):
     objects = PrivateTopicQuerySet.as_manager()
 
     class Meta:
+        app_label = 'private'
         verbose_name = 'private topic'
         verbose_name_plural = 'private topics'
 
