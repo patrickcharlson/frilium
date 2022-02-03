@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'sekizai',
     'widget_tweaks',
-    'rest_framework',
 
     # Local apps
     'frilium.apps.ace',

@@ -1,4 +1,3 @@
-from django.contrib.postgres.fields import JSONField
 from django.db import models
 
 
@@ -13,4 +12,3 @@ class Role(models.Model):
 
     def __str__(self):
         return self.name
-

@@ -1,13 +1,13 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.db.models import TextChoices
 from django.urls import reverse
 from django.utils import timezone
 
-from ..posts.models import Post
-from ..topics.models import Topic
-from ..topics.private.models import TopicPrivate
+from ...posts.models import Post
+from ...topics.models import Topic
+from ...topics.private.models import TopicPrivate
 
 private_topics = TopicPrivate.objects.all()
 
@@ -55,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, db_index=True, unique=True)
     bio = models.TextField('Bio', max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(db_index=True, default=True)
     date_joined = models.DateTimeField('Date joined', default=timezone.now)
     location = models.CharField('Location', max_length=30, blank=True)
     gender = models.CharField('Gender', max_length=50, choices=Gender.choices, default=Gender.NOT_SPECIFIED)
@@ -63,8 +64,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField("Real name", blank=True, max_length=255)
     twitter = models.CharField('Twitter handle', max_length=20, blank=True)
     is_admin = models.BooleanField('Administrator status', default=False)
+    rank = models.ForeignKey('Rank', blank=True, null=True, on_delete=models.PROTECT)
     is_mod = models.BooleanField('moderator status', default=False)
     birthday = models.DateField('Birthday', null=True)
+    roles = models.ManyToManyField('ace.Role')
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
@@ -93,6 +96,24 @@ class User(AbstractBaseUser, PermissionsMixin):
             return posts[0].created_at
         else:
             return None
+
+    def get_roles(self):
+        roles_pks = []
+        roles_dict = {}
+
+        for role in self.roles.all():
+            roles_pks.append(role.pk)
+            role.origin = self
+            roles_dict[role.pk] = role
+
+        if self.rank:
+            for role in self.rank.roles.all():
+                if role.pk not in roles_pks:
+                    role.origin = self.rank
+                    roles_pks.append(role.pk)
+                    roles_dict[role.pk] = role
+
+        return [roles_dict[r] for r in sorted(roles_pks)]
 
     def save(self, *args, **kwargs):
         if self.is_superuser:

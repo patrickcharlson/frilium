@@ -1,7 +1,5 @@
-import typing as t
-
-from django.utils.decorators import classonlymethod
-from django.views import View
+from django.template.defaultfilters import slugify as frilium_slugify
+from unidecode import unidecode
 
 
 def is_post(request):
@@ -15,14 +13,7 @@ def post_data(request):
     return None
 
 
-class MethodView(View):
-    decorators: t.List[t.Callable] = []
-
-    @classonlymethod
-    def as_view(cls, **initkwargs):
-        super().as_view(**initkwargs)
-        if cls.decorators:
-            cls.view.__module__ = cls.__module__
-            for decorator in cls.decorators:
-                view = decorator(cls.view)
-
+def slugify(string):
+    string = str(string)
+    string = unidecode(string)
+    return frilium_slugify(string.replace("_", " ").strip())
