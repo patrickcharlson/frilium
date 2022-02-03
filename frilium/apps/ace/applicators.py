@@ -23,10 +23,19 @@ class PermissionApplicators:
             raise RuntimeError('Applicators are already provided')
 
         self._register_applicators()
+        self._to_tuples(self._annotators)
 
     def _register_applicators(self):
         for applicator in settings.FRILIUM_APPLICATORS:
             self._applicators.append((applicator, import_module(applicator)))
+            self._applicators_dict[applicator] = import_module(applicator)
+
+            if hasattr(self._applicators_dict[applicator], 'register_with'):
+                self._applicators_dict[applicator].register_with(self)
+
+    def _to_tuples(self, types_dict):
+        for type in types_dict.keys():
+            types_dict[type] = tuple(types_dict[type])
 
     def list(self):
         assert self._initialized, _NOT_INITIALIZED_ERROR

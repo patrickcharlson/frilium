@@ -93,6 +93,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'frilium.apps.ace.middleware.permission_middleware',
+
     # 'frilium.apps.admin.middleware.AdminAuthMiddleware',
 
 ]
