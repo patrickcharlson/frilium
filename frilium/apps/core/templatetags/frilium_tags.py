@@ -8,7 +8,7 @@ from django.template import defaultfilters
 from django.template.loader import render_to_string
 from django.utils.http import urlencode
 from django.utils.timezone import is_aware, utc
-from django.utils.translation import gettext_lazy, ngettext_lazy
+from django.utils.translation import ngettext_lazy, gettext_lazy, npgettext_lazy
 
 from ...posts.likes.models import PostLike
 from ...topics.private.forms import PrivateTopicInviteForm
@@ -46,12 +46,12 @@ class HumanizeNaturalTime:
         'now': gettext_lazy('now'),
     }
     past_substrings = {
-        'year': ngettext_lazy('%d year', '%d years'),
-        'month': ngettext_lazy('%d month', '%d months'),
-        'week': ngettext_lazy('%d week', '%d weeks'),
-        'day': ngettext_lazy('%d day', '%d days'),
-        'hour': ngettext_lazy('%d hour', '%d hours'),
-        'minute': ngettext_lazy('%d minute', '%d minutes'),
+        'year': npgettext_lazy('naturaltime-past', '%(num)d year', '%(num)d years', 'num'),
+        'month': npgettext_lazy('naturaltime-past', '%(num)d month', '%(num)d months', 'num'),
+        'week': npgettext_lazy('naturaltime-past', '%(num)d week', '%(num)d weeks', 'num'),
+        'day': npgettext_lazy('naturaltime-past', '%(num)d day', '%(num)d days', 'num'),
+        'hour': npgettext_lazy('naturaltime-past', '%(num)d hour', '%(num)d hours', 'num'),
+        'minute': npgettext_lazy('naturaltime-past', '%(num)d minute', '%(num)d minutes', 'num'),
     }
 
     @classmethod
