@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     # Local apps
     'frilium.apps.ace',
     'frilium.apps.core',
+    'frilium.apps.cache',
     'frilium.apps.admin',
     'frilium.apps.auth',
     'frilium.apps.categories',
@@ -93,7 +94,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'frilium.apps.ace.middleware.permission_middleware',
+
+    # 'frilium.apps.cache.middleware.cache_version_middleware',
+    # 'frilium.apps.ace.middleware.permission_middleware',
 
     # 'frilium.apps.admin.middleware.AdminAuthMiddleware',
 

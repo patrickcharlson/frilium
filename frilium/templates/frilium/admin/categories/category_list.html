@@ -1,91 +1,91 @@
 {% extends 'frilium/admin/layout.html' %}
 
 {% block heading %}
-    <div class="pull-left">
-        <h1 id="main-page-title">Categories</h1>
-    </div>
+  <div class="pull-left">
+    <h1 id="main-page-title">Categories</h1>
+  </div>
 {% endblock %}
 
 {% block main-menu %}
-    {% include 'frilium/admin/main-menu.html' with active_tab=2 %}
+  {% include 'frilium/admin/main-menu.html' with active_tab=2 %}
 {% endblock %}
 
 {% block section %}
-    <div class="page-header row align-items-center">
-        <div class="col-auto page-action">
-            <a href='{% url 'frilium:admin:categories:new-category' %}' class="btn text-white btn-sm">
-                New Category
-            </a>
-        </div>
+  <div class="page-header row align-items-center">
+    <div class="col-auto page-action">
+      <a href='{% url 'frilium:admin:categories:new-category' %}' class="btn text-white btn-sm">
+        New Category
+      </a>
     </div>
-    <div class="card card-admin-table">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th style="width: 1px"> &nbsp;</th>
-                <th>Categories</th>
-                <th>Topics</th>
-                <th>Posts</th>
-                <th style="width: 1px"></th>
-                <th style="width: 1px"></th>
-                <th style="width: 1px"></th>
-            </tr>
-            </thead>
-            <tbody>
+  </div>
+  <div class="card card-admin-table">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th style="width: 1px"> &nbsp;</th>
+        <th>Categories</th>
+        <th>Topics</th>
+        <th>Posts</th>
+        <th style="width: 1px"></th>
+        <th style="width: 1px"></th>
+        <th style="width: 1px"></th>
+      </tr>
+      </thead>
+      <tbody>
 
-            {% for c in categories %}
-                <tr>
-                    <td class="pr-0">
-                    </td>
-                    <td class="">
-                        <div class="small">
-                            <a class="item-name"
-                               href="{% url 'frilium:admin:categories:category-edit' c.pk %}"
-                            >{{ c.title }}</a>
-                        </div>
-                    </td>
-                    <td class="small">{{ c.topic_count }}</td>
-                    <td class="small">{{ c.post_count }}</td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-light btn-sm" type="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                ...
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="">Edit</a></li>
-                                <li><a href="">Privileges</a></li>
-                                <li><a href="">View category</a></li>
-                                <li><a href="">Disable</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
+      {% for c in categories %}
+        <tr>
+          <td class="pr-0">
+          </td>
+          <td class="">
+            <div class="small">
+              <a class="item-name"
+                 href="{% url 'frilium:admin:categories:category-edit' c.pk %}"
+              >{{ c.title }}</a>
+            </div>
+          </td>
+          <td class="small">{{ c.topic_count }}</td>
+          <td class="small">{{ c.post_count }}</td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-light btn-sm" type="button"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                ...
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="">Edit</a></li>
+                <li><a href="">Privileges</a></li>
+                <li><a href="">View category</a></li>
+                <li><a href="">Disable</a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
 
-                    {% if c.category_set.all.ordered %}
-                        <td class="pr-0">
-                        </td>
-                        <td>
-                            {% for subc in c.category_set.all.ordered %}
-                                <a href="{% url 'frilium:admin:categories:category-edit' subc.pk %}">{{ subc.title }}</a>
-                            {% endfor %}
-                        </td>
-                    {% endif %}
+          {% if c.category_set.all.ordered %}
+            <td class="pr-0">
+            </td>
+            <td>
+              {% for subc in c.category_set.all.ordered %}
+                <a href="{% url 'frilium:admin:categories:category-edit' subc.pk %}">{{ subc.title }}</a>
+              {% endfor %}
+            </td>
+          {% endif %}
 
-                </tr>
+        </tr>
 
 
-            {% endfor %}
+      {% endfor %}
 
-            </tbody>
-        </table>
-    </div>
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
 {% block javascript %}
-    <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    </script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 {% endblock %}

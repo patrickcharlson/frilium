@@ -5,6 +5,7 @@ from django.db.models import TextChoices
 from django.urls import reverse
 from django.utils import timezone
 
+from .groups import Rank
 from ...posts.models import Post
 from ...topics.models import Topic
 from ...topics.private.models import TopicPrivate
@@ -19,6 +20,9 @@ class UserManager(BaseUserManager):
             raise ValueError('The given username must be set')
         if not email:
             raise ValueError('The given email must be set')
+
+        if not extra_fields.get('rank'):
+            extra_fields['rank'] = Rank.objects.get_default
         email = self.normalize_email(email)
         username = self.model.normalize_username(username)
         user = self.model(email=email, username=username, **extra_fields)
@@ -64,6 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField("Real name", blank=True, max_length=255)
     twitter = models.CharField('Twitter handle', max_length=20, blank=True)
     is_admin = models.BooleanField('Administrator status', default=False)
+    ace_key = models.CharField(max_length=12, null=True, blank=True)
     rank = models.ForeignKey('Rank', blank=True, null=True, on_delete=models.PROTECT)
     is_mod = models.BooleanField('moderator status', default=False)
     birthday = models.DateField('Birthday', null=True)
